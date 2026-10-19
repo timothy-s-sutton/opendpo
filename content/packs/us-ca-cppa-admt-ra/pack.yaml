@@ -45,8 +45,10 @@ provisions:
     decisionmaking. (3) ADMT does not include web hosting, domain registration, networking, caching, website-loading,
     data storage, firewalls, anti-virus, anti-malware, spam- and robocall-filtering, spellchecking, calculators,
     databases, and spreadsheets, provided that they do not replace human decisionmaking.
-  summary: ADMT includes profiling that replaces or substantially replaces human decisionmaking; routine
-    IT tools are excluded unless they replace human decisionmaking.
+  summary: 'ADMT includes profiling that replaces or substantially replaces human decisionmaking; routine
+    IT tools are excluded unless they replace human decisionmaking. Not cited by any rule: shown as on-screen
+    guidance for the intake question on the AI''s role, so excluded tools are answered None and an analyst
+    confirms.'
 - id: cppa-7001-aaa
   citation: Cal. Code Regs. tit. 11, § 7001(aaa)
   source: cppa-regs-2026
@@ -425,7 +427,6 @@ rules:
   provisions:
   - cppa-7001-e
   - cppa-7001-e-1
-  - cppa-7001-e-2-3
   when:
     all:
     - fact: ai.role
