@@ -73,6 +73,9 @@ services:
       OPENDPO_OIDC_JWKS_URL: http://keycloak:8080/realms/opendpo/protocol/openid-connect/certs
       OPENDPO_OPA_URL: http://opa:8181
       OPENDPO_SEED_DEMO: "true"
+      OPENDPO_CONTENT_DIR: /content/packs
+    volumes:
+      - ./content:/content:ro
     ports:
       - "127.0.0.1:8000:8000"
     depends_on:

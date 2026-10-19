@@ -1,6 +1,10 @@
 """OpenDPO API (foundation): identity, tenancy, authorization and the audit log."""
 from __future__ import annotations
 
+import logging
+import threading
+import time
+from contextlib import asynccontextmanager
 from typing import Any
 from uuid import UUID
 
@@ -8,7 +12,7 @@ import httpx
 from fastapi import Depends, FastAPI, HTTPException, Query, status
 from fastapi.middleware.cors import CORSMiddleware
 
-from . import audit
+from . import audit, content
 from .auth import Principal, current_principal
 from .authz import decide
 from .config import settings
@@ -17,7 +21,37 @@ from .db import global_tx, tenant_tx
 NOTICE = ("OpenDPO is a proof of concept. It provides no legal advice and is not a "
           "substitute for review by qualified privacy, legal and compliance professionals.")
 
-app = FastAPI(title="OpenDPO API", version="0.1.0", description=NOTICE)
+log = logging.getLogger("opendpo")
+_library: content.Library | None = None
+
+
+def library() -> content.Library:
+    global _library
+    if _library is None:
+        _library = content.load()
+    return _library
+
+
+def publish_content_to_policy_engine(retries: int = 30) -> None:
+    """Load only usable (verified) rules into OPA. Unverified rules never reach it (CNT-01)."""
+    data = library().opa_data()
+    for _ in range(retries):
+        try:
+            httpx.put(f"{settings.opa_url}/v1/data/opendpo/content", json=data, timeout=3).raise_for_status()
+            log.warning("published %d verified rules to the policy engine", len(data["rules"]))
+            return
+        except httpx.HTTPError:
+            time.sleep(2)
+    log.error("could not publish content to the policy engine")
+
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    threading.Thread(target=publish_content_to_policy_engine, daemon=True).start()
+    yield
+
+
+app = FastAPI(title="OpenDPO API", version="0.1.0", description=NOTICE, lifespan=lifespan)
 app.add_middleware(CORSMiddleware, allow_origins=list(settings.cors_origins),
                    allow_methods=["GET", "POST"], allow_headers=["Authorization", "Content-Type"])
 
@@ -167,3 +201,32 @@ def audit_export(tenant_id: UUID, p: Principal = Depends(current_principal)) -> 
         e.pop("id", None)
     return {"tenant": {"id": tenant["id"], "name": tenant["name"]}, "notice": NOTICE,
             "verification": result.as_dict(), "events": events}
+
+
+@app.get("/api/content")
+def content_status(p: Principal = Depends(current_principal)) -> dict[str, Any]:
+    """Every pack and rule, with whether the rule may be used and why not (USE-05, CNT-04)."""
+    lib = library()
+    packs = []
+    for pack in lib.packs:
+        records = lib.verifications[pack.id]
+        sources = {s.id: s for s in pack.sources}
+        packs.append({
+            "id": pack.id, "title": pack.title, "version": pack.version, "as_of": pack.as_of,
+            "lifecycle": pack.lifecycle, "jurisdiction": pack.jurisdiction,
+            "sources": [s.model_dump() for s in pack.sources],
+            "provisions": [{
+                "id": pr.id, "citation": pr.citation, "summary": pr.summary, "text": pr.text,
+                "source_url": sources[pr.source].url, "location": pr.location,
+                "verified": content.provision_status(pr, records.get(pr.id)) is None,
+                "verification": records[pr.id].model_dump() if pr.id in records else None,
+            } for pr in pack.provisions],
+            "rules": [{
+                "id": st.rule.id, "title": st.rule.title, "kind": st.rule.kind,
+                "provisions": st.rule.provisions, "explanation": st.rule.explanation,
+                "usable": st.usable, "problems": st.problems,
+            } for st in lib.statuses if st.pack.id == pack.id],
+        })
+    return {"notice": "Rules change. Regulatory content shows its as-of date and source and must be "
+                      "verified before relying on it.",
+            "usable_rules": len(lib.usable_rules), "total_rules": len(lib.statuses), "packs": packs}
