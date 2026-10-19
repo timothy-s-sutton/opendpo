@@ -1,0 +1,13 @@
+OpenDPO
+Copyright 2026 Tim Sutton and contributors
+
+This product includes software licensed under the Apache License 2.0.
+Policy templates, content packs and documentation are licensed under CC BY 4.0.
+
+Third-party references
+- ISO/IEC 42001 and the CRI Profile are cited by clause or statement identifier only.
+  No text from either is included. Users who hold their own rights may import it locally.
+- OWASP, MITRE ATLAS and NIST materials are cited by identifier with OpenDPO's own summaries,
+  subject to the license check recorded for each source.
+
+OpenDPO provides no legal advice. See README.md.
