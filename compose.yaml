@@ -1,7 +1,7 @@
 # OpenDPO: one command to run the whole stack.
 #   ./scripts/setup.sh        (first time: creates .env with random passwords)
 #   docker compose up -d --build
-# Memory limits keep the stack near 1.5 GB so it runs on an 8 GB machine.
+# Measured at about 800 MB in use on an 8 GB machine; limits cap it below 1.8 GB.
 # Only the ports you need are published, and only on localhost.
 
 name: opendpo
@@ -61,7 +61,7 @@ services:
       interval: 10s
       retries: 30
       start_period: 30s
-    mem_limit: 768m
+    mem_limit: 1g
     restart: unless-stopped
 
   api:
