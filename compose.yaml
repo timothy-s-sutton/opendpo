@@ -1,0 +1,97 @@
+# OpenDPO: one command to run the whole stack.
+#   ./scripts/setup.sh        (first time: creates .env with random passwords)
+#   docker compose up -d --build
+# Memory limits keep the stack near 1.5 GB so it runs on an 8 GB machine.
+# Only the ports you need are published, and only on localhost.
+
+name: opendpo
+
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?run ./scripts/setup.sh first}
+      OPENDPO_OWNER_PASSWORD: ${OPENDPO_OWNER_PASSWORD}
+      OPENDPO_APP_PASSWORD: ${OPENDPO_APP_PASSWORD}
+      KEYCLOAK_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
+    command: ["postgres", "-c", "shared_buffers=64MB", "-c", "max_connections=40"]
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      retries: 20
+    mem_limit: 256m
+    restart: unless-stopped
+
+  opa:
+    image: openpolicyagent/opa:1.0.0
+    command: ["run", "--server", "--addr", "0.0.0.0:8181", "--watch", "/policy"]
+    volumes:
+      - ./policy:/policy:ro
+    ports:
+      - "127.0.0.1:8181:8181"
+    mem_limit: 128m
+    restart: unless-stopped
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.7
+    command: ["start-dev", "--import-realm"]
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://db:5432/keycloak
+      KC_DB_USERNAME: keycloak
+      KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
+      KC_HOSTNAME: http://localhost:8080
+      KC_HEALTH_ENABLED: "true"
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD}
+      JAVA_OPTS_KC_HEAP: "-Xms128m -Xmx512m"
+      OPENDPO_DEMO_PASSWORD: ${OPENDPO_DEMO_PASSWORD}
+    volumes:
+      - ./keycloak/realm-opendpo.json:/opt/keycloak/data/import/realm-opendpo.json:ro
+    ports:
+      - "127.0.0.1:8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/127.0.0.1/9000 && printf 'GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\nConnection: close\\r\\n\\r\\n' >&3 && grep -q UP <&3"]
+      interval: 10s
+      retries: 30
+      start_period: 30s
+    mem_limit: 768m
+    restart: unless-stopped
+
+  api:
+    build: ./api
+    environment:
+      OPENDPO_OWNER_DSN: postgresql://opendpo_owner:${OPENDPO_OWNER_PASSWORD}@db:5432/opendpo
+      OPENDPO_APP_DSN: postgresql://opendpo_app:${OPENDPO_APP_PASSWORD}@db:5432/opendpo
+      OPENDPO_OIDC_ISSUER: http://localhost:8080/realms/opendpo
+      OPENDPO_OIDC_JWKS_URL: http://keycloak:8080/realms/opendpo/protocol/openid-connect/certs
+      OPENDPO_OPA_URL: http://opa:8181
+      OPENDPO_SEED_DEMO: "true"
+    ports:
+      - "127.0.0.1:8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+      opa:
+        condition: service_started
+    mem_limit: 256m
+    restart: unless-stopped
+
+  web:
+    build: ./web
+    ports:
+      - "127.0.0.1:5173:80"
+    depends_on:
+      - api
+      - keycloak
+    mem_limit: 64m
+    restart: unless-stopped
+
+volumes:
+  db-data:

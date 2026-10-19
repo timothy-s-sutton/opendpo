@@ -40,6 +40,39 @@ The demo runs a fictional consultant workspace. Its first client tenant, **Harbo
 | Preview | Harbor Staffing walkthrough, end to end, on three verified laws | In progress |
 | v1 | Three demo tenants, regulatory content updates, the project's own self-assessment | Planned |
 
+## Run it
+
+You need Docker (Docker Desktop on Windows or macOS) and about 2 GB of free memory. On Windows, clone inside WSL, not under `C:\`.
+
+```bash
+git clone https://github.com/timothy-s-sutton/opendpo.git
+cd opendpo
+./scripts/setup.sh            # creates .env with random passwords and prints the demo password
+docker compose up -d --build  # first run takes a few minutes
+```
+
+Open http://localhost:5173 and sign in as any demo user with the password `setup.sh` printed. Every person and organization is fictional.
+
+| User | Role in Harbor Staffing |
+| --- | --- |
+| `sam.rivera` | Submitter |
+| `olivia.grant` | System owner |
+| `ana.patel`, `ben.okafor` | Privacy analyst |
+| `carla.mendes` | Privacy counsel |
+| `devon.hart` | DPO |
+| `terry.lin` | Tenant admin |
+| `wren.ellis` | Workspace admin |
+| `avery.shaw` | Auditor |
+
+To see tamper evidence, run `./scripts/tamper-demo.sh`, then click **Verify chain** on the Audit log page as `avery.shaw`. Run `./scripts/tamper-demo.sh restore` to undo it.
+
+| Address | What |
+| --- | --- |
+| http://localhost:5173 | OpenDPO |
+| http://localhost:8000/docs | API reference |
+| http://localhost:8080 | Keycloak (admin password printed by `setup.sh`) |
+| http://localhost:8181 | Open Policy Agent |
+
 ## Architecture at a glance
 
 Python (FastAPI), PostgreSQL with row-level security, React in TypeScript with schema-driven forms, Keycloak for identity, Open Policy Agent for roles, segregation of duties and triage rules, YAML content packs, and the Anthropic API behind a provider interface. Everything runs from one Docker Compose setup. See [docs/architecture.md](docs/architecture.md).

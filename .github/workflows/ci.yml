@@ -1,0 +1,66 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  policy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install OPA
+        run: |
+          curl -sSfL -o opa https://github.com/open-policy-agent/opa/releases/download/v1.0.0/opa_linux_amd64_static
+          chmod +x opa
+      - name: Policy tests (roles, segregation of duties, agent boundary)
+        run: ./opa test policy -v
+
+  api:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres" --health-interval 5s --health-retries 20
+    env:
+      PGHOST: localhost
+      PGPASSWORD: postgres
+      OPENDPO_OWNER_DSN: postgresql://opendpo_owner:owner@localhost:5432/opendpo
+      OPENDPO_APP_DSN: postgresql://opendpo_app:app@localhost:5432/opendpo
+      OPENDPO_TEST_SUPERUSER_DSN: postgresql://postgres:postgres@localhost:5432/opendpo
+      OPENDPO_OPA_URL: http://localhost:8181
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Create database roles
+        run: POSTGRES_USER=postgres OPENDPO_OWNER_PASSWORD=owner OPENDPO_APP_PASSWORD=app KEYCLOAK_DB_PASSWORD=kc sh db/init/01-roles.sh
+      - name: Start OPA
+        run: |
+          curl -sSfL -o opa https://github.com/open-policy-agent/opa/releases/download/v1.0.0/opa_linux_amd64_static
+          chmod +x opa
+          ./opa run --server --addr 127.0.0.1:8181 policy &
+      - name: Install and migrate
+        working-directory: api
+        run: |
+          pip install -r requirements-dev.txt
+          python -m opendpo.migrate --seed-demo
+      - name: API tests (tenant isolation, authorization, audit chain)
+        working-directory: api
+        run: python -m pytest -q
+
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - working-directory: web
+        run: npm ci && npm run build

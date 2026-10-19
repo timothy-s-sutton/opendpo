@@ -1,0 +1,188 @@
+{
+  "realm": "opendpo",
+  "enabled": true,
+  "displayName": "OpenDPO",
+  "sslRequired": "none",
+  "registrationAllowed": false,
+  "loginWithEmailAllowed": true,
+  "bruteForceProtected": true,
+  "accessTokenLifespan": 900,
+  "clients": [
+    {
+      "clientId": "opendpo-web",
+      "name": "OpenDPO web app",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "redirectUris": [
+        "http://localhost:5173/*"
+      ],
+      "webOrigins": [
+        "http://localhost:5173"
+      ],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "http://localhost:5173/*"
+      },
+      "protocolMappers": [
+        {
+          "name": "opendpo-api audience",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "config": {
+            "included.custom.audience": "opendpo-api",
+            "access.token.claim": "true",
+            "id.token.claim": "false"
+          }
+        }
+      ]
+    }
+  ],
+  "users": [
+    {
+      "id": "3f5423c7-2feb-5dba-a1ee-d4e2a1367f54",
+      "username": "sam.rivera",
+      "email": "sam.rivera@harbor.example",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Sam",
+      "lastName": "Rivera",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${OPENDPO_DEMO_PASSWORD}",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "id": "63ff48e9-49dc-5f0e-baa8-dc6f9c275b07",
+      "username": "olivia.grant",
+      "email": "olivia.grant@harbor.example",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Olivia",
+      "lastName": "Grant",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${OPENDPO_DEMO_PASSWORD}",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "id": "261563d0-1835-5491-ba2d-147a373b9759",
+      "username": "ana.patel",
+      "email": "ana.patel@northbridge.example",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Ana",
+      "lastName": "Patel",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${OPENDPO_DEMO_PASSWORD}",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "id": "a8d77717-7ebf-5685-bd32-115c93ab01e3",
+      "username": "ben.okafor",
+      "email": "ben.okafor@northbridge.example",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Ben",
+      "lastName": "Okafor",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${OPENDPO_DEMO_PASSWORD}",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "id": "03ab32ab-8a26-502f-8442-0e312d8a4810",
+      "username": "carla.mendes",
+      "email": "carla.mendes@harbor.example",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Carla",
+      "lastName": "Mendes",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${OPENDPO_DEMO_PASSWORD}",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "id": "c1dcb056-f864-5447-8963-5225af8c4aff",
+      "username": "devon.hart",
+      "email": "devon.hart@northbridge.example",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Devon",
+      "lastName": "Hart",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${OPENDPO_DEMO_PASSWORD}",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "id": "d3a42163-472b-5f19-a030-51503c00465d",
+      "username": "terry.lin",
+      "email": "terry.lin@harbor.example",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Terry",
+      "lastName": "Lin",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${OPENDPO_DEMO_PASSWORD}",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "id": "9a3d6f91-ca46-56b3-9cf7-3e059cc8a72c",
+      "username": "wren.ellis",
+      "email": "wren.ellis@northbridge.example",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Wren",
+      "lastName": "Ellis",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${OPENDPO_DEMO_PASSWORD}",
+          "temporary": false
+        }
+      ]
+    },
+    {
+      "id": "6e6ce584-dc2d-5ed7-a7bf-805ee2ec89a5",
+      "username": "avery.shaw",
+      "email": "avery.shaw@harbor.example",
+      "emailVerified": true,
+      "enabled": true,
+      "firstName": "Avery",
+      "lastName": "Shaw",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "${OPENDPO_DEMO_PASSWORD}",
+          "temporary": false
+        }
+      ]
+    }
+  ]
+}
