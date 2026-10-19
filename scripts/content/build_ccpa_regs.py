@@ -1,7 +1,7 @@
-"""Draft the CPPA content pack from the approved regulation text.
+"""Draft the CCPA Regulations content pack from the approved regulation text.
 
-    pdftotext -layout ccpa_updates_cyber_risk_admt_appr_text.pdf cppa.txt
-    python build_cppa.py cppa.txt ../../content/packs/us-ca-cppa-admt-ra/pack.yaml
+    pdftotext -layout ccpa_updates_cyber_risk_admt_appr_text.pdf ccpa_regs.txt
+    python build_ccpa_regs.py ccpa_regs.txt ../../content/packs/us-ca-ccpa-regs-2025/pack.yaml
 
 Every provision's text is copied from the source, never retyped. The rules are
 OpenDPO's reading of those provisions and must be verified (CNT-01).
@@ -12,7 +12,7 @@ import yaml
 
 from extract import between, clean_lines
 
-SRC = "cppa-regs-2026"
+SRC = "ccpa-regs-2025"
 T11 = "Cal. Code Regs. tit. 11, § "
 
 # id, citation, start marker, end marker, OpenDPO summary
@@ -87,7 +87,7 @@ def main(src, out):
         section = "§ " + cite.split("(")[0].split("-")[0] + "."
         text, pages = between(lines, start, end, after=section)
         provisions.append({
-            "id": f"cppa-{pid}", "citation": T11 + cite, "source": SRC,
+            "id": f"ccpa-{pid}", "citation": T11 + cite, "source": SRC,
             "location": f"Approved text, p. {pages[0]}" + (f"-{pages[-1]}" if len(pages) > 1 else ""),
             "effective_from": "2027-01-01" if pid.startswith(("7200", "722")) else "2026-01-01",
             "text": text, "summary": summary})

@@ -17,8 +17,8 @@ FACTS = {
     "decision.domain": "the decision domain",
     "decision.employment_type": "the type of employment decision",
     "subjects": "the people whose data is processed",
-    "cppa.admt": "the system is ADMT under the CPPA (from CPPA-CLASS-ADMT)",
-    "cppa.significant_decision": "the decision is a significant decision (from CPPA-CLASS-SIGNIFICANT)",
+    "ccpa.admt": "the system is ADMT under the CCPA regulations (from CCPA-CLASS-ADMT)",
+    "ccpa.significant_decision": "the decision is a significant decision (from CCPA-CLASS-SIGNIFICANT)",
 }
 
 

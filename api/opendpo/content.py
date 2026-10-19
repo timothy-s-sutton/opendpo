@@ -104,7 +104,7 @@ class Rule(Strict):
     title: str
     provisions: list[str] = Field(min_length=1)
     when: Condition
-    result: dict[str, Any]        # what the rule concludes, e.g. {"assessment": "cppa_risk_assessment"}
+    result: dict[str, Any]        # what the rule concludes, e.g. {"assessment": "ccpa_risk_assessment"}
     explanation: str              # plain-language reason, shown with citations
 
     @property
