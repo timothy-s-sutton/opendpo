@@ -16,7 +16,7 @@ _pool: ConnectionPool | None = None
 def pool() -> ConnectionPool:
     global _pool
     if _pool is None:
-        _pool = ConnectionPool(settings.app_dsn, min_size=1, max_size=5,
+        _pool = ConnectionPool(settings.app_dsn, min_size=1, max_size=5, timeout=5,
                                kwargs={"row_factory": dict_row}, open=True)
     return _pool
 

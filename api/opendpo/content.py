@@ -62,6 +62,32 @@ class Provision(Strict):
         return text_fingerprint(self.text)
 
 
+class Option(Strict):
+    value: str
+    label: str
+
+
+class Fact(Strict):
+    """A question asked in scoping or intake, and the definitions that govern its answer.
+    The definitions are shown beside the question and cited in every explanation that uses it."""
+    id: str
+    question: str
+    type: Literal["boolean", "choice", "multichoice", "number"]
+    options: list[Option] | None = None
+    defined_by: list[str] = []        # provision ids
+    help: str | None = None
+    asked_in: Literal["scoping", "intake", "inventory"] = "intake"
+    pending: str | None = None        # why the governing definition is not yet in a pack
+
+    @model_validator(mode="after")
+    def options_match_type(self) -> "Fact":
+        if self.type in ("choice", "multichoice") and not self.options:
+            raise ValueError(f"fact {self.id}: a {self.type} fact needs options")
+        if self.type in ("boolean", "number") and self.options:
+            raise ValueError(f"fact {self.id}: a {self.type} fact takes no options")
+        return self
+
+
 class Condition(Strict):
     """A test on one fact, or a group of tests. Two levels of nesting at most,
     so the Rego evaluator stays simple enough for an auditor to read."""
@@ -88,6 +114,17 @@ class Condition(Strict):
             if len(tests) != 1:
                 raise ValueError(f"fact {self.fact!r} needs exactly one of equals / in / contains / at_least")
         return self
+
+    def leaves(self) -> list["Condition"]:
+        if self.fact is not None:
+            return [self]
+        kids = (self.all or []) + (self.any or []) + ([self.not_] if self.not_ else [])
+        return [leaf for k in kids for leaf in k.leaves()]
+
+    def values(self) -> list[Any]:
+        if self.in_ is not None:
+            return list(self.in_)
+        return [v for v in (self.equals, self.contains) if v is not None]
 
     def depth(self) -> int:
         kids = (self.all or []) + (self.any or []) + ([self.not_] if self.not_ else [])
@@ -131,7 +168,12 @@ class Pack(Strict):
     supersedes: str | None = None
     sources: list[Source]
     provisions: list[Provision]
+    facts: list[Fact] = []
     rules: list[Rule] = []
+
+    def derived_facts(self) -> dict[str, str]:
+        """Facts set by this pack's classification rules: fact id -> rule id."""
+        return {r.result["set_fact"]: r.id for r in self.rules if r.kind == "classification" and "set_fact" in r.result}
 
     @model_validator(mode="after")
     def references_resolve(self) -> "Pack":
@@ -149,7 +191,36 @@ class Pack(Strict):
             missing = set(r.provisions) - set(prov_ids)
             if missing:
                 raise ValueError(f"rule {r.id}: cites unknown provisions {sorted(missing)}")
+        facts = {f.id: f for f in self.facts}
+        for f in self.facts:
+            missing = set(f.defined_by) - set(prov_ids)
+            if missing:
+                raise ValueError(f"fact {f.id}: defined by unknown provisions {sorted(missing)}")
+        derived = self.derived_facts()
+        for r in self.rules:
+            for leaf in r.when.leaves():
+                if leaf.fact in derived:
+                    continue
+                f = facts.get(leaf.fact)
+                if f is None:
+                    raise ValueError(f"rule {r.id}: tests undeclared fact {leaf.fact!r}")
+                allowed = {o.value for o in f.options or []}
+                for v in leaf.values():
+                    if f.type in ("choice", "multichoice") and v not in allowed:
+                        raise ValueError(f"rule {r.id}: {v!r} is not an answer to {f.id}")
+                    if f.type == "boolean" and not isinstance(v, bool):
+                        raise ValueError(f"rule {r.id}: {f.id} is yes/no, not {v!r}")
         return self
+
+    def citations(self, rule: "Rule") -> list[str]:
+        """The rule's own provisions plus the definitions behind every fact it tests."""
+        facts = {f.id: f for f in self.facts}
+        out = list(rule.provisions)
+        for fid in sorted(rule.when.facts()):
+            for pid in (facts[fid].defined_by if fid in facts else []):
+                if pid not in out:
+                    out.append(pid)
+        return out
 
 
 class Verification(Strict):
@@ -208,7 +279,7 @@ class Library:
         return {"rules": [
             {"id": s.rule.id, "pack": s.pack.id, "pack_version": s.pack.version, "kind": s.rule.kind,
              "when": s.rule.when.model_dump(by_alias=True, exclude_none=True),
-             "result": s.rule.result}
+             "result": s.rule.result, "citations": s.pack.citations(s.rule)}
             for s in self.usable_rules]}
 
 
@@ -243,7 +314,7 @@ def load(directory: Path = CONTENT_DIR) -> Library:
         sources = {s.id: s for s in pack.sources}
         for rule in pack.rules:
             problems = []
-            for pid in rule.provisions:
+            for pid in pack.citations(rule):
                 prov = next(p for p in pack.provisions if p.id == pid)
                 if not sources[prov.source].primary:
                     problems.append(f"{pid} cites a secondary source; only primary text can be the citation of record")

@@ -20,6 +20,10 @@ PACK = {
          "summary": "Assess."},
         {"id": "p2", "citation": "Summary", "source": "blog", "text": "Firms say assess.", "summary": "x"},
     ],
+    "facts": [
+        {"id": "ccpa.applies", "question": "Does the CCPA apply?", "type": "boolean"},
+        {"id": "x", "question": "X?", "type": "boolean"},
+    ],
     "rules": [
         {"id": "R1", "kind": "trigger", "title": "Assess", "provisions": ["p1"],
          "when": {"fact": "ccpa.applies", "equals": True}, "result": {"assessment": "a"},
@@ -111,3 +115,28 @@ def test_conditions_are_shallow(tmp_path):
 
 def test_versions_recorded(tmp_path):
     assert content.load(write(tmp_path, PACK, [])).versions() == {"test-pack": "0.1.0"}
+
+
+def test_rule_cannot_test_an_undeclared_fact(tmp_path):
+    bad = {**PACK, "rules": [{**PACK["rules"][0], "when": {"fact": "nope", "equals": True}}]}
+    with pytest.raises(ValueError, match="undeclared fact"):
+        content.load(write(tmp_path, bad, []))
+
+
+def test_rule_answer_must_be_a_valid_option(tmp_path):
+    facts = PACK["facts"] + [{"id": "role", "question": "Role?", "type": "choice",
+                              "options": [{"value": "a", "label": "A"}]}]
+    bad = {**PACK, "facts": facts, "rules": [{**PACK["rules"][0], "when": {"fact": "role", "equals": "b"}}]}
+    with pytest.raises(ValueError, match="not an answer"):
+        content.load(write(tmp_path, bad, []))
+
+
+def test_definitions_behind_facts_are_cited_and_must_be_verified(tmp_path):
+    provisions = PACK["provisions"] + [{"id": "def", "citation": "Reg. § 0(a)", "source": "reg",
+                                        "text": "Applies means applies.", "summary": "Definition."}]
+    facts = [{**PACK["facts"][0], "defined_by": ["def"]}, PACK["facts"][1]]
+    pack = {**PACK, "provisions": provisions, "facts": facts}
+    lib = content.load(write(tmp_path, pack, [record("A business shall assess."), rule_record(pack)]))
+    r1 = next(s for s in lib.statuses if s.rule.id == "R1")
+    assert lib.packs[0].citations(r1.rule) == ["p1", "def"]
+    assert not r1.usable and "def has not been verified" in r1.problems[0]

@@ -1,7 +1,11 @@
 """Draft the CCPA Regulations content pack from the approved regulation text.
 
-    pdftotext -layout ccpa_updates_cyber_risk_admt_appr_text.pdf ccpa_regs.txt
-    python build_ccpa_regs.py ccpa_regs.txt ../../content/packs/us-ca-ccpa-regs-2025/pack.yaml
+    pdftotext -layout ccpa_statute_eff_20260101.pdf ccpa_regs_consolidated.txt
+    python build_ccpa_regs.py ccpa_regs_consolidated.txt ../../content/packs/us-ca-ccpa-regs-2025/pack.yaml
+
+The source of record is the CPPA's consolidated regulations effective January 1, 2026
+(the in-force text; the CPPA's file name says "statute" but the content is Title 11).
+The approved rulemaking text is kept in the pack as the adoption record.
 
 Every provision's text is copied from the source, never retyped. The rules are
 OpenDPO's reading of those provisions and must be verified (CNT-01).
@@ -12,7 +16,7 @@ import yaml
 
 from extract import between, clean_lines
 
-SRC = "ccpa-regs-2025"
+SRC = "ccpa-regs-consolidated-2026"
 T11 = "Cal. Code Regs. tit. 11, § "
 
 # id, citation, start marker, end marker, OpenDPO summary
@@ -23,14 +27,22 @@ PROVISIONS = [
      "Substantially replacing human decisionmaking means using the output without human involvement. Human involvement needs a reviewer who knows how to use the output, reviews it with other relevant information, and has authority to make or change the decision."),
     ("7001-e-2", "7001(e)(2)", "(2)   ADMT includes profiling", "(3)   ADMT does not include web hosting",
      "ADMT includes profiling that replaces or substantially replaces human decisionmaking."),
-    ("7001-e-3", "7001(e)(3)", "(3)   ADMT does not include web hosting", "(f)   (e) “Categories of sources”",
+    ("7001-e-3", "7001(e)(3)", "(3)   ADMT does not include web hosting", "(f)   “Categories of sources”",
      "Routine IT tools such as hosting, storage, security tools, calculators, databases and spreadsheets are not ADMT unless they replace human decisionmaking. Not cited by any rule: shown as on-screen guidance for the intake question on the AI's role, so excluded tools are answered None and an analyst confirms."),
+    ("7001-ee", "7001(ee)", "(ee) “Physical or biological identification or profiling”", "(ff)   “Price or service difference”",
+     "Identifying or profiling a consumer from automated measurement or analysis of their body or physical or biological characteristics, including biometrics, vocal intonation, facial expression and gesture, such as to infer emotion."),
+    ("7001-ii", "7001(ii)", "(ii)   “Profiling” means any form of automated processing", "(jj)   “Request to access ADMT”",
+     "Profiling is automated processing of personal information to evaluate or predict personal aspects such as ability, performance at work, economic situation, health, preferences, reliability, behavior, location or movements."),
     ("7001-aaa", "7001(aaa)", "(aaa) “Sensitive location”", "(bbb) “Sensitive personal information”",
      "Lists the physical places that count as sensitive locations, such as healthcare facilities, shelters, schools, union offices and places of worship."),
+    ("7001-bbb", "7001(bbb)", "(bbb) “Sensitive personal information” means:", "(ccc) “Signed” means",
+     "Lists what counts as sensitive personal information: government ID numbers, account credentials, precise geolocation, racial or ethnic origin, citizenship or immigration status, religious or philosophical beliefs, union membership, communications contents, genetic and neural data, biometrics used to identify, health, sex life or sexual orientation, and data of consumers known to be under 16."),
     ("7001-ddd", "7001(ddd)", "(ddd) “Significant decision” means", "(eee) “Systematic observation”",
      "A significant decision provides or denies financial or lending services, housing, education, employment or contracting opportunities or compensation, or healthcare services. Hiring is an employment decision. Advertising is not a significant decision."),
     ("7001-eee", "7001(eee)", "(eee) “Systematic observation”", "(fff) “Train” for the purposes",
      "Systematic observation is methodical and regular or continuous observation, including video or audio recording and biometric identification technologies."),
+    ("7001-fff", "7001(fff)", "(fff) “Train” for the purposes of sections 7150", "(ggg) “Third-party identity verification service”",
+     "Training is how a technology learns patterns, actions or desired outputs, including adjusting an ADMT's parameters, improving how a model learns, and iterating the datasets fed into ADMT."),
     ("7150-a", "7150(a)", "(a)   Every business whose processing of consumers’ personal information presents", "(b)   Each of the following processing activities presents significant risk",
      "A business must conduct a risk assessment before starting processing that presents significant risk to consumers' privacy."),
     ("7150-b-1", "7150(b)(1)", "(b)   Each of the following processing activities presents significant risk", "(2)   Processing sensitive personal information.",
@@ -64,7 +76,7 @@ PROVISIONS = [
     ("7155-a", "7155(a)", "(a)   A business must comply with the following timing requirements", "(b)   For any processing activity identified in section 7150, subsection (b), that the",
      "Assess before initiating; review at least every three years; update within 45 calendar days of a material change."),
     ("7155-b-c", "7155(b)-(c)", "(b)   For any processing activity identified in section 7150, subsection (b), that the", "Note: Authority cited",
-     "Processing begun before the regulations took effect must be assessed by December 31, 2027. Keep every version while processing continues or five years after completion, whichever is later. Note: the approved text still shows OAL's placeholder for the effective date, which the Notice of Approval sets as January 1, 2026."),
+     "Processing begun before January 1, 2026 and continuing after it must be assessed by December 31, 2027. Keep every version while processing continues or five years after completion, whichever is later."),
     ("7200", "7200", "(a)   A business that uses ADMT to make a significant decision concerning a", "Note: Authority cited",
      "A business using ADMT for a significant decision must comply with Article 11, by January 1, 2027 for existing uses."),
     ("7220-a", "7220(a)", "(a)   A business that uses ADMT as set forth in section 7200, subsection (a), must", "(b)   The Pre-use Notice must:",
@@ -88,7 +100,7 @@ def main(src, out):
         text, pages = between(lines, start, end, after=section)
         provisions.append({
             "id": f"ccpa-{pid}", "citation": T11 + cite, "source": SRC,
-            "location": f"Approved text, p. {pages[0]}" + (f"-{pages[-1]}" if len(pages) > 1 else ""),
+            "location": f"Consolidated regulations, p. {pages[0]}" + (f"-{pages[-1]}" if len(pages) > 1 else ""),
             "effective_from": "2027-01-01" if pid.startswith(("7200", "722")) else "2026-01-01",
             "text": text, "summary": summary})
     pack = yaml.safe_load(open(out, encoding="utf-8"))

@@ -7,7 +7,7 @@ change a provision's fingerprint (see api/opendpo/content.py).
 import re
 import sys
 
-FOOTER = re.compile(r"^(CA PRIVACY PROTECTION AGENCY|\(CCPA Updates|Page \d+ of \d+)")
+FOOTER = re.compile(r"^(CA PRIVACY PROTECTION AGENCY|\(CCPA Updates|Page \d+ of \d+$|CPPA$)")
 
 
 def clean_lines(path):
@@ -30,7 +30,7 @@ def between(lines, start, end, include_end=False, after=None):
     armed = after is None
     for page, line in lines:
         if not armed:
-            armed = after in line
+            armed = after in line and "...." not in line  # skip the table of contents
             continue
         if not on and start in line:
             on = True
