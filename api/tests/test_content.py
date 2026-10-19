@@ -43,6 +43,12 @@ def record(text: str) -> dict:
             "verified_by": "Tim Sutton", "verified_on": "2026-10-20"}
 
 
+def rule_record(pack: dict, rule_id: str = "R1") -> dict:
+    rule = content.Rule.model_validate(next(r for r in pack["rules"] if r["id"] == rule_id))
+    return {"rule": rule_id, "fingerprint": rule.fingerprint,
+            "verified_by": "Tim Sutton", "verified_on": "2026-10-20"}
+
+
 def test_unverified_rule_is_not_usable(tmp_path):
     lib = content.load(write(tmp_path, PACK, []))
     r1 = next(s for s in lib.statuses if s.rule.id == "R1")
@@ -51,12 +57,27 @@ def test_unverified_rule_is_not_usable(tmp_path):
 
 
 def test_verified_rule_reaches_the_engine(tmp_path):
-    lib = content.load(write(tmp_path, PACK, [record("A business shall assess.")]))
+    lib = content.load(write(tmp_path, PACK, [record("A business shall assess."), rule_record(PACK)]))
     assert [r["id"] for r in lib.opa_data()["rules"]] == ["R1"]
 
 
+def test_verified_text_alone_is_not_enough(tmp_path):
+    lib = content.load(write(tmp_path, PACK, [record("A business shall assess.")]))
+    r1 = next(s for s in lib.statuses if s.rule.id == "R1")
+    assert not r1.usable and "reading of the law has not been verified" in r1.problems[0]
+
+
+def test_logic_change_lapses_rule_verification(tmp_path):
+    signed = rule_record(PACK)
+    changed = {**PACK, "rules": [{**PACK["rules"][0], "when": {"fact": "ccpa.applies", "equals": False}},
+                                 PACK["rules"][1]]}
+    lib = content.load(write(tmp_path, changed, [record("A business shall assess."), signed]))
+    r1 = next(s for s in lib.statuses if s.rule.id == "R1")
+    assert not r1.usable and "logic changed after it was verified" in r1.problems[0]
+
+
 def test_whitespace_changes_do_not_lapse_verification(tmp_path):
-    lib = content.load(write(tmp_path, PACK, [record("A business\n  shall assess.")]))
+    lib = content.load(write(tmp_path, PACK, [record("A business\n  shall assess."), rule_record(PACK)]))
     assert next(s for s in lib.statuses if s.rule.id == "R1").usable
 
 

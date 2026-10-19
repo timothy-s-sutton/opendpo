@@ -1,0 +1,658 @@
+id: us-ca-cppa-admt-ra
+title: CCPA regulations on risk assessments and automated decisionmaking technology (CPPA)
+jurisdiction: US-CA
+version: 0.1.0
+lifecycle: effective
+as_of: '2026-10-19'
+sources:
+- id: cppa-regs-2026
+  title: CCPA Updates, Cybersecurity Audits, Risk Assessments, ADMT and Insurance Regulations, approved
+    regulation text
+  publisher: California Privacy Protection Agency
+  url: https://cppa.ca.gov/regulations/pdf/ccpa_updates_cyber_risk_admt_appr_text.pdf
+  primary: true
+  retrieved_on: '2026-10-19'
+provisions:
+- id: cppa-7001-e
+  citation: Cal. Code Regs. tit. 11, § 7001(e)
+  source: cppa-regs-2026
+  location: Approved text, p. 1
+  effective_from: '2026-01-01'
+  text: (e) “Automated decisionmaking technology” or “ADMT” means any technology that processes personal
+    information and uses computation to replace human decisionmaking or substantially replace human decisionmaking.
+  summary: ADMT is technology that processes personal information and uses computation to replace, or
+    substantially replace, human decisionmaking.
+- id: cppa-7001-e-1
+  citation: Cal. Code Regs. tit. 11, § 7001(e)(1)
+  source: cppa-regs-2026
+  location: Approved text, p. 1-2
+  effective_from: '2026-01-01'
+  text: '(1) For purposes of this definition, to “substantially replace human decisionmaking” means a
+    business uses the technology’s output to make a decision without human involvement. Human involvement
+    requires the human reviewer to: (A) Know how to interpret and use the technology’s output to make
+    the decision; (B) Review and analyze the output of the technology, and any other information that
+    is relevant to make or change the decision; and (C) Have the authority to make or change the decision
+    based on their analysis in subsection (B).'
+  summary: Substantially replacing human decisionmaking means using the output without human involvement.
+    Human involvement needs a reviewer who knows how to use the output, reviews it with other relevant
+    information, and has authority to make or change the decision.
+- id: cppa-7001-e-2-3
+  citation: Cal. Code Regs. tit. 11, § 7001(e)(2)-(3)
+  source: cppa-regs-2026
+  location: Approved text, p. 2
+  effective_from: '2026-01-01'
+  text: (2) ADMT includes profiling that replaces human decisionmaking or substantially replaces human
+    decisionmaking. (3) ADMT does not include web hosting, domain registration, networking, caching, website-loading,
+    data storage, firewalls, anti-virus, anti-malware, spam- and robocall-filtering, spellchecking, calculators,
+    databases, and spreadsheets, provided that they do not replace human decisionmaking.
+  summary: ADMT includes profiling that replaces or substantially replaces human decisionmaking; routine
+    IT tools are excluded unless they replace human decisionmaking.
+- id: cppa-7001-aaa
+  citation: Cal. Code Regs. tit. 11, § 7001(aaa)
+  source: cppa-regs-2026
+  location: Approved text, p. 9
+  effective_from: '2026-01-01'
+  text: '(aaa) “Sensitive location” means any of the following physical places: healthcare facilities
+    including hospitals, doctors’ offices, urgent care facilities, and community health clinics; pharmacies;
+    domestic violence shelters; food pantries; housing/emergency shelters; educational institutions; political
+    party offices; legal services offices; union offices; and places of worship.'
+  summary: Lists the physical places that count as sensitive locations, such as healthcare facilities,
+    shelters, schools, union offices and places of worship.
+- id: cppa-7001-ddd
+  citation: Cal. Code Regs. tit. 11, § 7001(ddd)
+  source: cppa-regs-2026
+  location: Approved text, p. 10-11
+  effective_from: '2026-01-01'
+  text: '(ddd) “Significant decision” means a decision that results in the provision or denial of financial
+    or lending services, housing, education enrollment or opportunities, employment or independent contracting
+    opportunities or compensation, or healthcare services. For purposes of this definition: (1) “Financial
+    or lending services” means the extension of credit or a loan, transmitting or exchanging funds, the
+    provision of deposit or checking accounts, check cashing, or installment payment plans. (2) “Housing”
+    means any building, structure, or portion thereof that is used or occupied as, or designed, arranged,
+    or intended to be used or occupied as, a home, residence, or sleeping place by one or more consumers
+    including for permanent or temporary occupancy. The use of ADMT that provides or denies housing to
+    a consumer based solely on the availability or vacancy of the housing or the successful receipt of
+    payment for housing from the consumer is not making a significant decision. (3) “Education enrollment
+    or opportunities” means: (A) Admission or acceptance into academic or vocational programs; (B) Educational
+    credentials (e.g., a degree, diploma, or certificate); and (C) Suspension and expulsion. (4) “Employment
+    or independent contracting opportunities or compensation” means: (A) Hiring; (B) Allocation or assignment
+    of work for employees; or salary, hourly or per-assignment compensation, incentive compensation such
+    as a bonus, or another benefit (“allocation/assignment of work and compensation”); (C) Promotion;
+    and (D) Demotion, suspension, and termination. (5) “Healthcare services” means services related to
+    the diagnosis, prevention, or treatment of human disease or impairment, or the assessment or care
+    of an individual''s health. (6) Significant decision does not include advertising to a consumer.'
+  summary: A significant decision provides or denies financial or lending services, housing, education,
+    employment or contracting opportunities or compensation, or healthcare services. Hiring is an employment
+    decision. Advertising is not a significant decision.
+- id: cppa-7001-eee
+  citation: Cal. Code Regs. tit. 11, § 7001(eee)
+  source: cppa-regs-2026
+  location: Approved text, p. 11
+  effective_from: '2026-01-01'
+  text: (eee) “Systematic observation” means methodical and regular or continuous observation. This includes,
+    for example, methodical and regular or continuous observation using Wi-Fi or Bluetooth tracking, radio
+    frequency identification, drones, video or audio recording or live-streaming, technologies that enable
+    physical or biological identification or profiling; and geofencing, location trackers, or license-plate
+    recognition.
+  summary: Systematic observation is methodical and regular or continuous observation, including video
+    or audio recording and biometric identification technologies.
+- id: cppa-7150-a
+  citation: Cal. Code Regs. tit. 11, § 7150(a)
+  source: cppa-regs-2026
+  location: Approved text, p. 100
+  effective_from: '2026-01-01'
+  text: (a) Every business whose processing of consumers’ personal information presents significant risk
+    to consumers’ privacy as set forth in subsection (b) must conduct a risk assessment before initiating
+    that processing.
+  summary: A business must conduct a risk assessment before starting processing that presents significant
+    risk to consumers' privacy.
+- id: cppa-7150-b-1
+  citation: Cal. Code Regs. tit. 11, § 7150(b)(1)
+  source: cppa-regs-2026
+  location: Approved text, p. 100
+  effective_from: '2026-01-01'
+  text: '(b) Each of the following processing activities presents significant risk to consumers’ privacy:
+    (1) Selling or sharing personal information.'
+  summary: Selling or sharing personal information presents significant risk.
+- id: cppa-7150-b-2
+  citation: Cal. Code Regs. tit. 11, § 7150(b)(2)
+  source: cppa-regs-2026
+  location: Approved text, p. 100
+  effective_from: '2026-01-01'
+  text: (2) Processing sensitive personal information. (A) A business that processes the sensitive personal
+    information of its employees or independent contractors solely and specifically for purposes of administering
+    compensation payments, determining and storing employment authorization, administering employment
+    benefits, providing reasonable accommodation as required by law, or wage reporting as required by
+    law, is not required to conduct a risk assessment for the processing of sensitive personal information
+    for these purposes. Any other processing of consumers’ sensitive personal information is subject to
+    the risk-assessment requirements set forth in this Article.
+  summary: Processing sensitive personal information presents significant risk, except an employer's processing
+    of workforce sensitive data solely for listed HR administration purposes.
+- id: cppa-7150-b-3
+  citation: Cal. Code Regs. tit. 11, § 7150(b)(3)
+  source: cppa-regs-2026
+  location: Approved text, p. 100
+  effective_from: '2026-01-01'
+  text: (3) Using ADMT for a significant decision concerning a consumer.
+  summary: Using ADMT for a significant decision concerning a consumer presents significant risk.
+- id: cppa-7150-b-4
+  citation: Cal. Code Regs. tit. 11, § 7150(b)(4)
+  source: cppa-regs-2026
+  location: Approved text, p. 100
+  effective_from: '2026-01-01'
+  text: (4) Using automated processing to infer or extrapolate a consumer’s intelligence, ability, aptitude,
+    performance at work, economic situation, health (including mental health), personal preferences, interests,
+    reliability, predispositions, behavior, location, or movements, based upon systematic observation
+    of that consumer when they are acting in their capacity as an educational program applicant, job applicant,
+    student, employee, or independent contractor for the business.
+  summary: Automated inference about applicants, students, employees or contractors based on systematic
+    observation presents significant risk.
+- id: cppa-7150-b-5
+  citation: Cal. Code Regs. tit. 11, § 7150(b)(5)
+  source: cppa-regs-2026
+  location: Approved text, p. 100-101
+  effective_from: '2026-01-01'
+  text: (5) Using automated processing to infer or extrapolate a consumer’s intelligence, ability, aptitude,
+    performance at work, economic situation, health (including mental health), personal preferences, interests,
+    reliability, predispositions, behavior, or movements, based upon that consumer’s presence in a sensitive
+    location. “Infer or extrapolate” does not include a business using a consumer’s personal information
+    solely to deliver goods to, or provide transportation for, that consumer at a sensitive location.
+  summary: Automated inference based on a consumer's presence in a sensitive location presents significant
+    risk, except solely to deliver goods or provide transportation there.
+- id: cppa-7150-b-6
+  citation: Cal. Code Regs. tit. 11, § 7150(b)(6)
+  source: cppa-regs-2026
+  location: Approved text, p. 101
+  effective_from: '2026-01-01'
+  text: (6) Processing the personal information of consumers, which the business intends to use to train
+    an ADMT for a significant decision concerning a consumer; or train a facial-recognition, emotion-recognition,
+    or other technology that verifies a consumer’s identity, or conducts physical or biological identification
+    or profiling of a consumer. For purposes of this paragraph, “intends to use” means the business is
+    using, plans to use, permits others to use, plans to permit others to use, is advertising or marketing
+    the use of, or plans to advertise or market the use of.
+  summary: Processing personal information the business intends to use to train ADMT for a significant
+    decision, or to train identity, facial-recognition, emotion-recognition or biometric profiling technology,
+    presents significant risk.
+- id: cppa-7152-a
+  citation: Cal. Code Regs. tit. 11, § 7152(a)
+  source: cppa-regs-2026
+  location: Approved text, p. 102
+  effective_from: '2026-01-01'
+  text: '(a) A business must conduct a risk assessment to determine whether the risks to consumers’ privacy
+    from the processing of personal information outweigh the benefits to the consumer, the business, other
+    stakeholders, and the public from that same processing. The risk assessment must:'
+  summary: A risk assessment weighs the risks to consumers' privacy against the benefits to the consumer,
+    the business, other stakeholders and the public.
+- id: cppa-7152-a-1
+  citation: Cal. Code Regs. tit. 11, § 7152(a)(1)
+  source: cppa-regs-2026
+  location: Approved text, p. 102-103
+  effective_from: '2026-01-01'
+  text: (1) Identify and document in a risk assessment report the business’s purpose for processing consumers’
+    personal information. The purpose must not be identified or described in generic terms, such as “to
+    improve our services” or for “security purposes.” By contrast, if a business is “improving the service”
+    by decreasing consumers’ wait times when processing their privacy rights requests, the business may
+    identify this decrease of wait times to process privacy rights requests as the relevant purpose.
+  summary: Document a specific, non-generic purpose for the processing.
+- id: cppa-7152-a-2
+  citation: Cal. Code Regs. tit. 11, § 7152(a)(2)
+  source: cppa-regs-2026
+  location: Approved text, p. 103
+  effective_from: '2026-01-01'
+  text: (2) Identify and document in a risk assessment report the categories of personal information to
+    be processed, including any categories of sensitive personal information. This must include the minimum
+    personal information that is necessary to achieve the purpose of processing consumers’ personal information.
+  summary: Document the categories of personal information, including sensitive personal information,
+    and the minimum necessary for the purpose.
+- id: cppa-7152-a-3
+  citation: Cal. Code Regs. tit. 11, § 7152(a)(3)
+  source: cppa-regs-2026
+  location: Approved text, p. 103-104
+  effective_from: '2026-01-01'
+  text: '(3) Identify and document in a risk assessment report the following operational elements of the
+    processing: (A) The business’s planned method for collecting, using, disclosing, retaining, or otherwise
+    processing personal information, and the sources of the personal information. (B) How long the business
+    plans to retain each category of personal information, or if unknown, the criteria the business plans
+    to use to determine that retention period. (C) The business’s method of interacting with the consumers
+    whose personal information the business plans to process (e.g., via websites, applications, or offline)
+    and the purpose of the interaction (e.g., to provide a good or service). (D) The approximate number
+    of consumers whose personal information the business plans to process. (E) What disclosures the business
+    has made or plans to make to the consumer about the processing of their personal information and how
+    these disclosures were or will be made (e.g., via a just-in-time notice). (F) The names or categories
+    of the service providers, contractors, or third parties to whom the business discloses or makes available
+    the consumers’ personal information for the processing; and the purpose for which the business discloses
+    or makes the consumers’ personal information available to them. (G) For the uses of ADMT set forth
+    in section 7150, subsections (b)(3), the business must identify: (i) The logic of the ADMT, including
+    any assumptions or limitations of the logic; and (ii) The output of the ADMT, and how the business
+    will use the output to make a significant decision.'
+  summary: 'Document the operational elements: collection and sources, retention, how the business interacts
+    with consumers, approximate number of consumers, disclosures, recipients, and for ADMT, its logic
+    and how its output is used.'
+- id: cppa-7152-a-4
+  citation: Cal. Code Regs. tit. 11, § 7152(a)(4)
+  source: cppa-regs-2026
+  location: Approved text, p. 104
+  effective_from: '2026-01-01'
+  text: (4) Identify the benefits to the business, the consumer, other stakeholders, and the public from
+    the processing of the personal information, as applicable. The benefits must not be identified in
+    generic terms, such as “improving our service.” By contrast, if a benefit of a processing activity
+    is to reduce the response time to a consumer’s right to know request, a business may identify the
+    relevant benefit as enabling consumers to receive the personal information they requested on a quicker
+    timeline.
+  summary: Identify specific, non-generic benefits to the business, consumers, other stakeholders and
+    the public.
+- id: cppa-7152-a-5
+  citation: Cal. Code Regs. tit. 11, § 7152(a)(5)
+  source: cppa-regs-2026
+  location: Approved text, p. 104-105
+  effective_from: '2026-01-01'
+  text: '(5) Identify the negative impacts to consumers’ privacy associated with the processing. The business
+    must identify the sources and causes of these negative impacts. For example, negative impacts to consumers’
+    privacy that a business may consider include the following: (A) Unauthorized access, destruction,
+    use, modification, or disclosure of personal information; and unauthorized activity resulting in the
+    loss of availability of personal information. (B) Discrimination upon the basis of protected characteristics
+    that would violate federal or state law. (C) Impairing consumers’ control over their personal information,
+    such as by providing insufficient information for consumers to make an informed decision regarding
+    the processing of their personal information, or by interfering with consumers’ ability to make choices
+    consistent with their reasonable expectations. (D) Coercing or compelling consumers into allowing
+    the processing of their personal information, such as by conditioning consumers’ acquisition or use
+    of an online service upon their disclosure of personal information that is unnecessary to the expected
+    functionality of the service, or requiring consumers to consent to processing when such consent cannot
+    be freely given (e.g., because it was obtained through the use of a dark pattern). (E) Economic harms,
+    including limiting or depriving consumers of economic opportunities, charging consumers higher prices,
+    or compensating consumers at lower rates based upon profiling; or imposing additional costs upon consumers,
+    including costs associated with the unauthorized access to consumers’ personal information. (F) Physical
+    harms to consumers or to property, including processing that creates the opportunity for physical
+    or sexual violence. (G) Reputational harms, including stigmatization, that could negatively impact
+    an average consumer, such as stigmatization of a consumer as a result of a mobile dating application’s
+    disclosure of the consumer’s sexual or other preferences in a partner outside of the dating application.
+    (H) Psychological harms, including emotional distress, stress, anxiety, embarrassment, fear, frustration,
+    shame, and feelings of violation, that could negatively impact an average consumer. Examples of such
+    harms include emotional distress resulting from disclosure of nonconsensual intimate imagery or disclosure
+    of a consumer’s purchase of pregnancy tests or emergency contraception for non-medical purposes.'
+  summary: Identify negative impacts to consumers' privacy and their sources and causes; lists examples
+    from security incidents to discrimination, economic, physical, reputational and psychological harms.
+- id: cppa-7152-a-6
+  citation: Cal. Code Regs. tit. 11, § 7152(a)(6)
+  source: cppa-regs-2026
+  location: Approved text, p. 105-106
+  effective_from: '2026-01-01'
+  text: '(6) Identify and document in a risk assessment report any safeguards that the business plans
+    to implement for the processing, such as safeguards to address the negative impacts identified in
+    subsection (a)(5). (A) For example, safeguards that a business may consider include the following:
+    (i) Encryption, segmentation of information systems, physical and logical access controls, change
+    management, network monitoring and defenses, and data and integrity monitoring; (ii) Use of privacy-enhancing
+    technologies, such as trusted execution environments, federated learning, homomorphic encryption,
+    and differential privacy; (iii) Consulting external parties, such as those described in section 7151,
+    subsection (b), to ensure that the business maintains current knowledge of emergent privacy risks
+    and countermeasures; and using that knowledge to identify, assess, and mitigate risks to consumers’
+    privacy; and (iv) Implementing policies, procedures, and training to ensure that the business’s ADMT
+    works for the business’s purpose and does not unlawfully discriminate based upon protected characteristics.'
+  summary: Document planned safeguards, such as security controls, privacy-enhancing technologies, outside
+    expertise, and policies ensuring ADMT works and does not discriminate.
+- id: cppa-7152-a-7-9
+  citation: Cal. Code Regs. tit. 11, § 7152(a)(7)-(9)
+  source: cppa-regs-2026
+  location: Approved text, p. 106
+  effective_from: '2026-01-01'
+  text: (7) Identify and document in a risk assessment report whether it will initiate the processing
+    subject to the risk assessment. (8) Identify and document in a risk assessment report the individuals
+    who provided the information for the risk assessment, except for legal counsel who provided legal
+    advice. (9) Identify and document in a risk assessment report the date the assessment was reviewed
+    and approved, and the names and positions of the individuals who reviewed or approved the assessment,
+    except for legal counsel who provided legal advice. An individual who has the authority to participate
+    in deciding whether the business will initiate the processing that is the subject of the risk assessment
+    must review and approve the assessment.
+  summary: Document whether the business will initiate the processing, who provided information, and the
+    review and approval date and approvers; an approver must have authority to decide whether the processing
+    goes ahead.
+- id: cppa-7155-a
+  citation: Cal. Code Regs. tit. 11, § 7155(a)
+  source: cppa-regs-2026
+  location: Approved text, p. 107-108
+  effective_from: '2026-01-01'
+  text: '(a) A business must comply with the following timing requirements for conducting and updating
+    its risk assessments: (1) A business must conduct and document a risk assessment in accordance with
+    the requirements of this Article before initiating any processing activity identified in section 7150,
+    subsection (b). (2) At least once every three years, a business must review, and update as necessary,
+    its risk assessments to ensure that they remain accurate in accordance with the requirements of this
+    Article. (3) Notwithstanding subsection (a)(2) of this section, a business must update a risk assessment
+    whenever there is a material change relating to the processing activity, as soon as feasibly possible,
+    but no later than 45 calendar days from the date of the material change. A change relating to the
+    processing activity is material if it creates new negative impacts or increases the magnitude or likelihood
+    of previously identified negative impacts as set forth in section 7152, subsection (a)(5), or diminishes
+    the effectiveness of the safeguards as set forth in section 7152, subsection (a)(6). Material changes
+    may include, for example, changes to the purpose of the processing; the minimum personal information
+    necessary to achieve the purpose of the processing; or the risks to consumers’ privacy raised by consumers
+    (e.g., numerous consumers complain to a business about the risks that the business’s processing poses
+    to their privacy).'
+  summary: Assess before initiating; review at least every three years; update within 45 calendar days
+    of a material change.
+- id: cppa-7155-b-c
+  citation: Cal. Code Regs. tit. 11, § 7155(b)-(c)
+  source: cppa-regs-2026
+  location: Approved text, p. 108
+  effective_from: '2026-01-01'
+  text: (b) For any processing activity identified in section 7150, subsection (b), that the business
+    initiated prior to [OAL to fill in the effective date of these regulations] and that continues after
+    [OAL to fill in the effective date of these regulations], the business must conduct, and document
+    as set forth in section 7152, a risk assessment in accordance with the requirements of this Article
+    no later than December 31, 2027. The business must comply with the submission requirements set forth
+    in section 7157, subsection (a)(1). (c) A business must retain its risk assessments, including original
+    and updated versions, for as long as the processing continues or for five years after the completion
+    of the risk assessment, whichever is later.
+  summary: 'Processing begun before the regulations took effect must be assessed by December 31, 2027.
+    Keep every version while processing continues or five years after completion, whichever is later.
+    Note: the approved text still shows OAL''s placeholder for the effective date, which the Notice of
+    Approval sets as January 1, 2026.'
+- id: cppa-7200
+  citation: Cal. Code Regs. tit. 11, § 7200
+  source: cppa-regs-2026
+  location: Approved text, p. 112
+  effective_from: '2027-01-01'
+  text: (a) A business that uses ADMT to make a significant decision concerning a consumer must comply
+    with the requirements of this Article. (b) A business that uses ADMT for a significant decision prior
+    to January 1, 2027, must be in compliance with the requirements of this Article no later than January
+    1, 2027. A business that uses ADMT on or after January 1, 2027, must be in compliance with the requirements
+    of this Article any time it is using ADMT for a significant decision.
+  summary: A business using ADMT for a significant decision must comply with Article 11, by January 1,
+    2027 for existing uses.
+- id: cppa-7220-a
+  citation: Cal. Code Regs. tit. 11, § 7220(a)
+  source: cppa-regs-2026
+  location: Approved text, p. 112
+  effective_from: '2027-01-01'
+  text: (a) A business that uses ADMT as set forth in section 7200, subsection (a), must provide consumers
+    with a Pre-use Notice. The Pre-use Notice must inform consumers about the business’s use of ADMT and
+    consumers’ rights to opt-out of ADMT and to access ADMT, as set forth in this section. A business
+    may provide a Pre-use Notice in its Notice at Collection, provided that the Notice at Collection complies
+    with, and includes the information required by, subsections (b) and (c).
+  summary: Give consumers a Pre-use Notice about the ADMT use and their rights to opt out and to access.
+- id: cppa-7221-a
+  citation: Cal. Code Regs. tit. 11, § 7221(a)
+  source: cppa-regs-2026
+  location: Approved text, p. 115
+  effective_from: '2027-01-01'
+  text: (a) A business must provide consumers with the ability to opt-out of the use of ADMT to make a
+    significant decision concerning the consumer, except as set forth in subsection (b).
+  summary: Provide the ability to opt out of ADMT for significant decisions, unless an exception applies.
+- id: cppa-7221-b-1
+  citation: Cal. Code Regs. tit. 11, § 7221(b)(1)
+  source: cppa-regs-2026
+  location: Approved text, p. 115-116
+  effective_from: '2027-01-01'
+  text: '(b) A business is not required to provide consumers with the ability to opt-out of a business’s
+    use of ADMT to make a significant decision in the following circumstances: (1) The business provides
+    the consumer with a method to appeal the decision to a human reviewer who has the authority to overturn
+    the decision. To qualify for this exception, the business must do the following: (A) Designate a human
+    reviewer to review and analyze the output of the ADMT and any other information that is relevant to
+    change the significant decision at issue. This human reviewer must consider the information provided
+    by the consumer in support of their appeal and may consider any other sources of information about
+    the significant decision. The human reviewer must know how to interpret and use the output of the
+    ADMT that made the significant decision being appealed and must have the authority to change the decision
+    based on their analysis. (B) Clearly describe to the consumer how to submit an appeal and enable the
+    consumer to provide information to the human reviewer in support of their appeal. The method of appeal
+    must be easy for the consumers to execute, require minimal steps, and comply with section 7004. Disclosures
+    and communications with consumers concerning the appeal must comply with section 7003, subsections
+    (a)–(b). The timeline for requests to appeal ADMT must comply with section 7021. Businesses must comply
+    with the verification requirements set forth in Article 5 when a consumer submits an appeal.'
+  summary: No opt-out is needed if the consumer can appeal to a qualified human reviewer with authority
+    to overturn the decision.
+- id: cppa-7221-b-2
+  citation: Cal. Code Regs. tit. 11, § 7221(b)(2)
+  source: cppa-regs-2026
+  location: Approved text, p. 116
+  effective_from: '2027-01-01'
+  text: '(2) For admission, acceptance, or hiring decisions as set forth in section 7001, subsections
+    (ddd)(3)(A) and (ddd)(4)(A), if the following are true: (A) The business uses the ADMT solely for
+    the business’s assessment of the consumer’s ability to perform at work or in an educational program
+    to determine whether to admit, accept, or hire them; and (B) The ADMT works for the business’s purpose
+    and does not unlawfully discriminate based upon protected characteristics.'
+  summary: For hiring and admission decisions, no opt-out is needed if the ADMT is used solely to assess
+    ability to perform and works for its purpose without unlawful discrimination.
+- id: cppa-7222-a
+  citation: Cal. Code Regs. tit. 11, § 7222(a)
+  source: cppa-regs-2026
+  location: Approved text, p. 119
+  effective_from: '2027-01-01'
+  text: (a) A business that uses ADMT to make a significant decision must provide a consumer with information
+    about this use when responding to a consumer’s request to access ADMT.
+  summary: Respond to consumers' requests to access information about the business's use of ADMT.
+rules:
+- id: CPPA-CLASS-ADMT
+  kind: classification
+  title: The system is ADMT under the CPPA regulations
+  provisions:
+  - cppa-7001-e
+  - cppa-7001-e-1
+  - cppa-7001-e-2-3
+  when:
+    all:
+    - fact: ai.role
+      in:
+      - fully_automated
+      - materially_influences
+    - not:
+        fact: ai.human_review
+        equals: meaningful
+  result:
+    set_fact: cppa.admt
+    value: true
+  explanation: The system's output decides, or is used without a reviewer who understands it, weighs other
+    information and can change the outcome. That is ADMT, because it replaces or substantially replaces
+    human decisionmaking.
+- id: CPPA-CLASS-SIGNIFICANT
+  kind: classification
+  title: The decision is a significant decision under the CPPA regulations
+  provisions:
+  - cppa-7001-ddd
+  when:
+    fact: decision.domain
+    in:
+    - lending
+    - housing
+    - education
+    - employment
+    - healthcare
+  result:
+    set_fact: cppa.significant_decision
+    value: true
+  explanation: The decision provides or denies financial or lending services, housing, education, employment
+    or contracting opportunities or compensation, or healthcare services. Advertising never qualifies,
+    and insurance is not on the list.
+- id: CPPA-RA-SELL-SHARE
+  kind: trigger
+  title: Risk assessment required, selling or sharing personal information
+  provisions:
+  - cppa-7150-a
+  - cppa-7150-b-1
+  when:
+    all:
+    - fact: scope.ccpa_applies
+      equals: true
+    - fact: data.sells_or_shares
+      equals: true
+  result:
+    assessment: cppa_risk_assessment
+    trigger: 7150(b)(1)
+  explanation: The project sells or shares personal information, which the regulations treat as significant
+    risk.
+- id: CPPA-RA-SPI
+  kind: trigger
+  title: Risk assessment required, processing sensitive personal information
+  provisions:
+  - cppa-7150-a
+  - cppa-7150-b-2
+  when:
+    all:
+    - fact: scope.ccpa_applies
+      equals: true
+    - fact: data.sensitive
+      equals: true
+    - not:
+        fact: data.sensitive_hr_admin_only
+        equals: true
+  result:
+    assessment: cppa_risk_assessment
+    trigger: 7150(b)(2)
+  explanation: The project processes sensitive personal information for a purpose other than the listed
+    workforce administration purposes.
+- id: CPPA-RA-ADMT
+  kind: trigger
+  title: Risk assessment required, ADMT for a significant decision
+  provisions:
+  - cppa-7150-a
+  - cppa-7150-b-3
+  when:
+    all:
+    - fact: scope.ccpa_applies
+      equals: true
+    - fact: cppa.admt
+      equals: true
+    - fact: cppa.significant_decision
+      equals: true
+  result:
+    assessment: cppa_risk_assessment
+    trigger: 7150(b)(3)
+  explanation: The project uses ADMT to make a significant decision concerning a consumer.
+- id: CPPA-RA-OBSERVATION
+  kind: trigger
+  title: Risk assessment required, inferences from systematic observation of applicants or workers
+  provisions:
+  - cppa-7150-a
+  - cppa-7150-b-4
+  - cppa-7001-eee
+  when:
+    all:
+    - fact: scope.ccpa_applies
+      equals: true
+    - fact: ai.infers_traits_from_observation
+      equals: true
+    - any:
+      - fact: subjects
+        contains: job_applicants
+      - fact: subjects
+        contains: employees
+      - fact: subjects
+        contains: contractors
+      - fact: subjects
+        contains: students
+  result:
+    assessment: cppa_risk_assessment
+    trigger: 7150(b)(4)
+  explanation: The project uses automated processing to infer traits of applicants, students, employees
+    or contractors from systematic observation, such as recorded video interviews.
+- id: CPPA-RA-SENSITIVE-LOCATION
+  kind: trigger
+  title: Risk assessment required, inferences from presence in a sensitive location
+  provisions:
+  - cppa-7150-a
+  - cppa-7150-b-5
+  - cppa-7001-aaa
+  when:
+    all:
+    - fact: scope.ccpa_applies
+      equals: true
+    - fact: ai.infers_from_sensitive_location
+      equals: true
+  result:
+    assessment: cppa_risk_assessment
+    trigger: 7150(b)(5)
+  explanation: The project infers traits of consumers from their presence in a sensitive location.
+- id: CPPA-RA-TRAINING
+  kind: trigger
+  title: Risk assessment required, training ADMT or identification technology
+  provisions:
+  - cppa-7150-a
+  - cppa-7150-b-6
+  when:
+    all:
+    - fact: scope.ccpa_applies
+      equals: true
+    - any:
+      - fact: ai.trains_admt_for_significant_decisions
+        equals: true
+      - fact: ai.trains_identity_or_biometric
+        equals: true
+  result:
+    assessment: cppa_risk_assessment
+    trigger: 7150(b)(6)
+  explanation: The project processes personal information it intends to use to train ADMT for significant
+    decisions, or identity, facial-recognition, emotion-recognition or biometric profiling technology.
+- id: CPPA-ADMT-NOTICE
+  kind: obligation
+  title: Provide a Pre-use Notice
+  provisions:
+  - cppa-7200
+  - cppa-7220-a
+  when:
+    all:
+    - fact: scope.ccpa_applies
+      equals: true
+    - fact: cppa.admt
+      equals: true
+    - fact: cppa.significant_decision
+      equals: true
+  result:
+    obligation: cppa_admt_pre_use_notice
+    applies_from: '2027-01-01'
+  explanation: Consumers must be told about the ADMT use and their rights before their information is
+    processed with it.
+- id: CPPA-ADMT-OPT-OUT
+  kind: obligation
+  title: Offer an opt-out of ADMT, or document the exception relied on
+  provisions:
+  - cppa-7200
+  - cppa-7221-a
+  - cppa-7221-b-1
+  when:
+    all:
+    - fact: scope.ccpa_applies
+      equals: true
+    - fact: cppa.admt
+      equals: true
+    - fact: cppa.significant_decision
+      equals: true
+  result:
+    obligation: cppa_admt_opt_out
+    applies_from: '2027-01-01'
+  explanation: Consumers must be able to opt out, unless the business offers an appeal to a qualified
+    human reviewer or another exception applies, which the Pre-use Notice must then name.
+- id: CPPA-ADMT-HIRING-EXCEPTION
+  kind: obligation
+  title: The hiring exception to the opt-out may be available; an analyst must decide
+  provisions:
+  - cppa-7221-b-2
+  when:
+    all:
+    - fact: scope.ccpa_applies
+      equals: true
+    - fact: cppa.admt
+      equals: true
+    - fact: decision.employment_type
+      equals: hiring
+  result:
+    exception_available: cppa_7221_b_2
+    needs_analyst_judgment: true
+  explanation: For hiring, the opt-out is not required if the ADMT is used solely to assess ability to
+    perform at work and works for its purpose without unlawful discrimination. Whether that is true is
+    a judgment for a person, not a rule.
+- id: CPPA-ADMT-ACCESS
+  kind: obligation
+  title: Respond to requests to access ADMT
+  provisions:
+  - cppa-7200
+  - cppa-7222-a
+  when:
+    all:
+    - fact: scope.ccpa_applies
+      equals: true
+    - fact: cppa.admt
+      equals: true
+    - fact: cppa.significant_decision
+      equals: true
+  result:
+    obligation: cppa_admt_access
+    applies_from: '2027-01-01'
+  explanation: Consumers can ask how the ADMT was used about them, and the business must explain the logic
+    and outcome.

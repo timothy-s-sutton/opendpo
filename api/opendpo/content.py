@@ -5,15 +5,16 @@ A pack is a directory under content/packs/<pack id>/ with two files:
   pack.yaml          the provisions (verbatim primary text) and the rules built on them
   verification.yaml  one sign-off record per rule
 
-A rule reaches the rules engine only when every provision it cites has a
-verification record whose fingerprint matches the provision text as it stands
-now. Edit a provision's text, even by one character, and its verification
-lapses until someone checks it again. Unverified rules stay visible, marked as
+A rule reaches the rules engine only when (1) every provision it cites has a
+sign-off that its text matches the primary source, and (2) the rule itself has a
+sign-off that its logic reads those provisions correctly. Each sign-off stores a
+fingerprint of exactly what was checked; change the text or the logic, even by
+one character, and that sign-off lapses until someone checks it again. Unverified rules stay visible, marked as
 such, but cannot decide anything.
 
 Command line:
     python -m opendpo.content status            show every rule and why it is or is not usable
-    python -m opendpo.content fingerprint ID    print a provision's fingerprint for a sign-off
+    python -m opendpo.content fingerprint ID    print a provision's or rule's fingerprint for a sign-off
 """
 from __future__ import annotations
 
@@ -106,6 +107,13 @@ class Rule(Strict):
     result: dict[str, Any]        # what the rule concludes, e.g. {"assessment": "cppa_risk_assessment"}
     explanation: str              # plain-language reason, shown with citations
 
+    @property
+    def fingerprint(self) -> str:
+        """Covers the rule's logic: what it cites, when it fires and what it concludes."""
+        logic = {"provisions": sorted(self.provisions),
+                 "when": self.when.model_dump(by_alias=True, exclude_none=True), "result": self.result}
+        return hashlib.sha256(json.dumps(logic, sort_keys=True).encode("utf-8")).hexdigest()
+
     @model_validator(mode="after")
     def shallow(self) -> "Rule":
         if self.when.depth() > 3:
@@ -145,13 +153,22 @@ class Pack(Strict):
 
 
 class Verification(Strict):
-    provision: str
-    fingerprint: str              # text_fingerprint() of the provision text that was checked
+    """A sign-off on either a provision's text (it matches the primary source) or a
+    rule's logic (it reads the cited provisions correctly). Exactly one of the two."""
+    provision: str | None = None
+    rule: str | None = None
+    fingerprint: str              # of the provision text, or of the rule logic, as checked
     verified_by: str
     verified_on: date
     method: str = "Compared word for word against the primary source"
     self_verified: bool = True    # USE-07: author and verifier are the same person
     note: str | None = None
+
+    @model_validator(mode="after")
+    def one_target(self) -> "Verification":
+        if (self.provision is None) == (self.rule is None):
+            raise ValueError("a verification record names either a provision or a rule")
+        return self
 
 
 def text_fingerprint(text: str) -> str:
@@ -172,6 +189,7 @@ class Library:
     packs: list[Pack]
     verifications: dict[str, dict[str, Verification]]   # pack id -> provision id -> record
     statuses: list[RuleStatus]
+    rule_verifications: dict[str, dict[str, Verification]] = field(default_factory=dict)
 
     @property
     def usable_rules(self) -> list[RuleStatus]:
@@ -206,6 +224,7 @@ def provision_status(p: Provision, record: Verification | None) -> str | None:
 def load(directory: Path = CONTENT_DIR) -> Library:
     packs: list[Pack] = []
     verifications: dict[str, dict[str, Verification]] = {}
+    rule_verifications: dict[str, dict[str, Verification]] = {}
     statuses: list[RuleStatus] = []
     if not directory.is_dir():
         return Library(packs, verifications, statuses)
@@ -215,10 +234,12 @@ def load(directory: Path = CONTENT_DIR) -> Library:
             raise ValueError(f"pack id {pack.id!r} must match its folder name {pack_dir.name!r}")
         vfile = pack_dir / "verification.yaml"
         raw = (yaml.safe_load(vfile.read_text(encoding="utf-8")) or []) if vfile.is_file() else []
-        records = {v.provision: v for v in (Verification.model_validate(r) for r in raw)}
-        unknown = set(records) - {p.id for p in pack.provisions}
+        parsed = [Verification.model_validate(r) for r in raw]
+        records = {v.provision: v for v in parsed if v.provision}
+        rule_records = {v.rule: v for v in parsed if v.rule}
+        unknown = (set(records) - {p.id for p in pack.provisions}) | (set(rule_records) - {r.id for r in pack.rules})
         if unknown:
-            raise ValueError(f"{vfile}: records for unknown provisions {sorted(unknown)}")
+            raise ValueError(f"{vfile}: records for unknown provisions or rules {sorted(unknown)}")
         sources = {s.id: s for s in pack.sources}
         for rule in pack.rules:
             problems = []
@@ -229,10 +250,16 @@ def load(directory: Path = CONTENT_DIR) -> Library:
                 issue = provision_status(prov, records.get(pid))
                 if issue:
                     problems.append(issue)
+            rr = rule_records.get(rule.id)
+            if rr is None:
+                problems.append("the rule's reading of the law has not been verified")
+            elif rr.fingerprint != rule.fingerprint:
+                problems.append(f"the rule's logic changed after it was verified on {rr.verified_on}; verify it again")
             statuses.append(RuleStatus(rule, pack, not problems, problems))
         packs.append(pack)
         verifications[pack.id] = records
-    return Library(packs, verifications, statuses)
+        rule_verifications[pack.id] = rule_records
+    return Library(packs, verifications, statuses, rule_verifications)
 
 
 def _cli() -> None:
@@ -244,6 +271,10 @@ def _cli() -> None:
             for p in pack.provisions:
                 if p.id == sys.argv[2]:
                     print(p.fingerprint)
+                    return
+            for r in pack.rules:
+                if r.id == sys.argv[2]:
+                    print(r.fingerprint)
                     return
         sys.exit(f"no provision {sys.argv[2]!r}")
     for s in lib.statuses:
