@@ -6,7 +6,7 @@
 
 ## Why this exists
 
-Privacy teams are being asked to assess AI systems under fast-moving rules, such as the CPPA's risk assessment and automated decisionmaking technology (ADMT) regulations and Colorado's SB 26-189. AI can carry much of the analytical load, but only if every conclusion stays traceable to the law, the organization's own policy, and a named person who approved it.
+Privacy teams are being asked to assess AI systems under fast-moving rules, such as the CCPA Regulations on risk assessments and automated decisionmaking technology (ADMT) and Colorado's SB 26-189. AI can carry much of the analytical load, but only if every conclusion stays traceable to the law, the organization's own policy, and a named person who approved it.
 
 OpenDPO shows one way to do that:
 
@@ -20,7 +20,7 @@ OpenDPO shows one way to do that:
 
 ## What it does
 
-The first workflow is an **AI and ADMT risk assessment**, built on the nine content elements of CPPA regulation section 7152:
+The first workflow is an **AI and ADMT risk assessment**, built on the nine content elements of section 7152 of the CCPA Regulations:
 
 1. A business owner submits a project through a short, branching intake form.
 2. The rules engine decides which assessments and obligations apply, and the agent explains why, with citations.
