@@ -8,13 +8,14 @@ FACTS = {}
 
 def cond(c, depth=0):
     if "all" in c:
-        return "all of: " + "; ".join(cond(x, depth + 1) for x in c["all"])
+        lead = "both of" if len(c["all"]) == 2 else "all of"
+        return f"{lead}: " + "; and ".join(cond(x, depth + 1) for x in c["all"])
     if "any" in c:
         same = {x.get("fact") for x in c["any"]}
         if len(same) == 1 and None not in same and all("contains" in x for x in c["any"]):
             f = FACTS.get(c["any"][0]["fact"], c["any"][0]["fact"])
             return f"{f} includes any of [{', '.join(x['contains'] for x in c['any'])}]"
-        return "any of (" + " / ".join(cond(x, depth + 1) for x in c["any"]) + ")"
+        return "at least one of: (" + ", or ".join(cond(x, depth + 1) for x in c["any"]) + ")"
     if "not" in c:
         return "NOT " + cond(c["not"], depth + 1)
     f = FACTS.get(c["fact"], c["fact"])
