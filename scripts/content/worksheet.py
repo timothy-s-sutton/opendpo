@@ -1,9 +1,11 @@
 """Render a pack as a verification worksheet (markdown): rules in plain English, then provisions."""
 import sys
+from pathlib import Path
 
 import yaml
 
 FACTS = {}
+SHORT = "--ids" in sys.argv  # name questions by id in rule conditions; their text is in the Questions section
 
 
 def cond(c, depth=0):
@@ -38,6 +40,17 @@ INTROS = {
     "(as amended by AB 1170, effective January 1, 2026). Software copied the text; it was not retyped. Only the "
     "definitions the questions above rely on are included. Spot-check against the page shown and check each "
     "summary is fair.",
+    "us-co-sb26-189": "These provisions come from the signed act you supplied (SB 26-189, approved May 14, 2026). "
+    "That PDF is a scan, so its text layer is OCR. Software copied the OCR text, not retyped, then applied only the "
+    "listed corrections where OCR split or merged words or misread a paragraph number; each provision shows the "
+    "corrections made to it. Check those against the page image. Capital letters are kept as printed (in the act "
+    "they mark new statutory text). Only the provisions the rules and questions use are included; sections 1704(5)-(7) "
+    "and (9), 1705(2)-(3), 1706, 1707, 1708(3)(c)-(6) and 1709 are not.",
+    "us-nyc-ll144": "These provisions come from the two PDFs you supplied: the Council's legislation text of "
+    "Int. No. 1894-A (Local Law 144 of 2021) and DCWP's notice of adoption of 6 RCNY §§ 5-300 to 5-304. Both have real "
+    "text layers; software copied the text, not retyped. Legistar repeats each page's last line at the top of the next "
+    "page, and the copy drops the repeat. The DCWP rule's worked examples and tables are left out. Spot-check against "
+    "the page shown and check each summary is fair.",
 }
 
 
@@ -49,7 +62,7 @@ def main(path):
         if "set_fact" in r["result"]:
             derived.setdefault(r["result"]["set_fact"], []).append(r["id"])
     for f in facts.values():
-        FACTS[f["id"]] = f"“{f['question'].rstrip('?')}”"
+        FACTS[f["id"]] = f"`{f['id']}`" if SHORT else f"“{f['question'].rstrip('?')}”"
     for fid, rids in derived.items():
         FACTS[fid] = f"{fid} (from {' or '.join(rids)})"
 
@@ -68,7 +81,8 @@ def main(path):
         return out
     out = [] if not p.get("rules") else ["## Rules: is the reading of the law correct?", "",
            "Tick a rule when its conditions and conclusion correctly apply the provisions it cites. "
-           "Comment on anything you would change; I will update the rule and ask again.", ""]
+           "Comment on anything you would change; I will update the rule and ask again."
+           + (" Conditions name questions by id; each question's full text is in the Questions section." if SHORT else ""), ""]
     for r in p.get("rules", []):
         out += [f"### {r['id']}: {r['title']}", "",
                 f"- **Fires when:** {cond(r['when'])}",
@@ -94,14 +108,18 @@ def main(path):
     intro = INTROS.get(p["id"], "The text was copied by software from the source PDF, not retyped. "
                        "Spot-check against the page shown and check each summary is fair.")
     out += [f"## {'Provisions' if p.get('rules') else p['title']}: does the quoted text match the source?", "", intro, ""]
+    side = Path(path).with_name("ocr-corrections.yaml")
+    fixes = (yaml.safe_load(side.read_text(encoding="utf-8")) or {}) if side.is_file() else {}
     for pr in p["provisions"]:
         out += [f"### {pr['citation']}", "",
                 f"{pr['location']} · ID `{pr['id']}`", "",
-                f"> {pr['text']}", "",
-                f"**OpenDPO summary:** {pr['summary']}", "",
+                f"> {pr['text']}", ""]
+        if pr["id"] in fixes:
+            out += ["**OCR corrections:** " + "; ".join(f"“{c['scanned']}” → “{c['printed']}”" for c in fixes[pr["id"]]), ""]
+        out += [f"**OpenDPO summary:** {pr['summary']}", "",
                 f"- [ ] Text matches the source and the summary is fair ({pr['id']})", ""]
     print("\n".join(out))
 
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    main(next(a for a in sys.argv[1:] if not a.startswith("--")))

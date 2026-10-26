@@ -1,0 +1,574 @@
+id: us-nyc-ll144
+title: 'New York City Local Law 144 of 2021 and DCWP rules: automated employment decision tools'
+jurisdiction: US-NY
+version: 0.1.0
+lifecycle: effective
+as_of: '2026-10-26'
+sources:
+- id: nyc-ll144-2021
+  title: Local Law 144 of 2021 (Int. No. 1894-A), enacted text, Admin. Code §§ 20-870 to 20-874
+  publisher: New York City Council
+  primary: true
+  retrieved_on: '2026-10-26'
+  url: https://legistar.council.nyc.gov/LegislationDetail.aspx?ID=4344524&GUID=B051915D-A9AC-451E-81F8-6596032FA3F9
+- id: nyc-dcwp-aedt-rule
+  title: Notice of Adoption of Final Rule, Use of Automated Employment Decisionmaking Tools (6 RCNY §§ 5-300 to
+    5-304)
+  publisher: New York City Department of Consumer and Worker Protection
+  primary: true
+  retrieved_on: '2026-10-26'
+  url: https://rules.cityofnewyork.us/wp-content/uploads/2023/04/DCWP-NOA-for-Use-of-Automated-Employment-Decisionmaking-Tools-2.pdf
+provisions:
+- id: nyc-20-870-aedt
+  citation: N.Y.C. Admin. Code § 20-870 (automated employment decision tool)
+  source: nyc-ll144-2021
+  location: Legislation text, p. 1
+  effective_from: '2023-01-01'
+  text: Automated employment decision tool. The term “automated employment decision tool” means any computational
+    process, derived from machine learning, statistical modeling, data analytics, or artificial intelligence, that
+    issues simplified output, including a score, classification, or recommendation, that is used to substantially
+    assist or replace discretionary decision making for making employment decisions that impact natural persons.
+    The term “automated employment decision tool” does not include a tool that does not automate, support, substantially
+    assist or replace discretionary decision-making processes and that does not materially impact natural persons,
+    including, but not limited to, a junk email filter, firewall, antivirus software, calculator, spreadsheet, database,
+    data set, or other compilation of data.
+  summary: An AEDT is a computational process derived from machine learning, statistical modeling, data analytics
+    or artificial intelligence that issues simplified output, such as a score, classification or recommendation,
+    used to substantially assist or replace discretionary decision making for employment decisions. Tools that do
+    not do that, such as spam filters, firewalls, spreadsheets and databases, are excluded.
+- id: nyc-20-870-bias-audit
+  citation: N.Y.C. Admin. Code § 20-870 (bias audit)
+  source: nyc-ll144-2021
+  location: Legislation text, pp. 1-2
+  effective_from: '2023-01-01'
+  text: Bias audit. The term “bias audit” means an impartial evaluation by an independent auditor. Such bias audit
+    shall include but not be limited to the testing of an automated employment decision tool to assess the tool’s
+    disparate impact on persons of any component 1 category required to be reported by employers pursuant to subsection
+    (c) of section 2000e-8 of title 42 of the United States code as specified in part 1602.7 of title 29 of the
+    code of federal regulations.
+  summary: A bias audit is an impartial evaluation by an independent auditor that tests the tool's disparate impact
+    on the EEO-1 component 1 categories (sex and race/ethnicity).
+- id: nyc-20-870-employment-decision
+  citation: N.Y.C. Admin. Code § 20-870 (employment decision)
+  source: nyc-ll144-2021
+  location: Legislation text, p. 2
+  effective_from: '2023-01-01'
+  text: Employment decision. The term “employment decision” means to screen candidates for employment or employees
+    for promotion within the city.
+  summary: An employment decision means screening candidates for employment, or employees for promotion, within
+    the city.
+- id: nyc-20-871-a
+  citation: N.Y.C. Admin. Code § 20-871(a)
+  source: nyc-ll144-2021
+  location: Legislation text, p. 2
+  effective_from: '2023-01-01'
+  text: '§ 20-871 Requirements for automated employment decision tools. a. In the city, it shall be unlawful for
+    an employer or an employment agency to use an automated employment decision tool to screen a candidate or employee
+    for an employment decision unless: 1. Such tool has been the subject of a bias audit conducted no more than
+    one year prior to the use of such tool; and 2. A summary of the results of the most recent bias audit of such
+    tool as well as the distribution date of the tool to which such audit applies has been made publicly available
+    on the website of the employer or employment agency prior to the use of such tool.'
+  summary: An employer or employment agency may not use an AEDT to screen for an employment decision in the city
+    unless the tool had a bias audit within the past year and a summary of the latest audit and the tool's distribution
+    date are public on its website before use.
+- id: nyc-20-871-b-1-2
+  citation: N.Y.C. Admin. Code § 20-871(b)(1)-(2)
+  source: nyc-ll144-2021
+  location: Legislation text, p. 2
+  effective_from: '2023-01-01'
+  text: 'b. Notices required. In the city, any employer or employment agency that uses an automated employment decision
+    tool to screen an employee or a candidate who has applied for a position for an employment decision shall notify
+    each such employee or candidate who resides in the city of the following: 1. That an automated employment decision
+    tool will be used in connection with the assessment or evaluation of such employee or candidate that resides
+    in the city. Such notice shall be made no less than ten business days before such use and allow a candidate
+    to request an alternative selection process or accommodation; 2. The job qualifications and characteristics
+    that such automated employment decision tool will use in the assessment of such candidate or employee. Such
+    notice shall be made no less than 10 business days before such use; and'
+  summary: Candidates and employees who live in the city must be told at least ten business days before use that
+    an AEDT will be used and which job qualifications and characteristics it will assess, and must be allowed to
+    request an alternative selection process or accommodation.
+- id: nyc-20-871-b-3
+  citation: N.Y.C. Admin. Code § 20-871(b)(3)
+  source: nyc-ll144-2021
+  location: Legislation text, pp. 2-3
+  effective_from: '2023-01-01'
+  text: 3. If not disclosed on the employer or employment agency’s website, information about the type of data collected
+    for the automated employment decision tool, the source of such data and the employer or employment agency’s
+    data retention policy shall be available upon written request by a candidate or employee. Such information shall
+    be provided within 30 days of the written request. Information pursuant to this section shall not be disclosed
+    where such disclosure would violate local, state, or federal law, or interfere with a law enforcement investigation.
+  summary: If not on the website, the type and source of data the AEDT collects and the data retention policy must
+    be given within 30 days of a written request, unless disclosure would violate law or interfere with a law enforcement
+    investigation.
+- id: nyc-20-872
+  citation: N.Y.C. Admin. Code § 20-872
+  source: nyc-ll144-2021
+  location: Legislation text, p. 3
+  effective_from: '2023-01-01'
+  text: § 20-872 Penalties. a. Any person that violates any provision of this subchapter or any rule promulgated
+    pursuant to this subchapter is liable for a civil penalty of not more than $500 for a first violation and each
+    additional violation occurring on the same day as the first violation, and not less than $500 nor more than
+    $1,500 for each subsequent violation. b. Each day on which an automated employment decision tool is used in
+    violation of this section shall give rise to a separate violation of subdivision a of section 20-871. c. Failure
+    to provide any notice to a candidate or an employee in violation of paragraphs 1, 2 or 3 of subdivision b of
+    section 20-871 shall constitute a separate violation. d. A proceeding to recover any civil penalty authorized
+    by this subchapter is returnable to any tribunal established within the office of administrative trials and
+    hearings or within any agency of the city designated to conduct such proceedings.
+  summary: Civil penalties are up to $500 for a first violation and $500 to $1,500 for each later one. Each day
+    of use in violation and each missed notice is a separate violation.
+- id: nyc-5-300-aedt
+  citation: 6 RCNY § 5-300 (automated employment decision tool)
+  source: nyc-dcwp-aedt-rule
+  location: Notice of adoption, p. 3
+  text: 'Automated Employment Decision Tool. “Automated employment decision tool” or “AEDT” means “Automated employment
+    decision tool” as defined by § 20-870 of the Code where the phrase “to substantially assist or replace discretionary
+    decision making” means: i. to rely solely on a simplified output (score, tag, classification, ranking, etc.),
+    with no other factors considered; or ii. to use a simplified output as one of a set of criteria where the simplified
+    output is weighted more than any other criterion in the set; or iii. to use a simplified output to overrule
+    conclusions derived from other factors including human decision-making.'
+  summary: For the AEDT definition, substantially assisting or replacing discretionary decision making means relying
+    solely on a simplified output, weighting it more than any other criterion, or using it to overrule conclusions
+    from other factors, including human decision-making.
+- id: nyc-5-300-candidate
+  citation: 6 RCNY § 5-300 (candidate for employment)
+  source: nyc-dcwp-aedt-rule
+  location: Notice of adoption, p. 3
+  text: Candidate for Employment. “Candidate for employment” means a person who has applied for a specific employment
+    position by submitting the necessary information or items in the format required by the employer or employment
+    agency.
+  summary: A candidate for employment is a person who has applied for a specific position by submitting what the
+    employer or agency requires.
+- id: nyc-5-300-category
+  citation: 6 RCNY § 5-300 (category)
+  source: nyc-dcwp-aedt-rule
+  location: Notice of adoption, p. 3
+  text: Category. “Category” means any component 1 category required to be reported by employers pursuant to subsection
+    (c) of section 2000e-8 of title 42 of the United States Code as specified in part 1602.7 of title 29 of the
+    Code of Federal Regulations, as designated on the Equal Employment Opportunity Commission Employer Information
+    Report EEO-1.
+  summary: Categories are the EEO-1 component 1 categories employers report to the EEOC.
+- id: nyc-5-300-distribution-date
+  citation: 6 RCNY § 5-300 (distribution date)
+  source: nyc-dcwp-aedt-rule
+  location: Notice of adoption, p. 3
+  text: Distribution Date. “Distribution date” means the date the employer or employment agency began using a specific
+    AEDT.
+  summary: The distribution date is the date the employer or agency began using a specific AEDT.
+- id: nyc-5-300-independent-auditor
+  citation: 6 RCNY § 5-300 (independent auditor)
+  source: nyc-dcwp-aedt-rule
+  location: Notice of adoption, pp. 3-4
+  text: 'Independent Auditor. “Independent auditor” means a person or group that is capable of exercising objective
+    and impartial judgment on all issues within the scope of a bias audit of an AEDT. An auditor is not an independent
+    auditor of an AEDT if the auditor: i. is or was involved in using, developing, or distributing the AEDT; ii.
+    at any point during the bias audit, has an employment relationship with an employer or employment agency that
+    seeks to use or continue to use the AEDT or with a vendor that developed or distributes the AEDT; or iii. at
+    any point during the bias audit, has a direct financial interest or a material indirect financial interest in
+    an employer or employment agency that seeks to use or continue to use the AEDT or in a vendor that developed
+    or distributed the AEDT.'
+  summary: An independent auditor can exercise objective, impartial judgment and has not been involved in using,
+    developing or distributing the AEDT, and during the audit has no employment relationship or financial interest
+    in the employer, agency or vendor.
+- id: nyc-5-300-impact-ratio
+  citation: 6 RCNY § 5-300 (impact ratio)
+  source: nyc-dcwp-aedt-rule
+  location: Notice of adoption, p. 4
+  text: Impact Ratio. “Impact ratio” means either (1) the selection rate for a category divided by the selection
+    rate of the most selected category or (2) the scoring rate for a category divided by the scoring rate for the
+    highest scoring category.
+  summary: The impact ratio is a category's selection rate divided by the most selected category's, or its scoring
+    rate divided by the highest scoring category's. The rule's displayed formulas are omitted; they restate this
+    text.
+- id: nyc-5-300-ml
+  citation: 6 RCNY § 5-300 (machine learning, statistical modeling, data analytics, or artificial intelligence)
+  source: nyc-dcwp-aedt-rule
+  location: Notice of adoption, p. 4
+  text: 'Machine learning, statistical modeling, data analytics, or artificial intelligence. “Machine learning,
+    statistical modeling, data analytics, or artificial intelligence” means a group of mathematical, computer-based
+    techniques: i. that generate a prediction, meaning an expected outcome for an observation, such as an assessment
+    of a candidate’s fit or likelihood of success, or that generate a classification, meaning an assignment of an
+    observation to a group, such as categorizations based on skill sets or aptitude; and ii. for which a computer
+    at least in part identifies the inputs, the relative importance placed on those inputs, and, if applicable,
+    other parameters for the models in order to improve the accuracy of the prediction or classification.'
+  summary: The phrase means computer-based techniques that generate a prediction or classification and for which
+    a computer at least in part identifies the inputs, their relative importance, or other model parameters.
+- id: nyc-5-300-scoring-rate
+  citation: 6 RCNY § 5-300 (scoring rate)
+  source: nyc-dcwp-aedt-rule
+  location: Notice of adoption, p. 4
+  text: Scoring Rate. “Scoring Rate” means the rate at which individuals in a category receive a score above the
+    sample’s median score, where the score has been calculated by an AEDT.
+  summary: The scoring rate is the rate at which people in a category score above the sample's median AEDT score.
+- id: nyc-5-300-screen
+  citation: 6 RCNY § 5-300 (screen)
+  source: nyc-dcwp-aedt-rule
+  location: Notice of adoption, p. 4
+  text: Screen. “Screen” means to make a determination about whether a candidate for employment or employee being
+    considered for promotion should be selected or advanced in the hiring or promotion process.
+  summary: To screen is to decide whether a candidate, or an employee being considered for promotion, should be
+    selected or advanced in the hiring or promotion process.
+- id: nyc-5-300-selection-rate
+  citation: 6 RCNY § 5-300 (selection rate)
+  source: nyc-dcwp-aedt-rule
+  location: Notice of adoption, p. 4
+  text: Selection Rate. “Selection rate” means the rate at which individuals in a category are either selected to
+    move forward in the hiring process or assigned a classification by an AEDT. Such rate may be calculated by dividing
+    the number of individuals in the category moving forward or assigned a classification by the total number of
+    individuals in the category who applied for a position or were considered for promotion.
+  summary: The selection rate is the rate at which people in a category move forward or are assigned a classification
+    by the AEDT. The rule's worked example is omitted.
+- id: nyc-5-300-simplified-output
+  citation: 6 RCNY § 5-300 (simplified output)
+  source: nyc-dcwp-aedt-rule
+  location: Notice of adoption, p. 4
+  text: Simplified output. “Simplified output” means a prediction or classification as specified in the definition
+    for “machine learning, statistical modelling, data analytics, or artificial intelligence.” A simplified output
+    may take the form of a score (e.g., rating a candidate’s estimated technical skills), tag or categorization
+    (e.g., categorizing a candidate’s resume based on key words, assigning a skill or trait to a candidate), recommendation
+    (e.g., whether a candidate should be given an interview), or ranking (e.g., arranging a list of candidates based
+    on how well their cover letters match the job description). It does not refer to the output from analytical
+    tools that translate or transcribe existing text, e.g., convert a resume from a PDF or transcribe a video or
+    audio interview.
+  summary: Simplified output is a prediction or classification, such as a score, tag, recommendation or ranking.
+    Output from tools that only translate or transcribe, such as converting a resume from PDF, is not.
+- id: nyc-5-301-a
+  citation: 6 RCNY § 5-301(a)
+  source: nyc-dcwp-aedt-rule
+  location: Notice of adoption, p. 5
+  text: (a) An employer or employment agency may not use or continue to use an AEDT if more than one year has passed
+    since the most recent bias audit of the AEDT.
+  summary: An AEDT may not be used if more than a year has passed since its most recent bias audit.
+- id: nyc-5-301-b
+  citation: 6 RCNY § 5-301(b)
+  source: nyc-dcwp-aedt-rule
+  location: Notice of adoption, p. 5
+  text: '(b) Where an AEDT selects candidates for employment or employees being considered for promotion to move
+    forward in the hiring process or classifies them into groups, a bias audit must, at a minimum: (1) Calculate
+    the selection rate for each category; (2) Calculate the impact ratio for each category; (3) Ensure that the
+    calculations required in paragraphs (1) and (2) of this subdivision separately calculate the impact of the AEDT
+    on: i. Sex categories (e.g., impact ratio for selection of male candidates vs female candidates), ii. Race/Ethnicity
+    categories (e.g., impact ratio for selection of Hispanic or Latino candidates vs Black or African American [Not
+    Hispanic or Latino] candidates), and iii. intersectional categories of sex, ethnicity, and race (e.g., impact
+    ratio for selection of Hispanic or Latino male candidates vs. Not Hispanic or Latino Black or African American
+    female candidates). (4) Ensure that the calculations in paragraphs (1), (2), and (3) of this subdivision are
+    performed for each group, if an AEDT classifies candidates for employment or employees being considered for
+    promotion into specified groups (e.g., leadership styles); and (5) Indicate the number of individuals the AEDT
+    assessed that are not included in the required calculations because they fall within an unknown category.'
+  summary: Where the AEDT selects or classifies people, the audit must calculate selection rates and impact ratios
+    for sex, race/ethnicity and intersectional categories, for each classification group, and report how many people
+    were left out as unknown. The rule's example and tables are omitted.
+- id: nyc-5-301-c
+  citation: 6 RCNY § 5-301(c)
+  source: nyc-dcwp-aedt-rule
+  location: Notice of adoption, pp. 6-7
+  text: '(c) Where an AEDT scores candidates for employment or employees being considered for promotion, a bias
+    audit must, at a minimum: (1) Calculate the median score for the full sample of applicants; (2) Calculate the
+    scoring rate for individuals in each category; (3) Calculate the impact ratio for each category; (4) Ensure
+    that the calculations required in paragraphs (1), (2), and (3) of this subdivision separately calculate the
+    impact of the AEDT on: i. Sex categories (i.e., impact ratio for selection of male candidates vs female candidates),
+    ii. Race/Ethnicity categories (e.g., impact ratio for selection of Hispanic or Latino candidates vs Black or
+    African American [Not Hispanic or Latino] candidates), and iii. intersectional categories of sex, ethnicity,
+    and race (e.g., impact ratio for selection of Hispanic or Latino male candidates vs. Not Hispanic or Latino
+    Black or African American female candidates); and (5) Indicate the number of individuals the AEDT assessed that
+    are not included in the required calculations because they fall within an unknown category.'
+  summary: Where the AEDT scores people, the audit must calculate the median score, scoring rates and impact ratios
+    for sex, race/ethnicity and intersectional categories, and report how many people were left out as unknown.
+- id: nyc-5-301-d
+  citation: 6 RCNY § 5-301(d)
+  source: nyc-dcwp-aedt-rule
+  location: Notice of adoption, p. 7
+  text: (d) Notwithstanding the requirements of paragraphs (2) and (3) of subdivision (b) and paragraphs (3) and
+    (4) of subdivision (c), an independent auditor may exclude a category that represents less than 2% of the data
+    being used for the bias audit from the required calculations for impact ratio. Where such a category is excluded,
+    the summary of results must include the independent auditor’s justification for the exclusion, as well as the
+    number of applicants and scoring rate or selection rate for the excluded category.
+  summary: The auditor may exclude a category under 2% of the audit data from impact ratios, but the summary must
+    justify it and still give that category's count and rate. The rule's example and tables are omitted.
+- id: nyc-5-302
+  citation: 6 RCNY § 5-302(a)-(b)
+  source: nyc-dcwp-aedt-rule
+  location: Notice of adoption, p. 8
+  text: '(a) Historical Data. A bias audit conducted pursuant to section 5-301 of this Chapter must use historical
+    data of the AEDT. The historical data used to conduct a bias audit may be from one or more employers or employment
+    agencies that use the AEDT. However, an individual employer or employment agency may rely on a bias audit of
+    an AEDT that uses the historical data of other employers or employment agencies only in the following circumstances:
+    if such employer or employment agency provided historical data from its own use of the AEDT to the independent
+    auditor conducting the bias audit or if such employer or employment agency has never used the AEDT. (b) Test
+    Data. Notwithstanding the requirements of subdivision (a) of this section, an employer or employment agency
+    may rely on a bias audit that uses test data if insufficient historical data is available to conduct a statistically
+    significant bias audit. If a bias audit uses test data, the summary of results of the bias audit must explain
+    why historical data was not used and describe how the test data used was generated and obtained.'
+  summary: Audits must use historical data, which may pool several employers; an employer may rely on a pooled audit
+    only if it contributed its own data or has never used the tool. Test data is allowed when historical data is
+    insufficient, and the summary must explain why and how it was made. The rule's examples are omitted.
+- id: nyc-5-303
+  citation: 6 RCNY § 5-303
+  source: nyc-dcwp-aedt-rule
+  location: Notice of adoption, p. 9
+  text: '§ 5-303 Published Results. (a) Before the use of an AEDT, an employer or employment agency in the city
+    must make the following publicly available on the employment section of their website in a clear and conspicuous
+    manner: (1) The date of the most recent bias audit of the AEDT and a summary of the results, which shall include
+    the source and explanation of the data used to conduct the bias audit, the number of individuals the AEDT assessed
+    that fall within an unknown category, and the number of applicants or candidates, the selection or scoring rates,
+    as applicable, and the impact ratios for all categories; and, (2) The distribution date of the AEDT. (b) The
+    requirements of subdivision (a) of this section may be met with an active hyperlink to a website containing
+    the required summary of results and distribution date, provided that the link is clearly identified as a link
+    to results of the bias audit. (c) An employer or employment agency must keep the summary of results and distribution
+    date posted for at least 6 months after its latest use of the AEDT for an employment decision.'
+  summary: Before use, publish clearly on the careers website the date and summary of the latest bias audit (data
+    source, unknown-category count, applicant counts, rates and impact ratios for all categories) and the distribution
+    date. A clearly labeled link works. Keep it posted for six months after last use.
+- id: nyc-5-304-a-c
+  citation: 6 RCNY § 5-304(a)-(c)
+  source: nyc-dcwp-aedt-rule
+  location: Notice of adoption, pp. 9-10
+  text: '§ 5-304 Notice to Candidates and Employees. (a) The notice required by § 20-871(b)(1) of the Code must
+    include instructions for how an individual can request an alternative selection process or a reasonable accommodation
+    under other laws, if available. Nothing in this subchapter requires an employer or employment agency to provide
+    an alternative selection process. (b) To comply with § 20-871(b)(1) and (2) of the Code, an employer or employment
+    agency may provide notice to a candidate for employment who resides in the city by doing any of the following:
+    (1) Provide notice on the employment section of its website in a clear and conspicuous manner at least 10 business
+    days before use of an AEDT; (2) Provide notice in a job posting at least 10 business days before use of an AEDT;
+    or, (3) Provide notice to candidates for employment via U.S. mail or e-mail at least 10 business days before
+    use of an AEDT. (c) To comply with § 20-871(b)(1) and (2) of the Code, an employer or employment agency may
+    provide notice to an employee being considered for promotion who resides in the city by doing any of the following:
+    (1) Provide notice in a written policy or procedure that is provided to employees at least 10 business days
+    before use of an AEDT; (2) Provide notice in a job posting at least 10 business days before use of an AEDT;
+    or, (3) Provide notice via U.S. mail or e-mail at least 10 business days before use of an AEDT.'
+  summary: The notice must say how to request an alternative selection process or accommodation. Candidates can
+    be notified on the careers website, in the job posting, or by mail or email; employees in a written policy,
+    a posting, or by mail or email; in each case at least ten business days before use.
+- id: nyc-5-304-d
+  citation: 6 RCNY § 5-304(d)
+  source: nyc-dcwp-aedt-rule
+  location: Notice of adoption, p. 10
+  text: '(d) To comply with § 20-871(b)(3) of the Code, an employer or employment agency must: (1) Provide information
+    on the employment section of its website in a clear and conspicuous manner about its AEDT data retention policy,
+    the type of data collected for the AEDT, and the source of the data; (2) Post instructions on the employment
+    section of its website in a clear and conspicuous manner for how to make a written request for such information,
+    and if a written request is received, provide such information within 30 days; and (3) Provide an explanation
+    to a candidate for employment or employee being considered for promotion why disclosure of such information
+    would violate local, state, or federal law, or interfere with a law enforcement investigation.'
+  summary: Post the AEDT data retention policy, the type and source of data collected, and how to request them in
+    writing; answer written requests within 30 days; and explain any refusal based on law or an investigation.
+facts:
+- id: nyc.scope.employer_or_agency
+  question: Is the organization an employer or employment agency that uses, or plans to use, the tool to screen
+    candidates or employees for an employment decision in New York City?
+  type: boolean
+  asked_in: scoping
+  defined_by:
+  - nyc-20-871-a
+  - nyc-20-870-employment-decision
+- id: nyc.tool.ml_derived
+  question: Is the tool a computational process derived from machine learning, statistical modeling, data analytics
+    or artificial intelligence, meaning computer-based techniques that generate a prediction or classification and
+    for which a computer at least in part identifies the inputs, their relative importance or other model parameters?
+  type: boolean
+  defined_by:
+  - nyc-20-870-aedt
+  - nyc-5-300-ml
+- id: nyc.tool.simplified_output
+  question: Does the tool issue simplified output, such as a score, tag or categorization, recommendation or ranking,
+    rather than only translating or transcribing existing text?
+  type: boolean
+  defined_by:
+  - nyc-20-870-aedt
+  - nyc-5-300-simplified-output
+- id: nyc.tool.output_use
+  question: How is the tool's output used in the decision?
+  type: choice
+  options:
+  - value: sole
+    label: Relied on solely, with no other factors considered
+  - value: weighted_most
+    label: One of a set of criteria, weighted more than any other criterion
+  - value: overrules
+    label: Used to overrule conclusions from other factors, including human decision-making
+  - value: other
+    label: None of these
+  defined_by:
+  - nyc-5-300-aedt
+- id: nyc.tool.screens
+  question: Is the tool used to screen, that is, to decide whether candidates for employment, or employees being
+    considered for promotion within the city, should be selected or advanced in the hiring or promotion process?
+  type: boolean
+  defined_by:
+  - nyc-20-870-employment-decision
+  - nyc-5-300-screen
+  - nyc-5-300-candidate
+- id: nyc.tool.output_kinds
+  question: What does the tool do with the people it assesses?
+  type: multichoice
+  options:
+  - value: selects_or_classifies
+    label: Selects them to move forward or classifies them into groups
+  - value: scores
+    label: Scores them
+  defined_by:
+  - nyc-5-301-b
+  - nyc-5-301-c
+- id: nyc.subjects.city_residents
+  question: Do any of the candidates or employees the tool screens reside in New York City?
+  type: boolean
+  defined_by:
+  - nyc-20-871-b-1-2
+rules:
+- id: NYC-CLASS-AEDT
+  kind: classification
+  title: The tool is an automated employment decision tool
+  provisions:
+  - nyc-20-870-aedt
+  - nyc-5-300-aedt
+  when:
+    all:
+    - fact: nyc.tool.ml_derived
+      equals: true
+    - fact: nyc.tool.simplified_output
+      equals: true
+    - fact: nyc.tool.output_use
+      in:
+      - sole
+      - weighted_most
+      - overrules
+  result:
+    set_fact: nyc.aedt
+    value: true
+  explanation: The tool is derived from machine learning, statistical modeling, data analytics or AI, issues simplified
+    output, and that output is relied on solely, weighted most, or used to overrule other factors. That is substantially
+    assisting or replacing discretionary decision making under the DCWP rule.
+- id: NYC-BIAS-AUDIT
+  kind: obligation
+  title: Use the tool only with an independent bias audit less than a year old
+  provisions:
+  - nyc-20-871-a
+  - nyc-20-870-bias-audit
+  - nyc-5-301-a
+  - nyc-5-302
+  - nyc-5-300-independent-auditor
+  when:
+    all:
+    - fact: nyc.scope.employer_or_agency
+      equals: true
+    - fact: nyc.aedt
+      equals: true
+    - fact: nyc.tool.screens
+      equals: true
+  result:
+    obligation: nyc_bias_audit
+    max_age_months: 12
+  explanation: An AEDT may screen candidates or employees in the city only if an independent auditor completed a
+    bias audit of it within the past year, using historical data where enough exists.
+- id: NYC-BIAS-AUDIT-SELECTION
+  kind: obligation
+  title: 'Bias audit method: selection rates and impact ratios'
+  provisions:
+  - nyc-5-301-b
+  - nyc-5-301-d
+  - nyc-5-300-selection-rate
+  - nyc-5-300-impact-ratio
+  - nyc-5-300-category
+  when:
+    all:
+    - fact: nyc.scope.employer_or_agency
+      equals: true
+    - fact: nyc.aedt
+      equals: true
+    - fact: nyc.tool.screens
+      equals: true
+    - fact: nyc.tool.output_kinds
+      contains: selects_or_classifies
+  result:
+    obligation: nyc_bias_audit
+    audit_method: selection_rate
+  explanation: Because the tool selects or classifies people, its bias audit must calculate selection rates and
+    impact ratios by sex, race/ethnicity and intersectional category, for each classification group, and count those
+    left out as unknown.
+- id: NYC-BIAS-AUDIT-SCORING
+  kind: obligation
+  title: 'Bias audit method: scoring rates and impact ratios'
+  provisions:
+  - nyc-5-301-c
+  - nyc-5-301-d
+  - nyc-5-300-scoring-rate
+  - nyc-5-300-impact-ratio
+  - nyc-5-300-category
+  when:
+    all:
+    - fact: nyc.scope.employer_or_agency
+      equals: true
+    - fact: nyc.aedt
+      equals: true
+    - fact: nyc.tool.screens
+      equals: true
+    - fact: nyc.tool.output_kinds
+      contains: scores
+  result:
+    obligation: nyc_bias_audit
+    audit_method: scoring_rate
+  explanation: Because the tool scores people, its bias audit must calculate the median score, scoring rates and
+    impact ratios by sex, race/ethnicity and intersectional category, and count those left out as unknown.
+- id: NYC-PUBLISH-RESULTS
+  kind: obligation
+  title: Publish the bias audit summary and distribution date before use
+  provisions:
+  - nyc-20-871-a
+  - nyc-5-303
+  - nyc-5-300-distribution-date
+  when:
+    all:
+    - fact: nyc.scope.employer_or_agency
+      equals: true
+    - fact: nyc.aedt
+      equals: true
+    - fact: nyc.tool.screens
+      equals: true
+  result:
+    obligation: nyc_publish_audit_summary
+    keep_posted_months_after_last_use: 6
+  explanation: Before use, the date and summary of the latest bias audit and the tool's distribution date must be
+    clear and conspicuous on the careers section of the website, and stay posted for six months after the tool's
+    last use.
+- id: NYC-CANDIDATE-NOTICE
+  kind: obligation
+  title: Notify city-resident candidates and employees ten business days before use
+  provisions:
+  - nyc-20-871-b-1-2
+  - nyc-5-304-a-c
+  when:
+    all:
+    - fact: nyc.scope.employer_or_agency
+      equals: true
+    - fact: nyc.aedt
+      equals: true
+    - fact: nyc.tool.screens
+      equals: true
+    - fact: nyc.subjects.city_residents
+      equals: true
+  result:
+    obligation: nyc_candidate_notice
+    business_days_before_use: 10
+  explanation: Candidates and employees who live in the city must be told, at least ten business days before use,
+    that an AEDT will be used, which job qualifications and characteristics it assesses, and how to request an alternative
+    selection process or accommodation.
+- id: NYC-DATA-DISCLOSURE
+  kind: obligation
+  title: Disclose the tool's data sources and retention policy
+  provisions:
+  - nyc-20-871-b-3
+  - nyc-5-304-d
+  when:
+    all:
+    - fact: nyc.scope.employer_or_agency
+      equals: true
+    - fact: nyc.aedt
+      equals: true
+    - fact: nyc.tool.screens
+      equals: true
+    - fact: nyc.subjects.city_residents
+      equals: true
+  result:
+    obligation: nyc_data_disclosure
+    respond_within_days: 30
+  explanation: The careers website must describe the AEDT's data retention policy and the type and source of data
+    collected, and say how to request that information in writing; written requests are answered within 30 days.
