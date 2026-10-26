@@ -173,6 +173,7 @@ class Pack(Strict):
     lifecycle: Lifecycle
     as_of: date                   # USE-05
     supersedes: str | None = None
+    depends_on: list[str] = []    # packs whose provisions this pack's questions may cite as definitions
     sources: list[Source]
     provisions: list[Provision]
     facts: list[Fact] = []
@@ -201,8 +202,9 @@ class Pack(Strict):
         facts = {f.id: f for f in self.facts}
         for f in self.facts:
             missing = set(f.defined_by) - set(prov_ids)
-            if missing:
+            if missing and not self.depends_on:
                 raise ValueError(f"fact {f.id}: defined by unknown provisions {sorted(missing)}")
+            # with depends_on, the library checks these against the dependency packs
         derived = self.derived_facts()
         for r in self.rules:
             for leaf in r.when.leaves():
@@ -320,19 +322,43 @@ def load(directory: Path = CONTENT_DIR) -> Library:
         records = {v.provision: v for v in parsed if v.provision}
         rule_records = {v.rule: v for v in parsed if v.rule}
         fact_records = {v.fact: v for v in parsed if v.fact}
-        facts = {f.id: f for f in pack.facts}
         unknown = ((set(records) - {p.id for p in pack.provisions}) | (set(rule_records) - {r.id for r in pack.rules})
-                   | (set(fact_records) - set(facts)))
+                   | (set(fact_records) - {f.id for f in pack.facts}))
         if unknown:
-            raise ValueError(f"{vfile}: records for unknown provisions or rules {sorted(unknown)}")
-        sources = {s.id: s for s in pack.sources}
+            raise ValueError(f"{vfile}: records for unknown provisions, rules or facts {sorted(unknown)}")
+        packs.append(pack)
+        verifications[pack.id] = records
+        rule_verifications[pack.id] = rule_records
+        fact_verifications[pack.id] = fact_records
+
+    # Provision ids are unique across the library, so a definition can be cited from another pack.
+    by_id = {p.id: p for p in packs}
+    index: dict[str, tuple[Pack, Provision]] = {}
+    for pack in packs:
+        for prov in pack.provisions:
+            if prov.id in index:
+                raise ValueError(f"provision {prov.id} appears in both {index[prov.id][0].id} and {pack.id}")
+            index[prov.id] = (pack, prov)
+    for pack in packs:
+        for dep in pack.depends_on:
+            if dep not in by_id:
+                raise ValueError(f"pack {pack.id} depends on missing pack {dep}")
+        reachable = {pack.id, *pack.depends_on}
+        for f in pack.facts:
+            for pid in f.defined_by:
+                if pid not in index or index[pid][0].id not in reachable:
+                    raise ValueError(f"fact {f.id}: defined by unknown provision {pid}")
+
+    for pack in packs:
+        facts = {f.id: f for f in pack.facts}
+        fact_records = fact_verifications[pack.id]
         for rule in pack.rules:
             problems = []
             for pid in pack.citations(rule):
-                prov = next(p for p in pack.provisions if p.id == pid)
-                if not sources[prov.source].primary:
+                owner, prov = index[pid]
+                if not next(s for s in owner.sources if s.id == prov.source).primary:
                     problems.append(f"{pid} cites a secondary source; only primary text can be the citation of record")
-                issue = provision_status(prov, records.get(pid))
+                issue = provision_status(prov, verifications[owner.id].get(pid))
                 if issue:
                     problems.append(issue)
             for fid in sorted(rule.when.facts()):
@@ -347,16 +373,12 @@ def load(directory: Path = CONTENT_DIR) -> Library:
                     problems.append(f"question {fid} has not been checked against its definitions")
                 elif fr.fingerprint != f.fingerprint:
                     problems.append(f"question {fid} changed after it was checked on {fr.verified_on}; check it again")
-            rr = rule_records.get(rule.id)
+            rr = rule_verifications[pack.id].get(rule.id)
             if rr is None:
                 problems.append("the rule's reading of the law has not been verified")
             elif rr.fingerprint != rule.fingerprint:
                 problems.append(f"the rule's logic changed after it was verified on {rr.verified_on}; verify it again")
             statuses.append(RuleStatus(rule, pack, not problems, problems))
-        packs.append(pack)
-        verifications[pack.id] = records
-        rule_verifications[pack.id] = rule_records
-        fact_verifications[pack.id] = fact_records
     return Library(packs, verifications, statuses, rule_verifications, fact_verifications)
 
 

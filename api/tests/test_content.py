@@ -166,3 +166,27 @@ def test_pending_question_blocks_the_rule(tmp_path):
                                                  fact_record(pending)]))
     r1 = next(s for s in lib.statuses if s.rule.id == "R1")
     assert not r1.usable and "waits on a definition" in r1.problems[0]
+
+
+def test_definitions_can_come_from_a_dependency_pack(tmp_path):
+    statute = {"id": "statute", "title": "Statute", "jurisdiction": "US-CA", "version": "0.1.0",
+               "lifecycle": "effective", "as_of": "2026-10-26", "sources": [PACK["sources"][0]],
+               "provisions": [{"id": "s-def", "citation": "Code § 1(d)", "source": "reg",
+                               "text": "Business means a business.", "summary": "Definition."}]}
+    facts = [{**PACK["facts"][0], "defined_by": ["s-def"]}, PACK["facts"][1]]
+    regs = {**PACK, "depends_on": ["statute"], "facts": facts}
+    write(tmp_path, statute, [])
+    lib = content.load(write(tmp_path, regs, [record("A business shall assess."), rule_record(regs),
+                                              fact_record(regs)]))
+    r1 = next(s for s in lib.statuses if s.rule.id == "R1")
+    assert not r1.usable and "s-def has not been verified" in r1.problems[0]
+    write(tmp_path, statute, [{"provision": "s-def", "fingerprint": content.text_fingerprint("Business means a business."),
+                               "verified_by": "Tim Sutton", "verified_on": "2026-10-26"}])
+    lib = content.load(tmp_path)
+    assert next(s for s in lib.statuses if s.rule.id == "R1").usable
+
+
+def test_missing_dependency_pack_is_rejected(tmp_path):
+    regs = {**PACK, "depends_on": ["statute"], "facts": [{**PACK["facts"][0], "defined_by": ["s-def"]}, PACK["facts"][1]]}
+    with pytest.raises(ValueError, match="missing pack"):
+        content.load(write(tmp_path, regs, []))

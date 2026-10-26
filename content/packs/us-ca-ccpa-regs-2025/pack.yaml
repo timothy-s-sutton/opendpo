@@ -4,6 +4,8 @@ jurisdiction: US-CA
 version: 0.1.0
 lifecycle: effective
 as_of: '2026-10-19'
+depends_on:
+- us-ca-ccpa-statute
 sources:
 - id: ccpa-regs-consolidated-2026
   title: California Consumer Privacy Act Regulations, Title 11, Division 6, Chapter 1 (consolidated, effective
@@ -496,13 +498,19 @@ facts:
   question: Is the organization a "business" subject to the CCPA?
   type: boolean
   asked_in: scoping
-  pending: The "business" definition is in Civil Code section 1798.140(d), which is not yet in a pack.
-    Set by an analyst in scoping.
+  defined_by:
+  - ccpa-1798-140-d
+  - ccpa-1798-140-i
+  help: Set by an analyst in scoping from the elements of the definition, including the revenue, volume
+    and selling or sharing thresholds.
 - id: data.sells_or_shares
   question: Does the project sell or share personal information?
   type: boolean
-  pending: '"Sell" and "share" are defined in Civil Code section 1798.140(ad) and (ah), which are not
-    yet in a pack.'
+  defined_by:
+  - ccpa-1798-140-ad
+  - ccpa-1798-140-ah
+  - ccpa-1798-140-ai
+  - ccpa-1798-140-k
 - id: data.sensitive
   question: Does the project process sensitive personal information?
   type: boolean

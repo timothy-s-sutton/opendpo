@@ -1,0 +1,130 @@
+id: us-ca-ccpa-statute
+title: 'California Consumer Privacy Act: definitions (Civil Code section 1798.140)'
+jurisdiction: US-CA
+version: 0.1.0
+lifecycle: effective
+as_of: '2026-10-26'
+sources:
+- id: ca-civ-1798-140
+  title: California Civil Code section 1798.140 (as amended by Stats. 2025, Ch. 67, AB 1170)
+  publisher: California Legislative Information
+  primary: true
+  retrieved_on: '2026-10-26'
+  url: https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CIV&sectionNum=1798.140
+provisions:
+- id: ccpa-1798-140-d
+  citation: Cal. Civ. Code § 1798.140(d)
+  source: ca-civ-1798-140
+  location: Section 1798.140, p. 1
+  effective_from: '2026-01-01'
+  text: '(d) “Business” means: (1) A sole proprietorship, partnership, limited liability company, corporation, association,
+    or other legal entity that is organized or operated for the profit or financial benefit of its shareholders
+    or other owners, that collects consumers’ personal information, or on the behalf of which such information is
+    collected and that alone, or jointly with others, determines the purposes and means of the processing of consumers’
+    personal information, that does business in the State of California, and that satisfies one or more of the following
+    thresholds: (A) As of January 1 of the calendar year, had annual gross revenues in excess of twenty-five million
+    dollars ($25,000,000) in the preceding calendar year, as adjusted pursuant to subdivision (d) of Section 1798.199.95.
+    (B) Alone or in combination, annually buys, sells, or shares the personal information of 100,000 or more consumers
+    or households. (C) Derives 50 percent or more of its annual revenues from selling or sharing consumers’ personal
+    information. (2) Any entity that controls or is controlled by a business, as defined in paragraph (1), and that
+    shares common branding with the business and with whom the business shares consumers’ personal information.
+    “Control” or “controlled” means ownership of, or the power to vote, more than 50 percent of the outstanding
+    shares of any class of voting security of a business; control in any manner over the election of a majority
+    of the directors, or of individuals exercising similar functions; or the power to exercise a controlling influence
+    over the management of a company. “Common branding” means a shared name, servicemark, or trademark that the
+    average consumer would understand that two or more entities are commonly owned. (3) A joint venture or partnership
+    composed of businesses in which each business has at least a 40 percent interest. For purposes of this title,
+    the joint venture or partnership and each business that composes the joint venture or partnership shall separately
+    be considered a single business, except that personal information in the possession of each business and disclosed
+    to the joint venture or partnership shall not be shared with the other business. (4) A person that does business
+    in California, that is not covered by paragraph (1), (2), or (3), and that voluntarily certifies to the California
+    Privacy Protection Agency that it is in compliance with, and agrees to be bound by, this title.'
+  summary: 'A business is a for-profit entity that collects consumers'' personal information, determines why and
+    how it is processed, does business in California, and meets one threshold: more than $25 million in annual gross
+    revenue (as adjusted), buying, selling or sharing the personal information of 100,000 or more consumers or households
+    a year, or deriving half or more of its revenue from selling or sharing it. Commonly branded affiliates it controls,
+    qualifying joint ventures, and entities that voluntarily certify to the CPPA also count.'
+- id: ccpa-1798-140-i
+  citation: Cal. Civ. Code § 1798.140(i)
+  source: ca-civ-1798-140
+  location: Section 1798.140, p. 3
+  effective_from: '2026-01-01'
+  text: (i) “Consumer” means a natural person who is a California resident, as defined in Section 17014 of Title
+    18 of the California Code of Regulations, as that section read on September 1, 2017, however identified, including
+    by any unique identifier.
+  summary: A consumer is any natural person who is a California resident, however identified.
+- id: ccpa-1798-140-k
+  citation: Cal. Civ. Code § 1798.140(k)
+  source: ca-civ-1798-140
+  location: Section 1798.140, p. 4
+  effective_from: '2026-01-01'
+  text: (k) “Cross-context behavioral advertising” means the targeting of advertising to a consumer based on the
+    consumer’s personal information obtained from the consumer’s activity across businesses, distinctly branded
+    internet websites, applications, or services, other than the business, distinctly branded internet website,
+    application, or service with which the consumer intentionally interacts.
+  summary: Cross-context behavioral advertising is targeting ads to a consumer based on personal information from
+    their activity across other businesses' websites, apps or services.
+- id: ccpa-1798-140-ad
+  citation: Cal. Civ. Code § 1798.140(ad)
+  source: ca-civ-1798-140
+  location: Section 1798.140, p. 7
+  effective_from: '2026-01-01'
+  text: '(ad) (1) “Sell,” “selling,” “sale,” or “sold,’’ means selling, renting, releasing, disclosing, disseminating,
+    making available, transferring, or otherwise communicating orally, in writing, or by electronic or other means,
+    a consumer’s personal information by the business to a third party for monetary or other valuable consideration.
+    (2) For purposes of this title, a business does not sell personal information when: (A) A consumer uses or directs
+    the business to intentionally: (i) Disclose personal information. (ii) Interact with one or more third parties.
+    (B) The business uses or shares an identifier for a consumer who has opted out of the sale of the consumer’s
+    personal information or limited the use of the consumer’s sensitive personal information for the purposes of
+    alerting persons that the consumer has opted out of the sale of the consumer’s personal information or limited
+    the use of the consumer’s sensitive personal information. (C) The business transfers to a third party the personal
+    information of a consumer as an asset that is part of a merger, acquisition, bankruptcy, or other transaction
+    in which the third party assumes control of all or part of the business, provided that information is used or
+    shared consistently with this title. If a third party materially alters how it uses or shares the personal information
+    of a consumer in a manner that is materially inconsistent with the promises made at the time of collection,
+    it shall provide prior notice of the new or changed practice to the consumer. The notice shall be sufficiently
+    prominent and robust to ensure that existing consumers can easily exercise their choices consistently with this
+    title. This subparagraph does not authorize a business to make material, retroactive privacy policy changes
+    or make other changes in their privacy policy in a manner that would violate the Unfair and Deceptive Practices
+    Act (Chapter 5 (commencing with Section 17200) of Part 2 of Division 7 of the Business and Professions Code).'
+  summary: Selling is disclosing or making available a consumer's personal information to a third party for money
+    or other valuable consideration. It excludes disclosures the consumer directs, opt-out signals, and transfers
+    in a merger, acquisition or bankruptcy.
+- id: ccpa-1798-140-ah
+  citation: Cal. Civ. Code § 1798.140(ah)
+  source: ca-civ-1798-140
+  location: Section 1798.140, p. 9
+  effective_from: '2026-01-01'
+  text: '(ah) (1) “Share,” “shared,” or “sharing” means sharing, renting, releasing, disclosing, disseminating,
+    making available, transferring, or otherwise communicating orally, in writing, or by electronic or other means,
+    a consumer’s personal information by the business to a third party for cross-context behavioral advertising,
+    whether or not for monetary or other valuable consideration, including transactions between a business and a
+    third party for cross-context behavioral advertising for the benefit of a business in which no money is exchanged.
+    (2) For purposes of this title, a business does not share personal information when: (A) A consumer uses or
+    directs the business to intentionally disclose personal information or intentionally interact with one or more
+    third parties. (B) The business uses or shares an identifier for a consumer who has opted out of the sharing
+    of the consumer’s personal information or limited the use of the consumer’s sensitive personal information for
+    the purposes of alerting persons that the consumer has opted out of the sharing of the consumer’s personal information
+    or limited the use of the consumer’s sensitive personal information. (C) The business transfers to a third party
+    the personal information of a consumer as an asset that is part of a merger, acquisition, bankruptcy, or other
+    transaction in which the third party assumes control of all or part of the business, provided that information
+    is used or shared consistently with this title. If a third party materially alters how it uses or shares the
+    personal information of a consumer in a manner that is materially inconsistent with the promises made at the
+    time of collection, it shall provide prior notice of the new or changed practice to the consumer. The notice
+    shall be sufficiently prominent and robust to ensure that existing consumers can easily exercise their choices
+    consistently with this title. This subparagraph does not authorize a business to make material, retroactive
+    privacy policy changes or make other changes in their privacy policy in a manner that would violate the Unfair
+    and Deceptive Practices Act (Chapter 5 (commencing with Section 17200) of Part 2 of Division 7 of the Business
+    and Professions Code).'
+  summary: Sharing is disclosing or making available a consumer's personal information to a third party for cross-context
+    behavioral advertising, paid or not. It has the same exclusions as selling.
+- id: ccpa-1798-140-ai
+  citation: Cal. Civ. Code § 1798.140(ai)
+  source: ca-civ-1798-140
+  location: Section 1798.140, p. 10
+  effective_from: '2026-01-01'
+  text: '(ai) “Third party” means a person who is not any of the following: (1) The business with whom the consumer
+    intentionally interacts and that collects personal information from the consumer as part of the consumer’s current
+    interaction with the business under this title. (2) A service provider to the business. (3) A contractor.'
+  summary: A third party is anyone other than the business the consumer intentionally interacts with, its service
+    providers and its contractors.

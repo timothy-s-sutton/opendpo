@@ -29,11 +29,23 @@ def cond(c, depth=0):
     return f"{f} is at least {c['at_least']}"
 
 
+INTROS = {
+    "us-ca-ccpa-regs-2025": "The text was copied by software from the consolidated regulations PDF you supplied, "
+    "not retyped, and software confirmed every quote also appears in the approved rulemaking text, except § 7155(b), "
+    "where the consolidated text fills in OAL's effective date. Spot-check against the page shown and check each "
+    "summary is fair.",
+    "us-ca-ccpa-statute": "These definitions come from the authenticated Civil Code § 1798.140 PDF you supplied "
+    "(as amended by AB 1170, effective January 1, 2026). Software copied the text; it was not retyped. Only the "
+    "definitions the questions above rely on are included. Spot-check against the page shown and check each "
+    "summary is fair.",
+}
+
+
 def main(path):
     p = yaml.safe_load(open(path, encoding="utf-8"))
     facts = {f["id"]: f for f in p.get("facts", [])}
     derived = {}
-    for r in p["rules"]:
+    for r in p.get("rules", []):
         if "set_fact" in r["result"]:
             derived.setdefault(r["result"]["set_fact"], []).append(r["id"])
     for f in facts.values():
@@ -54,10 +66,10 @@ def main(path):
                 if pid not in out:
                     out.append(pid)
         return out
-    out = ["## Rules: is the reading of the law correct?", "",
+    out = [] if not p.get("rules") else ["## Rules: is the reading of the law correct?", "",
            "Tick a rule when its conditions and conclusion correctly apply the provisions it cites. "
            "Comment on anything you would change; I will update the rule and ask again.", ""]
-    for r in p["rules"]:
+    for r in p.get("rules", []):
         out += [f"### {r['id']}: {r['title']}", "",
                 f"- **Fires when:** {cond(r['when'])}",
                 f"- **Concludes:** `{yaml.safe_dump(r['result'], default_flow_style=True).strip()}`",
@@ -66,7 +78,7 @@ def main(path):
                    if len(citations(r)) > len(r['provisions']) else ""),
                 f"- **Explanation shown to users:** {r['explanation']}", "",
                 f"- [ ] Reading of the law is correct ({r['id']})", ""]
-    out += ["## Questions: does each question match the definition behind it?", "",
+    out += [] if not p.get("facts") else ["## Questions: does each question match the definition behind it?", "",
             "Rules only test these answers, so each question has to capture its definition faithfully. "
             "The definitions listed are shown beside the question in the app and cited in every explanation.", ""]
     for f in p.get("facts", []):
@@ -79,11 +91,9 @@ def main(path):
         if f.get("pending"):
             out.append(f"- **Pending:** {f['pending']}")
         out += ["", f"- [ ] Question captures its definition ({f['id']})", ""]
-    out += ["## Provisions: does the quoted text match the source?", "",
-            "The text was copied by software from the consolidated regulations PDF you supplied, not retyped, "
-            "and software confirmed every quote also appears in the approved rulemaking text, except § 7155(b), "
-            "where the consolidated text fills in OAL's effective date. Spot-check against the page shown and "
-            "check each summary is fair.", ""]
+    intro = INTROS.get(p["id"], "The text was copied by software from the source PDF, not retyped. "
+                       "Spot-check against the page shown and check each summary is fair.")
+    out += [f"## {'Provisions' if p.get('rules') else p['title']}: does the quoted text match the source?", "", intro, ""]
     for pr in p["provisions"]:
         out += [f"### {pr['citation']}", "",
                 f"{pr['location']} · ID `{pr['id']}`", "",
