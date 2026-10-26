@@ -223,8 +223,7 @@ provisions:
     reliability, predispositions, behavior, location, or movements, based upon systematic observation
     of that consumer when they are acting in their capacity as an educational program applicant, job applicant,
     student, employee, or independent contractor for the business.
-  summary: Automated inference about applicants, students, employees or contractors based on systematic
-    observation presents significant risk.
+  summary: "Using automated processing to infer or extrapolate the intelligence, ability, aptitude, performance at work, economic situation, health (including mental health), personal preferences, interests, reliability, predispositions, behavior, location or movements of an applicant, student, employee or contractor, based on systematic observation of them in that capacity, presents significant risk."
 - id: ccpa-7150-b-5
   citation: Cal. Code Regs. tit. 11, § 7150(b)(5)
   source: ccpa-regs-consolidated-2026
@@ -235,8 +234,7 @@ provisions:
     reliability, predispositions, behavior, or movements, based upon that consumer’s presence in a sensitive
     location. “Infer or extrapolate” does not include a business using a consumer’s personal information
     solely to deliver goods to, or provide transportation for, that consumer at a sensitive location.
-  summary: Automated inference based on a consumer's presence in a sensitive location presents significant
-    risk, except solely to deliver goods or provide transportation there.
+  summary: "Using automated processing to infer or extrapolate a consumer's intelligence, ability, aptitude, performance at work, economic situation, health (including mental health), personal preferences, interests, reliability, predispositions, behavior or movements, based on their presence in a sensitive location, presents significant risk. Using that presence solely to deliver goods or provide transportation there does not count."
 - id: ccpa-7150-b-6
   citation: Cal. Code Regs. tit. 11, § 7150(b)(6)
   source: ccpa-regs-consolidated-2026
