@@ -68,7 +68,7 @@ PROVISIONS = [
     ("7152-a-4", "7152(a)(4)", "(4)   Identify the benefits to the business", "(5)   Identify the negative impacts to consumers’ privacy",
      "Identify specific, non-generic benefits to the business, consumers, other stakeholders and the public."),
     ("7152-a-5", "7152(a)(5)", "(5)   Identify the negative impacts to consumers’ privacy", "(6)   Identify and document in a risk assessment report any safeguards",
-     "Identify negative impacts to consumers' privacy and their sources and causes; lists examples from security incidents to discrimination, economic, physical, reputational and psychological harms."),
+     "Identify the potential negative impacts to consumers' privacy associated with the processing, and their sources and causes. The regulation's examples are illustrative, not exhaustive: security incidents, unlawful discrimination, loss of control over personal information, coercion, and economic, physical, reputational and psychological harms."),
     ("7152-a-6", "7152(a)(6)", "(6)   Identify and document in a risk assessment report any safeguards", "(7)   Identify and document in a risk assessment report whether it will initiate",
      "Document planned safeguards, such as security controls, privacy-enhancing technologies, outside expertise, and policies ensuring ADMT works and does not discriminate."),
     ("7152-a-7-9", "7152(a)(7)-(9)", "(7)   Identify and document in a risk assessment report whether it will initiate", "Note: Authority cited",
