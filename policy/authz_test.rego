@@ -48,3 +48,13 @@ test_proposer_cannot_approve_policy if {
 test_unknown_action_denied if {
 	not authz.allow with input as {"actor": user(["dpo"]), "action": "made.up"}
 }
+
+test_only_analysts_and_dpo_ask_for_clarification if {
+	authz.allow with input as {"actor": user(["privacy_analyst"]), "action": "intake.clarify"}
+	authz.allow with input as {"actor": user(["dpo"]), "action": "intake.clarify"}
+	not authz.allow with input as {"actor": user(["submitter"]), "action": "intake.clarify"}
+}
+
+test_submitter_cannot_confirm_triage if {
+	not authz.allow with input as {"actor": user(["submitter"]), "action": "triage.confirm"}
+}

@@ -290,6 +290,10 @@ class Library:
         pack = next(p for p in self.packs if p.id == pack_id)
         return next(p for p in pack.provisions if p.id == provision_id)
 
+    def provision_index(self) -> dict[str, tuple[Pack, Provision]]:
+        """Provision id -> (owning pack, provision); ids are unique across the library."""
+        return {prov.id: (pack, prov) for pack in self.packs for prov in pack.provisions}
+
     def versions(self) -> dict[str, str]:
         """CNT-02: pack id -> version, recorded on every output that used them."""
         return {p.id: p.version for p in self.packs}

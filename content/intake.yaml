@@ -1,0 +1,187 @@
+# Intake layout (WF-01, WF-02). One form for every assessment type: nine core
+# questions everyone answers, then a section per law that appears only when the
+# core answers make it relevant.
+#
+# A question is either a core question defined here (no legal effect, so it needs
+# no sign-off) or a pack fact, named by id. A pack fact's wording, options and
+# definitions come from its pack and its CNT-01 sign-off; this file only places it.
+# show_when uses the same condition shape as the rules (fact tests and all / any / not).
+# Scoping facts are answered once per tenant and are not asked here.
+
+version: 1
+
+core:
+- id: project.name
+  question: Project name
+  type: text
+- id: project.description
+  question: Describe the project in a paragraph
+  type: textarea
+  help: Say what it does and why, who uses it, whose data it touches, what decision it supports and when it goes live.
+  placeholder: "Example: We want to use an AI resume screener to rank applicants for warehouse and driver roles,
+    so recruiters see the strongest matches first. Recruiters use it; it reads applicants' resumes and application
+    answers. It goes live in January."
+- id: project.owners
+  question: Business owner and system owner
+  type: text
+  help: Names or roles, for example "Head of Talent Acquisition; HR Systems lead".
+- id: project.decision
+  question: What decision or outcome does the project support?
+  type: text
+- id: project.uses_ai
+  question: Does it use AI, a model or automated scoring?
+  type: choice
+  options:
+  - {value: 'yes', label: 'Yes'}
+  - {value: 'no', label: 'No'}
+  - {value: not_sure, label: Not sure (an analyst will follow up; triage waits)}
+- fact: subjects
+- id: project.data_categories
+  question: Which categories of personal data does it use?
+  type: multichoice
+  help: Categories marked sensitive pre-answer the sensitive personal information question below; you confirm it.
+  options:
+  - {value: contact, label: Contact details}
+  - {value: work_history, label: Work history and resume content}
+  - {value: education, label: Education and qualifications}
+  - {value: assessment_results, label: Assessment or test results}
+  - {value: audio_video, label: Audio or video recordings}
+  - {value: government_id, label: Government ID numbers (sensitive), sensitive: true}
+  - {value: racial_ethnic_origin, label: Racial or ethnic origin (sensitive), sensitive: true}
+  - {value: health, label: Health or disability information (sensitive), sensitive: true}
+  - {value: biometric, label: Biometric data used to identify someone (sensitive), sensitive: true}
+  - {value: precise_geolocation, label: Precise geolocation (sensitive), sensitive: true}
+  - {value: financial_account, label: Financial account or card details (sensitive), sensitive: true}
+  - {value: other, label: Other (an analyst maps it)}
+- id: project.locations
+  question: Where are the people whose data it uses?
+  type: multichoice
+  options:
+  - {value: US-CA, label: California}
+  - {value: US-CO, label: Colorado}
+  - {value: US-NYC, label: New York City}
+  - {value: US-other, label: Elsewhere in the United States}
+  - {value: EU, label: European Union}
+  - {value: other, label: Elsewhere}
+- id: project.vendors
+  question: Which vendors are involved?
+  type: text
+  help: Write "None" if there are none.
+- id: project.go_live
+  question: Targeted go-live date
+  type: date
+- id: project.stage
+  question: Current stage
+  type: choice
+  options:
+  - {value: idea, label: Idea or design}
+  - {value: build, label: Build or procurement}
+  - {value: testing, label: Testing or pilot}
+  - {value: live, label: Live in production}
+  - {value: live_change, label: 'Live, with a planned change'}
+
+sections:
+- pack: us-ca-ccpa-regs-2025
+  title: California (CCPA Regulations)
+  show_when: {fact: project.locations, contains: US-CA}
+  questions:
+  - fact: data.sells_or_shares
+  - fact: data.sensitive
+  - fact: data.sensitive_hr_admin_only
+    show_when: {fact: data.sensitive, equals: true}
+  - fact: decision.domain
+    show_when: {fact: project.uses_ai, equals: 'yes'}
+  - fact: decision.employment_type
+    show_when: {fact: decision.domain, equals: employment}
+  - fact: decision.housing_availability_only
+    show_when: {fact: decision.domain, equals: housing}
+  - fact: ai.role
+    show_when: {fact: project.uses_ai, equals: 'yes'}
+  - fact: ai.reviewer_knows_output
+    show_when: {fact: ai.role, in: [fully_automated, materially_influences]}
+  - fact: ai.reviewer_reviews_other_info
+    show_when: {fact: ai.role, in: [fully_automated, materially_influences]}
+  - fact: ai.reviewer_can_change
+    show_when: {fact: ai.role, in: [fully_automated, materially_influences]}
+  - fact: ai.infers_personal_aspects
+    show_when: {fact: project.uses_ai, equals: 'yes'}
+  - fact: ai.observation_methodical
+    show_when:
+      all:
+      - {fact: project.uses_ai, equals: 'yes'}
+      - any:
+        - {fact: subjects, contains: job_applicants}
+        - {fact: subjects, contains: employees}
+        - {fact: subjects, contains: contractors}
+        - {fact: subjects, contains: students}
+        - {fact: subjects, contains: education_applicants}
+  - fact: ai.sensitive_location_types
+    show_when: {fact: project.uses_ai, equals: 'yes'}
+  - fact: ai.location_delivery_only
+    show_when:
+      any:
+      - {fact: ai.sensitive_location_types, contains: healthcare_facility}
+      - {fact: ai.sensitive_location_types, contains: pharmacy}
+      - {fact: ai.sensitive_location_types, contains: domestic_violence_shelter}
+      - {fact: ai.sensitive_location_types, contains: food_pantry}
+      - {fact: ai.sensitive_location_types, contains: housing_emergency_shelter}
+      - {fact: ai.sensitive_location_types, contains: educational_institution}
+      - {fact: ai.sensitive_location_types, contains: political_party_office}
+      - {fact: ai.sensitive_location_types, contains: legal_services_office}
+      - {fact: ai.sensitive_location_types, contains: union_office}
+      - {fact: ai.sensitive_location_types, contains: place_of_worship}
+  - fact: ai.trains_admt_for_significant_decisions
+    show_when: {fact: project.uses_ai, equals: 'yes'}
+  - fact: ai.trains_identity_or_biometric
+    show_when: {fact: project.uses_ai, equals: 'yes'}
+
+- pack: us-co-sb26-189
+  title: Colorado (SB 26-189)
+  show_when:
+    all:
+    - {fact: project.locations, contains: US-CO}
+    - {fact: project.uses_ai, equals: 'yes'}
+  questions:
+  - fact: co.subjects.colorado_consumers
+  - fact: co.role.deploys
+  - fact: co.role.develops
+  - fact: co.dev.marketed_for_consequential
+    show_when: {fact: co.role.develops, equals: true}
+  - fact: co.tech.generates_output
+  - fact: co.tech.excluded
+    show_when: {fact: co.tech.generates_output, equals: true}
+  - fact: co.decision.domain
+  - fact: co.decision.affects_access
+    show_when:
+      not: {fact: co.decision.domain, equals: other}
+  - fact: co.decision.excluded
+    show_when:
+      not: {fact: co.decision.domain, equals: other}
+  - fact: co.influence.non_de_minimis
+    show_when: {fact: co.tech.generates_output, equals: true}
+  - fact: co.influence.affects_outcome
+    show_when: {fact: co.tech.generates_output, equals: true}
+  - fact: co.influence.incidental_only
+    show_when: {fact: co.tech.generates_output, equals: true}
+  - fact: co.decision.adverse_possible
+    show_when:
+      not: {fact: co.decision.domain, equals: other}
+  - fact: co.exempt.hipaa_covered_entity
+  - fact: co.exempt.insurer
+    show_when: {fact: co.decision.domain, equals: insurance}
+
+- pack: us-nyc-ll144
+  title: New York City (Local Law 144)
+  show_when:
+    all:
+    - {fact: project.locations, contains: US-NYC}
+    - {fact: project.uses_ai, equals: 'yes'}
+  questions:
+  - fact: nyc.tool.ml_derived
+  - fact: nyc.tool.simplified_output
+  - fact: nyc.tool.output_use
+  - fact: nyc.tool.screens
+  - fact: nyc.tool.output_kinds
+    show_when: {fact: nyc.tool.screens, equals: true}
+  - fact: nyc.subjects.city_residents
+    show_when: {fact: nyc.tool.screens, equals: true}

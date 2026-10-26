@@ -8,6 +8,7 @@ package opendpo.authz
 role_actions := {
 	"intake.submit": {"submitter", "system_owner", "privacy_analyst"},
 	"intake.read": {"submitter", "system_owner", "privacy_analyst", "privacy_counsel", "dpo", "auditor"},
+	"intake.clarify": {"privacy_analyst", "dpo"},
 	"triage.confirm": {"privacy_analyst", "dpo"},
 	"draft.edit": {"privacy_analyst", "privacy_counsel", "dpo"},
 	"review.comment": {"system_owner", "privacy_analyst", "privacy_counsel", "dpo"},

@@ -20,7 +20,7 @@ def migrate(dsn: str, seed_demo: bool) -> list[str]:
         done = {r[0] for r in conn.execute("SELECT name FROM schema_migration")}
         files = sorted(p for p in MIGRATIONS.glob("[0-9]*.sql"))
         if seed_demo:
-            files.append(MIGRATIONS / "seed_demo.sql")
+            files += sorted(MIGRATIONS.glob("seed_demo*.sql"))
         for path in files:
             if path.name in done:
                 continue
