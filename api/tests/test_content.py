@@ -53,6 +53,12 @@ def rule_record(pack: dict, rule_id: str = "R1") -> dict:
             "verified_by": "Tim Sutton", "verified_on": "2026-10-20"}
 
 
+def fact_record(pack: dict, fact_id: str = "ccpa.applies") -> dict:
+    fact = content.Fact.model_validate(next(f for f in pack["facts"] if f["id"] == fact_id))
+    return {"fact": fact_id, "fingerprint": fact.fingerprint,
+            "verified_by": "Tim Sutton", "verified_on": "2026-10-20"}
+
+
 def test_unverified_rule_is_not_usable(tmp_path):
     lib = content.load(write(tmp_path, PACK, []))
     r1 = next(s for s in lib.statuses if s.rule.id == "R1")
@@ -61,12 +67,12 @@ def test_unverified_rule_is_not_usable(tmp_path):
 
 
 def test_verified_rule_reaches_the_engine(tmp_path):
-    lib = content.load(write(tmp_path, PACK, [record("A business shall assess."), rule_record(PACK)]))
+    lib = content.load(write(tmp_path, PACK, [record("A business shall assess."), rule_record(PACK), fact_record(PACK)]))
     assert [r["id"] for r in lib.opa_data()["rules"]] == ["R1"]
 
 
 def test_verified_text_alone_is_not_enough(tmp_path):
-    lib = content.load(write(tmp_path, PACK, [record("A business shall assess.")]))
+    lib = content.load(write(tmp_path, PACK, [record("A business shall assess."), fact_record(PACK)]))
     r1 = next(s for s in lib.statuses if s.rule.id == "R1")
     assert not r1.usable and "reading of the law has not been verified" in r1.problems[0]
 
@@ -75,13 +81,14 @@ def test_logic_change_lapses_rule_verification(tmp_path):
     signed = rule_record(PACK)
     changed = {**PACK, "rules": [{**PACK["rules"][0], "when": {"fact": "ccpa.applies", "equals": False}},
                                  PACK["rules"][1]]}
-    lib = content.load(write(tmp_path, changed, [record("A business shall assess."), signed]))
+    lib = content.load(write(tmp_path, changed, [record("A business shall assess."), signed, fact_record(PACK)]))
     r1 = next(s for s in lib.statuses if s.rule.id == "R1")
     assert not r1.usable and "logic changed after it was verified" in r1.problems[0]
 
 
 def test_whitespace_changes_do_not_lapse_verification(tmp_path):
-    lib = content.load(write(tmp_path, PACK, [record("A business\n  shall assess."), rule_record(PACK)]))
+    lib = content.load(write(tmp_path, PACK, [record("A business\n  shall assess."), rule_record(PACK),
+                                              fact_record(PACK)]))
     assert next(s for s in lib.statuses if s.rule.id == "R1").usable
 
 
@@ -140,3 +147,22 @@ def test_definitions_behind_facts_are_cited_and_must_be_verified(tmp_path):
     r1 = next(s for s in lib.statuses if s.rule.id == "R1")
     assert lib.packs[0].citations(r1.rule) == ["p1", "def"]
     assert not r1.usable and "def has not been verified" in r1.problems[0]
+
+
+def test_question_must_be_checked_and_lapses_when_reworded(tmp_path):
+    lib = content.load(write(tmp_path, PACK, [record("A business shall assess."), rule_record(PACK)]))
+    r1 = next(s for s in lib.statuses if s.rule.id == "R1")
+    assert not r1.usable and "question ccpa.applies has not been checked" in r1.problems[0]
+    reworded = {**PACK, "facts": [{**PACK["facts"][0], "question": "Is the CCPA relevant?"}, PACK["facts"][1]]}
+    lib = content.load(write(tmp_path, reworded, [record("A business shall assess."), rule_record(PACK),
+                                                  fact_record(PACK)]))
+    r1 = next(s for s in lib.statuses if s.rule.id == "R1")
+    assert not r1.usable and "changed after it was checked" in r1.problems[0]
+
+
+def test_pending_question_blocks_the_rule(tmp_path):
+    pending = {**PACK, "facts": [{**PACK["facts"][0], "pending": "Statute not loaded"}, PACK["facts"][1]]}
+    lib = content.load(write(tmp_path, pending, [record("A business shall assess."), rule_record(pending),
+                                                 fact_record(pending)]))
+    r1 = next(s for s in lib.statuses if s.rule.id == "R1")
+    assert not r1.usable and "waits on a definition" in r1.problems[0]

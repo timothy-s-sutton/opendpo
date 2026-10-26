@@ -1,0 +1,289 @@
+# CNT-01 sign-offs. Each record is tied to the fingerprint of what was checked; any later change lapses it.
+# Maintained by hand from the verification worksheets. Do not edit fingerprints.
+- provision: ccpa-7001-e
+  fingerprint: 98db79d8f1612072c635e53eed5a777e7073bb68a68e673b9844b27f9bbef28c
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7001-e-1
+  fingerprint: 575861501e83b8d33d139a6c21a6eed9512118d31d6d13220717e12a68cf6209
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7001-e-2
+  fingerprint: 820da1135cff8ab99de8d72b82702369d86f401791e3f0d4222d5db2bdc475ec
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7001-e-3
+  fingerprint: a53e7161b4e04ee0e8b00600379c8dc5db6e260ed96c15719c262dd3819c1cdc
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7001-aaa
+  fingerprint: d583768282f32441d5161aad91dc8c469b0764a1307dcb22974af6d02f1dd9c3
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7001-ddd
+  fingerprint: c05d61cca6e76544d0afde2fe376fb352ed15a8cbbe08352273d3799989d5a43
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7001-eee
+  fingerprint: 36ff05069a29993edf6d7204889991e055ed8eef6afe378d724c52a0bcaab45a
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7150-a
+  fingerprint: 9375b9ab713a8b2c23e00b637046d3cf63b6c5a79d759ecd89756804395cae54
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7150-b-1
+  fingerprint: 82746ef31898f745e272a53493da7363d16c41b7978f154728b68b2742e24355
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7150-b-2
+  fingerprint: 8f1c5febd5a22539e23dc4099eb3512dd2e2afbedea8e002ebe90523d87e2322
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7150-b-3
+  fingerprint: 66b36da30a84b75e7c7e03ca94bad38b0f83da03f1ea594a914e9033a6dcfb24
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7150-b-4
+  fingerprint: 40a97067a9e05735ab50602ed3ea8188e8a6bc206ba2f726d14713b49c504d1b
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7150-b-5
+  fingerprint: b8b1fd69a584d44efa1512457eccd3ea719cb7be81b45b0cf20bc70fb33071b1
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7150-b-6
+  fingerprint: 2629d309081081f1e76e96639db7492a715c5f015c151fad2d0e06f3d5cde3ce
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7152-a
+  fingerprint: 497ef771943d794a4ea003e67792e13d4c00fffef9157b28979abce713d61dbe
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7152-a-1
+  fingerprint: 55fac2fcec4178b66b4a30c0b7cae5390cd5c5e2a7c0eb772ca936939c65e23e
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7152-a-2
+  fingerprint: 7c4898b39ad4daa39340cd9c276d286307be2e5371e3f355f333a2c56c615d57
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7152-a-3
+  fingerprint: 38a0eabe594e5d587f9323cae22fb8b863bf42041cccadcfb571330f01ec607f
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7152-a-4
+  fingerprint: 51c8d86dcc06302b4b34df5214f5acacc6383a49292ff506de8e0de4b91e5084
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7152-a-5
+  fingerprint: 4dd0e5b8f9cddddc2b808a94c93fb049e13bff9e533bcd75bad2c7b3a9c925bb
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7152-a-6
+  fingerprint: aa432194ec9e853a80bce5d5328252feddc9c8c05c2afaea759d8089fdc92255
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7152-a-7-9
+  fingerprint: f9f56f9e211c9c8a85f76ca795c84b02cfae8ae9cef685011111cccb228eca7d
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7155-a
+  fingerprint: aad42aa2f543827022f8e4664536489108845598e5b0a5a70e944d5d0638fd87
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7200
+  fingerprint: 5e92268a188c3adbae8aab18b65c2aee41b512cc311b045a5dfeec3ec579ebaa
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7220-a
+  fingerprint: 878c303f444806a108e922493200fffe328c482e7231c0bacb25a3a587eaf1f2
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7221-a
+  fingerprint: a6137c887a5048a22686a91201e61a26d38dfe259bd1763fea2f80018a3d70c2
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7221-b-1
+  fingerprint: 480e81d39d9de73304a738b2e3ca57507f2294c3de739bf06f311a7c32040330
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7221-b-2
+  fingerprint: 2ccbfe6e0641d27386dacf9f737e575473baa1d1f3decbc7651c9d1cf805580f
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- provision: ccpa-7222-a
+  fingerprint: 52d722ace39c35bd734e5ec1a6126b78698ec2bfe6971b2b77559ee60fbe3adc
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- rule: CCPA-CLASS-ADMT
+  fingerprint: be9a18d7e98e972a30d2e4285ad26d80d3453dc87cc2aef0826da9c2a562e9dd
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- rule: CCPA-CLASS-SIGNIFICANT
+  fingerprint: 16745c11aea3c104dbfc58545e7c71f6066cedb97ffac8c54a25e6657a8e9b3b
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- rule: CCPA-RA-SELL-SHARE
+  fingerprint: 7bd1178949ba9505c40b13078a0a2727db1c483935f2859446c348d0a8de5eae
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- rule: CCPA-RA-SPI
+  fingerprint: 5f5224b70335412be73ca752d59be6afd798c7a73b049a0e14e63f7cb9dd4deb
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- rule: CCPA-RA-ADMT
+  fingerprint: 9930d896c1b10d96cf4122e40ae37d712f3554428f25a865bfb25fe1371238a0
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- rule: CCPA-RA-OBSERVATION
+  fingerprint: a220bf92b923cad6d2b398e6d3aa86f6c7186f1a175bd8f84aa5695df5cdd595
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- rule: CCPA-RA-SENSITIVE-LOCATION
+  fingerprint: 4a6cc265cfea8f4741d4b2250ed1c01a28d90ea1af6165e044b5fc0516032427
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- rule: CCPA-RA-TRAINING
+  fingerprint: c5261f4f7f036a13ca41c78e4b7ba25e83d755345a87af3991b48ad77012e604
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- rule: CCPA-ADMT-NOTICE
+  fingerprint: 5716657a95de0fe055213b7b52e2304156fce4afce72af8374f04a8ac51055e0
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- rule: CCPA-ADMT-OPT-OUT
+  fingerprint: 17f432dea46d331c8f5d1ecf86a612322ef0ce1a347083379c0e8969b74279ec
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- rule: CCPA-ADMT-HIRING-EXCEPTION
+  fingerprint: 98e086b0e55ffd248aaebbd49c9cdad229e850b1f38be4044559b875c2b7b877
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)
+- rule: CCPA-ADMT-ACCESS
+  fingerprint: aeef6e2683078d4ad07a48f2622b58e7b9d43215374e35b9cd0ec79670650531
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.1 (https://claude.ai/code/artifact/f4fd4b42-28a0-42a3-845a-80468d528151)

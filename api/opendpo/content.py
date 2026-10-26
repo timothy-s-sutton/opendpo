@@ -79,6 +79,13 @@ class Fact(Strict):
     asked_in: Literal["scoping", "intake", "inventory"] = "intake"
     pending: str | None = None        # why the governing definition is not yet in a pack
 
+    @property
+    def fingerprint(self) -> str:
+        """Covers what the question asks and the definitions it is checked against."""
+        q = {"question": self.question, "type": self.type, "defined_by": sorted(self.defined_by),
+             "options": [o.model_dump() for o in self.options or []]}
+        return hashlib.sha256(json.dumps(q, sort_keys=True).encode("utf-8")).hexdigest()
+
     @model_validator(mode="after")
     def options_match_type(self) -> "Fact":
         if self.type in ("choice", "multichoice") and not self.options:
@@ -224,10 +231,12 @@ class Pack(Strict):
 
 
 class Verification(Strict):
-    """A sign-off on either a provision's text (it matches the primary source) or a
-    rule's logic (it reads the cited provisions correctly). Exactly one of the two."""
+    """A sign-off on one of: a provision's text (it matches the primary source), a rule's
+    logic (it reads the cited provisions correctly), or a question (it captures the
+    definitions behind it)."""
     provision: str | None = None
     rule: str | None = None
+    fact: str | None = None
     fingerprint: str              # of the provision text, or of the rule logic, as checked
     verified_by: str
     verified_on: date
@@ -237,8 +246,8 @@ class Verification(Strict):
 
     @model_validator(mode="after")
     def one_target(self) -> "Verification":
-        if (self.provision is None) == (self.rule is None):
-            raise ValueError("a verification record names either a provision or a rule")
+        if sum(x is not None for x in (self.provision, self.rule, self.fact)) != 1:
+            raise ValueError("a verification record names exactly one provision, rule or fact")
         return self
 
 
@@ -261,6 +270,7 @@ class Library:
     verifications: dict[str, dict[str, Verification]]   # pack id -> provision id -> record
     statuses: list[RuleStatus]
     rule_verifications: dict[str, dict[str, Verification]] = field(default_factory=dict)
+    fact_verifications: dict[str, dict[str, Verification]] = field(default_factory=dict)
 
     @property
     def usable_rules(self) -> list[RuleStatus]:
@@ -296,6 +306,7 @@ def load(directory: Path = CONTENT_DIR) -> Library:
     packs: list[Pack] = []
     verifications: dict[str, dict[str, Verification]] = {}
     rule_verifications: dict[str, dict[str, Verification]] = {}
+    fact_verifications: dict[str, dict[str, Verification]] = {}
     statuses: list[RuleStatus] = []
     if not directory.is_dir():
         return Library(packs, verifications, statuses)
@@ -308,7 +319,10 @@ def load(directory: Path = CONTENT_DIR) -> Library:
         parsed = [Verification.model_validate(r) for r in raw]
         records = {v.provision: v for v in parsed if v.provision}
         rule_records = {v.rule: v for v in parsed if v.rule}
-        unknown = (set(records) - {p.id for p in pack.provisions}) | (set(rule_records) - {r.id for r in pack.rules})
+        fact_records = {v.fact: v for v in parsed if v.fact}
+        facts = {f.id: f for f in pack.facts}
+        unknown = ((set(records) - {p.id for p in pack.provisions}) | (set(rule_records) - {r.id for r in pack.rules})
+                   | (set(fact_records) - set(facts)))
         if unknown:
             raise ValueError(f"{vfile}: records for unknown provisions or rules {sorted(unknown)}")
         sources = {s.id: s for s in pack.sources}
@@ -321,6 +335,18 @@ def load(directory: Path = CONTENT_DIR) -> Library:
                 issue = provision_status(prov, records.get(pid))
                 if issue:
                     problems.append(issue)
+            for fid in sorted(rule.when.facts()):
+                f = facts.get(fid)
+                if f is None:
+                    continue  # derived by a classification rule, which is checked on its own
+                if f.pending:
+                    problems.append(f"question {fid} waits on a definition not yet in a pack: {f.pending}")
+                    continue
+                fr = fact_records.get(fid)
+                if fr is None:
+                    problems.append(f"question {fid} has not been checked against its definitions")
+                elif fr.fingerprint != f.fingerprint:
+                    problems.append(f"question {fid} changed after it was checked on {fr.verified_on}; check it again")
             rr = rule_records.get(rule.id)
             if rr is None:
                 problems.append("the rule's reading of the law has not been verified")
@@ -330,7 +356,8 @@ def load(directory: Path = CONTENT_DIR) -> Library:
         packs.append(pack)
         verifications[pack.id] = records
         rule_verifications[pack.id] = rule_records
-    return Library(packs, verifications, statuses, rule_verifications)
+        fact_verifications[pack.id] = fact_records
+    return Library(packs, verifications, statuses, rule_verifications, fact_verifications)
 
 
 def _cli() -> None:
