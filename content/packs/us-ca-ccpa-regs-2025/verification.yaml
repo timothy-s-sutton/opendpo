@@ -470,3 +470,10 @@
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
   note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+- rule: CCPA-CLASS-HUMAN-INVOLVEMENT
+  fingerprint: 31f5039a20d7cbb5d1138215f2d8038fe881ea29ae93b3cb6046ddd80efc3b9f
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
