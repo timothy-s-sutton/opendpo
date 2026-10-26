@@ -190,3 +190,20 @@ def test_missing_dependency_pack_is_rejected(tmp_path):
     regs = {**PACK, "depends_on": ["statute"], "facts": [{**PACK["facts"][0], "defined_by": ["s-def"]}, PACK["facts"][1]]}
     with pytest.raises(ValueError, match="missing pack"):
         content.load(write(tmp_path, regs, []))
+
+
+def test_rule_on_a_derived_fact_waits_for_the_rule_that_sets_it(tmp_path):
+    rules = [{"id": "C1", "kind": "classification", "title": "Classify", "provisions": ["p1"],
+              "when": {"fact": "x", "equals": True}, "result": {"set_fact": "derived.y", "value": True},
+              "explanation": "x"},
+             {"id": "R1", "kind": "trigger", "title": "Uses it", "provisions": ["p1"],
+              "when": {"all": [{"fact": "ccpa.applies", "equals": True}, {"not": {"fact": "derived.y", "equals": True}}]},
+              "result": {"assessment": "a"}, "explanation": "x"}]
+    pack = {**PACK, "rules": rules}
+    lib = content.load(write(tmp_path, pack, [record("A business shall assess."), rule_record(pack, "R1"),
+                                              fact_record(pack)]))
+    r1 = next(s for s in lib.statuses if s.rule.id == "R1")
+    assert not r1.usable and "derived.y is set by C1, which is not usable" in r1.problems[-1]
+    lib = content.load(write(tmp_path, pack, [record("A business shall assess."), rule_record(pack, "R1"),
+                                              rule_record(pack, "C1"), fact_record(pack), fact_record(pack, "x")]))
+    assert next(s for s in lib.statuses if s.rule.id == "R1").usable

@@ -183,6 +183,14 @@ class Pack(Strict):
         """Facts set by this pack's classification rules: fact id -> rule id."""
         return {r.result["set_fact"]: r.id for r in self.rules if r.kind == "classification" and "set_fact" in r.result}
 
+    def derived_facts_all(self) -> dict[str, list[str]]:
+        """Fact id -> every classification rule that sets it."""
+        out: dict[str, list[str]] = {}
+        for r in self.rules:
+            if r.kind == "classification" and "set_fact" in r.result:
+                out.setdefault(r.result["set_fact"], []).append(r.id)
+        return out
+
     @model_validator(mode="after")
     def references_resolve(self) -> "Pack":
         source_ids = {s.id for s in self.sources}
@@ -379,6 +387,24 @@ def load(directory: Path = CONTENT_DIR) -> Library:
             elif rr.fingerprint != rule.fingerprint:
                 problems.append(f"the rule's logic changed after it was verified on {rr.verified_on}; verify it again")
             statuses.append(RuleStatus(rule, pack, not problems, problems))
+
+    # A fact set by a classification rule is only trustworthy if every rule that sets it is usable.
+    # Otherwise an unusable rule would leave the fact unset, which reads as "no" (and "NOT x" as yes).
+    changed = True
+    while changed:
+        changed = False
+        for st in statuses:
+            if not st.usable:
+                continue
+            derived = st.pack.derived_facts_all()
+            for fid in sorted(st.rule.when.facts()):
+                blockers = [s.rule.id for s in statuses if s.pack is st.pack and s.rule.id in derived.get(fid, [])
+                            and not s.usable]
+                if blockers:
+                    st.usable = False
+                    st.problems.append(f"{fid} is set by {', '.join(blockers)}, which is not usable")
+                    changed = True
+                    break
     return Library(packs, verifications, statuses, rule_verifications, fact_verifications)
 
 

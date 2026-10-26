@@ -1,0 +1,44 @@
+# CNT-01 sign-offs. Each record is tied to the fingerprint of what was checked; any later change lapses it.
+# Maintained by hand from the verification worksheets. Do not edit fingerprints.
+- provision: ccpa-1798-140-d
+  fingerprint: 8bc17b6f98ae1d395d6dbb475bbcd6cf6043f47d33ad36320079ff1e13837947
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+- provision: ccpa-1798-140-i
+  fingerprint: e30dc8b6460267ec42cfc9ced324f0e94c320b383b33a07ad646c3aa7944f1d1
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+- provision: ccpa-1798-140-k
+  fingerprint: 1fd588873b90f3448a095d5008d13e099f25000736f81b81261c7a4db52615c4
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+- provision: ccpa-1798-140-ad
+  fingerprint: 4d8bfbfe258812ff1eb0e0508a6c5ef51c46f7f3ef011ab65eb7eff314111a93
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+- provision: ccpa-1798-140-ah
+  fingerprint: 760d9ef00d625dac35c0409039e4334efcb720fb9280f54abd05c92c25311ed8
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+- provision: ccpa-1798-140-ai
+  fingerprint: 257fe7299efbd70e08f77e5907fdec87650bf0e3add97a3714058ca23da0664b
+  verified_by: Tim Sutton
+  verified_on: '2026-10-26'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
