@@ -353,12 +353,15 @@ provisions:
     writing; answer written requests within 30 days; and explain any refusal based on law or an investigation.
 facts:
 - id: nyc.scope.employer_or_agency
-  question: Is your organization an employer or employment agency that hires or promotes people in New York City?
+  question: Will your organization use the tool to screen candidates or employees for jobs or promotions in New
+    York City?
   type: boolean
   asked_in: scoping
   defined_by:
   - nyc-20-871-a
   - nyc-20-870-employment-decision
+  help: 'This is what brings a tool under Local Law 144: an employer or employment agency using it to screen people
+    for hiring or promotion in the city.'
 - id: nyc.tool.ml_derived
   question: Is the tool built with machine learning, statistics, data analytics or AI?
   type: boolean
