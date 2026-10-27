@@ -316,10 +316,13 @@ facts:
   - co-6-1-1701-7
   - co-6-1-1701-8
 - id: co.role.deploys
-  question: Does the organization itself use the technology in decisions about people?
+  question: Does the organization deploy the technology?
   type: boolean
   defined_by:
   - co-6-1-1701-7
+  help: The act does not define "deploy". Answer yes if the organization itself puts the technology into use, rather
+    than only developing or selling it. Whether it is a covered ADMT, and whether the organization does business
+    in Colorado, are decided from other answers.
 - id: co.tech.generates_output
   question: Does the technology process personal data and use computation to generate output, such as predictions,
     recommendations, classifications, rankings or scores, that is used to make, guide or assist a decision, judgment
