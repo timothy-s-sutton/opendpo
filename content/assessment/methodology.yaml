@@ -1,0 +1,74 @@
+# OpenDPO's default risk method (WF-19, WF-20, C5). A tenant's assessment policy can
+# replace it; each assessment records the method id and version it used (PLT-13).
+#
+# STATUS: draft. Before it is confirmed:
+# - check the matrix against NIST SP 800-30 Rev. 1, Appendix I, Table I-2
+# - check the likelihood wording against Appendix G, Table G-5
+# - check the severity wording against NIST PRAM's framing (impact on individuals,
+#   and on the organization)
+# - confirm the routing floor rules below
+id: opendpo-default-5x5
+version: 0.1.0
+status: draft
+title: Five-level likelihood and severity scale
+sources:
+- title: "NIST SP 800-30 Rev. 1, Guide for Conducting Risk Assessments (Appendices G, H and I)"
+  url: https://csrc.nist.gov/pubs/sp/800/30/r1/final
+- title: NIST Privacy Risk Assessment Methodology (PRAM)
+
+levels:
+- id: very_low
+  label: Very low
+  likelihood: Highly unlikely to happen.
+  severity: >-
+    Negligible. At most a brief inconvenience to the people affected.
+- id: low
+  label: Low
+  likelihood: Unlikely to happen.
+  severity: >-
+    Limited. Minor, short-lived harm that people can easily recover from.
+- id: moderate
+  label: Moderate
+  likelihood: Somewhat likely to happen.
+  severity: >-
+    Serious. Real harm, such as a lost opportunity or real distress, that people can
+    recover from with some effort.
+- id: high
+  label: High
+  likelihood: Highly likely to happen.
+  severity: >-
+    Severe. Major harm that is hard to recover from, such as lasting financial loss or
+    unlawful discrimination.
+- id: very_high
+  label: Very high
+  likelihood: Almost certain to happen.
+  severity: >-
+    Catastrophic. Harm that cannot be undone, or that affects people's safety, livelihood
+    or legal rights on a wide scale.
+
+# Level of risk: likelihood (row) by severity (column), columns in the order of levels above.
+matrix:
+  very_high: [very_low, low, moderate, high, very_high]
+  high:      [very_low, low, moderate, high, very_high]
+  moderate:  [very_low, low, moderate, moderate, high]
+  low:       [very_low, low, low, low, moderate]
+  very_low:  [very_low, very_low, very_low, low, low]
+
+# Approval routing (WF-19, C5). The highest inherent risk in the register sets a level;
+# the triage category sets a floor. The score can raise routing above the floor, never lower it.
+routing:
+  by_inherent_risk:
+    very_low: low
+    low: low
+    moderate: medium
+    high: high
+    very_high: high
+  floor:
+    default: low
+    # Triage results that make an assessment high risk from the start: ADMT for a
+    # significant decision under the CCPA Regulations, and covered ADMT under Colorado law.
+    high_when_rules: [CCPA-RA-ADMT, CO-CLASS-COVERED-ADMT]
+
+# WF-20: a residual risk at or above this level blocks a decision to go ahead unless the
+# DPO records a risk acceptance for it.
+acceptance_needed_at: high

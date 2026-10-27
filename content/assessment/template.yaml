@@ -1,0 +1,141 @@
+# The AI and ADMT risk assessment report (WF-11, WF-21).
+#
+# The sections follow the content elements of the CCPA Regulations, section 7152(a).
+# Each section names the verified provisions behind it; the API shows their text under
+# "What the law says" and refuses to load this file if a provision id is unknown.
+#
+# Titles and help are what a reviewer sees, so they stay in plain language.
+#
+# in_regulator_report follows the requirements (WF-21). Confirm it against the
+# CCPA Regulations, section 7157, before the regulator-ready export relies on it.
+id: ai-admt-risk-assessment
+version: 1
+title: AI and automated decision risk assessment
+basis: [ccpa-7152-a]
+
+# Each risk can be tagged with the trustworthiness characteristics it bears on (WF-12).
+# These come from a framework, not a law: they help organize the analysis and are never
+# a citation of record.
+framework: "NIST AI Risk Management Framework (AI RMF 1.0), section 3: trustworthiness characteristics"
+framework_tags:
+- id: valid_reliable
+  label: Valid and reliable
+  help: The system does what it is meant to do, accurately and consistently.
+- id: safe
+  label: Safe
+  help: The system does not put people's lives, health, property or the environment in danger.
+- id: secure_resilient
+  label: Secure and resilient
+  help: The system resists attacks and misuse, and recovers from failures.
+- id: accountable_transparent
+  label: Accountable and transparent
+  help: People can find out how the system is used and who is responsible for it.
+- id: explainable_interpretable
+  label: Explainable and interpretable
+  help: People can understand how the system reached its output and what the output means.
+- id: privacy_enhanced
+  label: Privacy-enhanced
+  help: The system respects people's control over their information and limits what it uses.
+- id: fair
+  label: Fair, with harmful bias managed
+  help: The system's results do not unfairly disadvantage people or groups.
+
+sections:
+- id: purpose
+  number: "1"
+  title: Purpose
+  kind: text
+  provisions: [ccpa-7152-a-1]
+  in_regulator_report: true
+  help: >-
+    Say exactly why the business is doing this. Name the specific result it wants.
+    A general purpose such as "to improve our services" is not enough.
+
+- id: personal_information
+  number: "2"
+  title: Personal information used
+  kind: text
+  provisions: [ccpa-7152-a-2]
+  in_regulator_report: true
+  help: >-
+    List each kind of personal information the system uses, including any sensitive
+    information. For each one, say why it is needed. Use only what the purpose requires.
+
+- id: operations
+  number: "3"
+  title: How the processing works
+  kind: text
+  provisions: [ccpa-7152-a-3]
+  in_regulator_report: true
+  help: >-
+    Describe the processing from start to finish:
+    - where the information comes from and how it is collected
+    - how long each kind of information is kept, or how that is decided
+    - how people interact with the business and why
+    - about how many people are affected
+    - what people are told about the processing, and how
+    - who receives the information, and why
+    - for an automated decision: how the system reaches its output, what it assumes,
+      where it falls short, and how people use its output
+
+- id: benefits
+  number: "4"
+  title: Benefits
+  kind: text
+  provisions: [ccpa-7152-a-4]
+  in_regulator_report: false
+  help: >-
+    Name the specific benefits to the business, to the people affected, to others
+    and to the public. "Better service" is too general; say what gets better and for whom.
+
+- id: risks
+  number: "5"
+  title: Risks to people
+  kind: risk_register
+  provisions: [ccpa-7152-a-5]
+  in_regulator_report: false
+  help: >-
+    List each way the processing could harm the people whose information it uses.
+    For each risk, say what would cause it, then rate how likely it is and how bad it
+    would be, first without safeguards and then with them.
+
+- id: safeguards
+  number: "6"
+  title: Safeguards
+  kind: safeguards
+  provisions: [ccpa-7152-a-6]
+  in_regulator_report: true
+  help: >-
+    List the steps the business will take to reduce the risks. Link each safeguard to
+    the risks it addresses. One safeguard can address several risks.
+
+- id: decision
+  number: "7"
+  title: Decision
+  kind: decision
+  provisions: [ccpa-7152-a-7-9]
+  in_regulator_report: true
+  help: >-
+    Record whether the business will go ahead with the processing, and why.
+
+- id: contributors
+  number: "8"
+  title: People who provided information
+  kind: people
+  provisions: [ccpa-7152-a-7-9]
+  in_regulator_report: true
+  help: >-
+    Name each person who provided information for this assessment, with their job title.
+    Leave out lawyers who gave legal advice.
+
+- id: approval
+  number: "9"
+  title: Review and approval
+  kind: approval
+  provisions: [ccpa-7152-a-7-9]
+  in_regulator_report: true
+  editable: false
+  help: >-
+    Filled in by the approval steps: who reviewed and approved the assessment, their job
+    titles and the date. At least one approver must have the authority to decide whether
+    the processing goes ahead.

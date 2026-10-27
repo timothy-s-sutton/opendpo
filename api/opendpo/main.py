@@ -1,4 +1,4 @@
-"""OpenDPO API: identity, tenancy, authorization, the audit log, intake and triage."""
+"""OpenDPO API: identity, tenancy, authorization, the audit log, intake, triage and assessments."""
 from __future__ import annotations
 
 import hashlib
@@ -16,7 +16,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from psycopg.types.json import Jsonb
 from pydantic import BaseModel, Field
 
-from . import audit, content, intake, triage
+from . import assessment, audit, content, intake, triage
 from .auth import Principal, current_principal
 from .authz import decide
 from .config import settings
@@ -54,6 +54,8 @@ async def lifespan(_app: FastAPI):
     unplaced = intake.unplaced(library(), form())   # form() raises if the layout is inconsistent
     if unplaced:
         raise RuntimeError(f"intake.yaml places no question for {unplaced}; rules testing them could never fire")
+    assessment.load_template(library())      # raise if the template or method is inconsistent
+    assessment.load_methodology(library())
     threading.Thread(target=publish_content_to_policy_engine, daemon=True).start()
     yield
 
@@ -63,7 +65,8 @@ app.add_middleware(CORSMiddleware, allow_origins=list(settings.cors_origins),
                    allow_methods=["GET", "POST", "PUT"], allow_headers=["Authorization", "Content-Type"])
 
 # Actions the web app asks about to decide what to show a user.
-UI_ACTIONS = ["intake.submit", "intake.read", "intake.clarify", "triage.confirm", "draft.edit", "assessment.approve",
+UI_ACTIONS = ["intake.submit", "intake.read", "intake.clarify", "triage.confirm", "draft.edit", "assessment.read",
+              "assessment.approve",
               "members.read", "tenant.ack_intended_use", "audit.read", "audit.verify", "audit.export"]
 
 
@@ -477,3 +480,9 @@ def decide_triage(tenant_id: UUID, project_id: UUID, run_id: UUID, body: Decisio
                      payload={"project": str(project_id), **decision},
                      content_versions=run["content_versions"])
     return {"status": "confirmed", "decision": decision}
+
+
+# Assessments (WF-11 onward) live in their own module; it uses the helpers above.
+from .assessments_api import router as assessments_router  # noqa: E402
+
+app.include_router(assessments_router)
