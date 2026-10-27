@@ -319,8 +319,7 @@
   fingerprint: 90e3bb2fd7a198340b78edb1a16c91e49028db069774479fb731150a00406034
   verified_by: Tim Sutton
   verified_on: '2026-10-26'
-  method: Compared word for word against the primary source (consolidated regulations, which state January 1, 2026 where the
-    approved text has a placeholder)
+  method: Compared word for word against the primary source (consolidated regulations, which state January 1, 2026 where the approved text has a placeholder)
   self_verified: true
   note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
 - rule: CCPA-CLASS-SIGNIFICANT-HOUSING
@@ -345,131 +344,131 @@
   self_verified: true
   note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
 - fact: scope.ccpa_applies
-  fingerprint: 04f897c9df782fd902062e10f2e856c48b76a3f3390ab0c766382e7acdb3c08c
+  fingerprint: 811c06989437ece23cad2d5302bd22dfe5cd549fc86afda1c5c1c8886c170b55
   verified_by: Tim Sutton
-  verified_on: '2026-10-26'
+  verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
-  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2, plain-language questions (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
 - fact: data.sells_or_shares
-  fingerprint: 0a8c9c1f27f3266f0d22e96cec2d54a972bab1a5d5d3b93cdfd19d6eeaba36cb
+  fingerprint: a541828797c403781816cc9d543c13bf8acc4f530c0f6f3388308649d87ebb17
   verified_by: Tim Sutton
-  verified_on: '2026-10-26'
+  verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
-  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2, plain-language questions (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
 - fact: data.sensitive
-  fingerprint: a0f5648d42da2ee39e99b109d0f103f1b5282896c99aa935e3c22f6ce971b704
+  fingerprint: 3258999cb15ece57e17c364172738adb2a6a77bca384d569fb9c4d4bfd5f5737
   verified_by: Tim Sutton
-  verified_on: '2026-10-26'
+  verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
-  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2, plain-language questions (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
 - fact: data.sensitive_hr_admin_only
-  fingerprint: 8196011322bd85586f36b742e784888d693e0a859b7a3464702711534b9decda
+  fingerprint: c02b7b23d2acaaa60f54f5515c62a2231da7b980f94a1b7e50d0f688195db1e6
   verified_by: Tim Sutton
-  verified_on: '2026-10-26'
+  verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
-  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2, plain-language questions (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
 - fact: subjects
-  fingerprint: f3d36674eaedb62127102a8edc232933e461102f5aa41fed3f1714d543fa735f
+  fingerprint: 7ffc911750f296f5c98314526d74b35ae96a761364025c73d2bf4415e2d8e8df
   verified_by: Tim Sutton
-  verified_on: '2026-10-26'
+  verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
-  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2, plain-language questions (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
 - fact: ai.role
-  fingerprint: c1bf2b20a3d90c3e7bce05c645240d9dce2876b44c0845292afd523bca5fc677
+  fingerprint: 6f0182b987f253417b5815f57ca21e9d8973fe068d28438f1a306fc2e125477e
   verified_by: Tim Sutton
-  verified_on: '2026-10-26'
+  verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
-  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2, plain-language questions (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
 - fact: ai.reviewer_knows_output
-  fingerprint: 5837426dd5ba6ed592dac248116e6102735b5a080c7fbaadac6b631bce4b3c21
+  fingerprint: 948ee5553bc31cd35ed8ddf2135268b87583b34d04d6345c9d316c1551c3194e
   verified_by: Tim Sutton
-  verified_on: '2026-10-26'
+  verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
-  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2, plain-language questions (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
 - fact: ai.reviewer_reviews_other_info
-  fingerprint: c8d64efa8a29d72fc1a7d5d956459627bb83767d6ab13d443caa4820344c5416
+  fingerprint: aacb985a322290a1edf557b95b9d4be9776da1eca2e7c48ce2486f8bd3898626
   verified_by: Tim Sutton
-  verified_on: '2026-10-26'
+  verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
-  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2, plain-language questions (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
 - fact: ai.reviewer_can_change
-  fingerprint: 26048d8bcf6df3b26fdc05d37b72521fa96e68d799946b01437f80b87921cc5f
+  fingerprint: e53d8a5141f0733582f2bb44fea06c59195b7426d035a21c6c7bea835f1d1196
   verified_by: Tim Sutton
-  verified_on: '2026-10-26'
+  verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
-  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2, plain-language questions (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
 - fact: decision.domain
-  fingerprint: adf0c3f86ac18b5c294f156853977a28ceefbbfae6589f2a51390817bdeec05c
+  fingerprint: 514b8706c66af3f2c742f39d536b440b7da7cf95a5e04f9ce16ea6466a184fbc
   verified_by: Tim Sutton
-  verified_on: '2026-10-26'
+  verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
-  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2, plain-language questions (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
 - fact: decision.housing_availability_only
-  fingerprint: bf4b460102d77a690f76dd26537b061a35e9f23724e572a21bbe75e5641bb922
+  fingerprint: 8b4389393406a19340383ea6dc1dfdf38a6e328a468ae6eae5416b77b80b9233
   verified_by: Tim Sutton
-  verified_on: '2026-10-26'
+  verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
-  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2, plain-language questions (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
 - fact: decision.employment_type
-  fingerprint: 97b59565d305c55ecc5f7ce6bb04ec0e24ff3df82d8bb7cdf5977ae7a631e566
+  fingerprint: e1d17a17a4183d03a5de1b155854b32b9eb462703fb0aebb620edffbe8d7ea4a
   verified_by: Tim Sutton
-  verified_on: '2026-10-26'
+  verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
-  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2, plain-language questions (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
 - fact: ai.observation_methodical
-  fingerprint: 92514ff1d3f7cac50d917a9e369880697e6e65ce222e82044c666aaf173ddc86
+  fingerprint: b467138973842816e1efb1324bc3d0ab0f7d6f74b83edc10b330e7e8bca20c9f
   verified_by: Tim Sutton
-  verified_on: '2026-10-26'
+  verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
-  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2, plain-language questions (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
 - fact: ai.infers_personal_aspects
-  fingerprint: 64ac702ec47fe66f08e003e9f1999c239e1a2e93611af00e79764fc81ad7688c
+  fingerprint: 3407c3aa5a3e1ae68535ed3da9abc7d793d04d8253d0d6f1718e6da9a092b7bf
   verified_by: Tim Sutton
-  verified_on: '2026-10-26'
+  verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
-  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2, plain-language questions (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
 - fact: ai.sensitive_location_types
-  fingerprint: 46df10ce3d157fdd719c7e7db294c1e616c8172fcbc2b392d15bc9353c30f1bc
+  fingerprint: e2bbab76196e27b0a7d103f5f7e072e71de430a40dac5b5e0a44eaf23fba9f00
   verified_by: Tim Sutton
-  verified_on: '2026-10-26'
+  verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
-  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2, plain-language questions (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
 - fact: ai.location_delivery_only
-  fingerprint: 6b3f4153047e9e52fc1e16164d4cdd94e2f6317c5acc5ef929a190a214a3ce19
+  fingerprint: e6930daeaeda0780ef70646fcd722b72521e2e1ef0e8720db4c7b7a78ce1bae0
   verified_by: Tim Sutton
-  verified_on: '2026-10-26'
+  verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
-  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2, plain-language questions (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
 - fact: ai.trains_admt_for_significant_decisions
-  fingerprint: 17141077faf0d21800698813ac8c2d1d0ef20eb44dee8a6c026512f024b98364
+  fingerprint: e2a8e6964951a628ca5ddeb76ed4607678ed11d5ab7ff7bfed50ba0b4c376344
   verified_by: Tim Sutton
-  verified_on: '2026-10-26'
+  verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
-  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2, plain-language questions (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
 - fact: ai.trains_identity_or_biometric
-  fingerprint: e9158a1c5c87b9229ba7960c15aea3bebfa72db465bcb2d928a5703b2d9dabab
+  fingerprint: 7092ded99c47c06b967d33a92bac78ffd91fd362d900119fd6239731016dc33b
   verified_by: Tim Sutton
-  verified_on: '2026-10-26'
+  verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
-  note: Ticked in CCPA Regulations Verification Worksheet v0.2 (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
+  note: Ticked in CCPA Regulations Verification Worksheet v0.2, plain-language questions (https://claude.ai/code/artifact/342a9e09-d778-44fe-948b-c4d634bae766)
 - rule: CCPA-CLASS-HUMAN-INVOLVEMENT
   fingerprint: 31f5039a20d7cbb5d1138215f2d8038fe881ea29ae93b3cb6046ddd80efc3b9f
   verified_by: Tim Sutton
