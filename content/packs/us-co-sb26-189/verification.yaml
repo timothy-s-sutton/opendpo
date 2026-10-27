@@ -281,12 +281,12 @@
   self_verified: true
   note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
 - fact: co.subjects.colorado_consumers
-  fingerprint: 27eb6f434eeabe4c6b8362f88e318e938171f397eb65e0f4aabf8c38fd2b3d57
+  fingerprint: dda0591fc7f9156518f01447f470183afd2f5a26e1a2aa89ac9bb738c776e668
   verified_by: Tim Sutton
   verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
-  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc) (re-ticked Oct 27 after rewording)
 - fact: co.decision.adverse_possible
   fingerprint: 3cbb858aacac1314a0c0e70de90ae03612bb26c719ff718f20b6abebc9976d23
   verified_by: Tim Sutton

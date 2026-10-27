@@ -232,12 +232,12 @@
   self_verified: true
   note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
 - fact: nyc.scope.employer_or_agency
-  fingerprint: 4fc3eddf8c8fb0814d1defc38578e49e493c549757d55149fb381771a7a594c7
+  fingerprint: d32d3e8b284466b0d75e1dbbd630bbfa941a2fc205ee9d88cb39c4e8ba79f046
   verified_by: Tim Sutton
   verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
-  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq) (re-ticked Oct 27 after rewording)
 - fact: nyc.tool.ml_derived
   fingerprint: f0a3f60ccec8250ff93f932798c839478d33adbc934db80c7f72a2bcc91e5cc8
   verified_by: Tim Sutton
