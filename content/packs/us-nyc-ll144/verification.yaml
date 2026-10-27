@@ -1,3 +1,282 @@
 # CNT-01 sign-offs. Each record is tied to the fingerprint of what was checked; any later change lapses it.
 # Maintained by hand from the verification worksheets. Do not edit fingerprints.
-[]
+- provision: nyc-20-870-aedt
+  fingerprint: 48a11efef5c07e7cbe9854018dcdb6c98cac151eb5bbf5890363de7801a33ac0
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-20-870-bias-audit
+  fingerprint: aeeb1a66e1d3964a02b967fe219ac53eb668b7ed115c90277ea1347573af4c49
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-20-870-employment-decision
+  fingerprint: 5e40bf5cfa4f05f5e05679cc46a55195051668af7eeba267ac676d86b6b32163
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-20-871-a
+  fingerprint: 2c6fa7a23757a1a274802ae9087686b5a5315b7d54a7ef984e998ff373921905
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-20-871-b-1-2
+  fingerprint: 7857a9fb03a6539418a845d1c2f81d8b70e2bff6b58fe92af8e15d0aa9766634
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-20-871-b-3
+  fingerprint: a70d49b07cdb991e9d474ec668cf2c5ec56315336222a5fc6772109fe9809575
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-20-872
+  fingerprint: 92fe18e49474c1684660e9b08e6a98a12e0daf8bca59269dfb3805e32e78c8ee
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-5-300-aedt
+  fingerprint: 3ca45a72295cebd11f9f2a96f50dc48b95e36082a1e439fc2965a62f90e50795
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-5-300-candidate
+  fingerprint: 3b742d0ee6e11753c45b966ea90ce69906b52f2551406473ceb76e054004d3cb
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-5-300-category
+  fingerprint: 5c725025df9e498b7eeb8d48c3cb6498fc9fc27db43716bbec5b968f250583b7
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-5-300-distribution-date
+  fingerprint: 08e69d93dc9b4aadebd987da5a9dbb0d13e6f8e7d7d7046eeaf27de8be7a3c0b
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-5-300-independent-auditor
+  fingerprint: e01d63af518af38239ebe505db57be6d3c654ed5a12808cbefe0ffdb697c572e
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-5-300-impact-ratio
+  fingerprint: 8ff1462fa387acb1b0022111351474f0c6b9ef0d3ff4e1703ccdb93e689fec11
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-5-300-ml
+  fingerprint: 2b669b65d0f09999a70e55d2f9ef2c5a5e58c367a4eb3c75ddb06659b3503b76
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-5-300-scoring-rate
+  fingerprint: 3031d00c468376bf27d0b3b4070ee91c4a442d0f0b6af3eec100ff4b7e68461a
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-5-300-screen
+  fingerprint: 851a3bf85aaf11afb59adc8e5cd2d01d84a2482f825a9383475d5deee936343b
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-5-300-selection-rate
+  fingerprint: 4e70279417e401f83df4198c2971ada78678199cc97c195eb38b3703802fc90e
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-5-300-simplified-output
+  fingerprint: c6e331b3003432dac69d48bcbdd09102909833fd7472811bd901a15337f69eb4
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-5-301-a
+  fingerprint: f5c12ff7b32224ab4d920c8d49c24ee9a006a0b9fe6fb97d46996de899c66ef3
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-5-301-b
+  fingerprint: d0b44473f958c4f37668c34ffd173df86dd732b7cdd78833715fd21b0e8da9c8
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-5-301-c
+  fingerprint: 9440397299563397e800bb08219d3df4986c110082fa447747534736b00cd5cc
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-5-301-d
+  fingerprint: a5c18496dafa75500c1ed004f79971ef8873eacac39e893543b0ab9f6933bd36
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-5-302
+  fingerprint: c5ec30fb67c5f9b7697c36ece1b3daf3de4247a452e818a67c071042c5953de8
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-5-303
+  fingerprint: cde0a034d8b06bdfa248b0aa3cf0a6e0fa3dddaa3c579787b807a7a6de5b604c
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-5-304-a-c
+  fingerprint: 04d652e623ab5ae7576f1286dead47363cc2e4ed92a4857f0c75b79ab4b672d1
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- provision: nyc-5-304-d
+  fingerprint: 61f32859f31529dd914dbaaaf5388c77e0c28788d116888e64defff1dba084a4
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- rule: NYC-CLASS-AEDT
+  fingerprint: 08a6365c7aaaf165ee0c83f8512f13be75c33e5e5eb18dabc2bdcf46a0c1cd56
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- rule: NYC-BIAS-AUDIT
+  fingerprint: cb0f68f7814692f32bc0f9536fbff542e059c853e6fcd691c29dc73e84a4f256
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- rule: NYC-BIAS-AUDIT-SELECTION
+  fingerprint: c54b146b5aa3c83dbccf2be448c1d64559362e4f940939d108d00ea67842a0a2
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- rule: NYC-BIAS-AUDIT-SCORING
+  fingerprint: 7af602ba5b359c5ec66512501a198291afcecec037ca53f2ee7b43efa607458d
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- rule: NYC-PUBLISH-RESULTS
+  fingerprint: 67e8e09251625631493b234b2724311629127b72b213c8c8c628bd7deae3c35e
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- rule: NYC-CANDIDATE-NOTICE
+  fingerprint: 9e09442f575828a3a12761b06f2788719f93425e0ae8415bf09885b88ad5b485
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- rule: NYC-DATA-DISCLOSURE
+  fingerprint: d8ae53ec7ed28b7b3603f09e8b0ed305826e2b1652ccd6c53543ae0deefa5ef0
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- fact: nyc.scope.employer_or_agency
+  fingerprint: 4fc3eddf8c8fb0814d1defc38578e49e493c549757d55149fb381771a7a594c7
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Checked that the question and its answers capture the definitions it cites
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- fact: nyc.tool.ml_derived
+  fingerprint: 14be713eb8ae14669174704927b98af4c57d6d83d1602830fb4fe1faab5f7e06
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Checked that the question and its answers capture the definitions it cites
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- fact: nyc.tool.simplified_output
+  fingerprint: cdf3f7b5fd0b07f2dde8409a75374e5376973f6e7da75c891ead65c76d81b837
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Checked that the question and its answers capture the definitions it cites
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- fact: nyc.tool.output_use
+  fingerprint: fbf6f63c28ee74fcdc0fd096212f97038eaefac3ae54112947bc613adb24468e
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Checked that the question and its answers capture the definitions it cites
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- fact: nyc.tool.screens
+  fingerprint: c35b62f06675a2eb693a88ae46a6d02bb33e2f39f790877b3fcb38aa19a7efa7
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Checked that the question and its answers capture the definitions it cites
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- fact: nyc.tool.output_kinds
+  fingerprint: 4509bcc1d3b33e3e748b6aeefc2780962e28e8f1ad50394911f72120c9603e26
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Checked that the question and its answers capture the definitions it cites
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
+- fact: nyc.subjects.city_residents
+  fingerprint: 6a135b29312cb2ad50cd461730dd6cba93f9179eeaf8ca125b0157c00e62bac4
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Checked that the question and its answers capture the definitions it cites
+  self_verified: true
+  note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
