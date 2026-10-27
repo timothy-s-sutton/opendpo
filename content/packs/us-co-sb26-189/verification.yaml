@@ -1,3 +1,310 @@
 # CNT-01 sign-offs. Each record is tied to the fingerprint of what was checked; any later change lapses it.
 # Maintained by hand from the verification worksheets. Do not edit fingerprints.
-[]
+- provision: co-6-1-1701-1
+  fingerprint: 12c6abacc2e472aa5193c7e3850a66fa059f9e6b0a628581c60f31624f630ef1
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- provision: co-6-1-1701-2-a
+  fingerprint: 0f20bdc5d936ea8376481d71395473a4e7c811ca983450a2f18872c89df93c7a
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- provision: co-6-1-1701-2-b
+  fingerprint: 65c30d22a2db94f14a726875b48d33a60ebdb8ba70221deeb996170f19bbbeb0
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- provision: co-6-1-1701-3-a
+  fingerprint: 567e2353dd5cf9297251686968435861f76caf9668a1fa3499bf270191ea729b
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- provision: co-6-1-1701-3-b
+  fingerprint: 0b87088637c45ababe4050b78bdb00305c58680e00b5c47cb4ddbc42d3d60d6c
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- provision: co-6-1-1701-4
+  fingerprint: 86fbe66741d83087b775b487770abc3c0d6c81464ea52c035e2d93b435c853f1
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- provision: co-6-1-1701-5
+  fingerprint: 1d89b806c0c2f9bfb8f4e9d6e1a51b09ebe1ef879e51a48e4b632d229314af7a
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- provision: co-6-1-1701-6
+  fingerprint: fc9a0a376c315d1935464933c151ccde6cc14c50ee660b00921fba6907b1cb3a
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- provision: co-6-1-1701-7
+  fingerprint: ccddeeda71fe74ea74c5f4b22d280374765fef6397252dba61ea80ec7f35abd6
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- provision: co-6-1-1701-8
+  fingerprint: d3748018a80cb08435b1dc27b918dba2f1e26e18ff3ef9c9a9a416cfecf0a282
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- provision: co-6-1-1701-13
+  fingerprint: 0ac9e9a83555b7e718ca3afb22ccfc85e10b47d9d91413ecb42898f61ee18c65
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- provision: co-6-1-1701-15
+  fingerprint: e141a139c6202b10021826f5843cf2332ddfb958c821ff0113832e2b7db73df9
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- provision: co-6-1-1703
+  fingerprint: c3ac8fbe1c0a5259e57297d6d732ee76717a3e30be2f7545a9a0c2827e22e114
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- provision: co-6-1-1704-1-2
+  fingerprint: 8a90ad5d8f324c5ca5440c74e5e1bb94edbae118521cccbc93f638516fe54a83
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- provision: co-6-1-1704-3
+  fingerprint: 88455463e23c3a9b1dec9396387d0df86757f98ed9ba929fe3ccfd4fdd81a0d2
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- provision: co-6-1-1704-8
+  fingerprint: 16953d2239762a4c914e7019fa255fead58f85c046558b1a7196ef6b5f48d02f
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- provision: co-6-1-1705-1
+  fingerprint: 70fc75534221f3a5f7d57bafe6a9a77b9235104ad921a7ad8eb45cd40eef5d7d
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- provision: co-6-1-1708-1-2
+  fingerprint: 5d25ecc49fda9bcc55d383d6e44778f41e0f2b5569501de5655c8e81b1648987
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- provision: co-6-1-1708-3-a-b
+  fingerprint: 9ab8838f32253134bb348e46b362be1f9c547d975a3b4c6f25c53eac15d97b2f
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- provision: co-sb26-189-s5
+  fingerprint: 71fea523183ebdcb545b44e4170362b0b06aa8a352975a4399ec8e9c9eeecfcd
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Compared word for word against the primary source
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- rule: CO-CLASS-ADMT
+  fingerprint: e9606902ac3f940469514d7d617ff8003a3168ac1d40127dd47d134ea957adf9
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- rule: CO-CLASS-CONSEQUENTIAL
+  fingerprint: b0b59662be723853e0091d6a0f9b1fecc54d29fae382af42ee25ab1d5580f204
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- rule: CO-CLASS-MATERIAL-INFLUENCE
+  fingerprint: c7ea0ee1d9ff62847abf5ac1788ed30ac71c50e415b6cc9138d4517f2bc3a994
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- rule: CO-CLASS-COVERED-ADMT
+  fingerprint: 35ac0a4d897ee77289c5e99d247dc6db0e602db12e785c37fa7418c31092d4af
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- rule: CO-CLASS-EXEMPT-HIPAA
+  fingerprint: 348cbf0cba9c5c9ec6034327d6023eed4dead0959a3ded1cb2fdda7728c23635
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- rule: CO-CLASS-EXEMPT-INSURER
+  fingerprint: 527743e439212f7b97b87db0b5641bdddb917a8e074ebc7edd5fc93f9e5aca7a
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- rule: CO-DEPLOYER-NOTICE
+  fingerprint: 98153285e17a134c6bbac3473ad16076dbfb38255bea27e28b78b33f40d37049
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- rule: CO-DEPLOYER-ADVERSE-OUTCOME
+  fingerprint: 98eb14f826b7612e99bfe86c9be94836248c76c8db7cf3f501803bd050b38362
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- rule: CO-CONSUMER-RIGHTS
+  fingerprint: 47395d503c3694b2177e28fee756b57b7683032eb42c33e9899c23b0135b9ef7
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- rule: CO-DEPLOYER-RECORDS
+  fingerprint: a2e0871ffa281f57e3025b450a698748b2ae6aa7be3c8ebf032fc4fe4f1b95a6
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Reviewed the rule's conditions and conclusion against the provisions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- fact: co.scope.doing_business
+  fingerprint: 9105e89a734e214b65ac3e659932f72a45e215085025d8524151a66e29136c01
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Checked that the question and its answers capture the definitions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- fact: co.role.deploys
+  fingerprint: 1e960ec01636a6efe6d761b8eb969c1d0a7524f2f3460762c9a0e81c8f4fe3d9
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Checked that the question and its answers capture the definitions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- fact: co.tech.generates_output
+  fingerprint: 2f2e011c3e38a53cde6046dbcfdfd32967b850efe9908ef11ba396204002cad3
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Checked that the question and its answers capture the definitions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- fact: co.tech.excluded
+  fingerprint: 894e139c94920074274bd5f039da9ebdfd728e64c56e3339b796e47a3c6d8d3a
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Checked that the question and its answers capture the definitions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- fact: co.decision.domain
+  fingerprint: 3662de9b8aa527c5b2d795df9fb861a0edc241abf3e652e4f58ef0b115100829
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Checked that the question and its answers capture the definitions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- fact: co.decision.affects_access
+  fingerprint: aa0f2a8ae300af749df2e0ca2ba5792b38b38d2ee21955e67b26cd0cb0e45592
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Checked that the question and its answers capture the definitions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- fact: co.decision.excluded
+  fingerprint: f860f700dd6a742609de469b459b127b0705c69e6c5a4055358975ba0a9f9907
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Checked that the question and its answers capture the definitions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- fact: co.influence.non_de_minimis
+  fingerprint: e03857210c15f24ad639c32f77a3d48351f456cb4cf8100a74f004652d6c4076
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Checked that the question and its answers capture the definitions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- fact: co.influence.affects_outcome
+  fingerprint: da23acb306ee095593c3125c23aafb70ac5765e2596c790299403252208a3271
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Checked that the question and its answers capture the definitions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- fact: co.influence.incidental_only
+  fingerprint: 589a327471b6b68a4b2edac66001550a824d28eaa33feb9e15736980fe8136f9
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Checked that the question and its answers capture the definitions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- fact: co.subjects.colorado_consumers
+  fingerprint: 27eb6f434eeabe4c6b8362f88e318e938171f397eb65e0f4aabf8c38fd2b3d57
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Checked that the question and its answers capture the definitions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- fact: co.decision.adverse_possible
+  fingerprint: ce142a936c06c596dd5a8fa3acd8e4b5e4507a3b35028acbe899100319b5542c
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Checked that the question and its answers capture the definitions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- fact: co.exempt.hipaa_covered_entity
+  fingerprint: cd066710cfced176f7dea4faa10ab7178cc3607069ec8c61a7de4c778934d88a
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Checked that the question and its answers capture the definitions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+- fact: co.exempt.insurer
+  fingerprint: 14284e6abe85d9dd60804afd5206e28bdb92ec8e3098c3039a9d5a5b91445c7f
+  verified_by: Tim Sutton
+  verified_on: '2026-10-27'
+  method: Checked that the question and its answers capture the definitions it cites
+  self_verified: true
+  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
