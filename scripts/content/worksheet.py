@@ -44,8 +44,9 @@ INTROS = {
     "That PDF is a scan, so its text layer is OCR. Software copied the OCR text, not retyped, then applied only the "
     "listed corrections where OCR split or merged words or misread a paragraph number; each provision shows the "
     "corrections made to it. Check those against the page image. Capital letters are kept as printed (in the act "
-    "they mark new statutory text). Only the provisions the rules and questions use are included; sections 1704(5)-(7) "
-    "and (9), 1705(2)-(3), 1706, 1707, 1708(3)(c)-(6) and 1709 are not.",
+    "they mark new statutory text). Only the provisions the rules and questions use are included; section 1702 "
+    "(developer duties, outside the deployer-only preview), 1704(5)-(7) and (9), 1705(2)-(3), 1706, 1707, "
+    "1708(3)(c)-(6) and 1709 are not.",
     "us-nyc-ll144": "These provisions come from the two PDFs you supplied: the Council's legislation text of "
     "Int. No. 1894-A (Local Law 144 of 2021) and DCWP's notice of adoption of 6 RCNY §§ 5-300 to 5-304. Both have real "
     "text layers; software copied the text, not retyped. Legistar repeats each page's last line at the top of the next "

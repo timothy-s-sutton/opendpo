@@ -144,9 +144,6 @@ sections:
   questions:
   - fact: co.subjects.colorado_consumers
   - fact: co.role.deploys
-  - fact: co.role.develops
-  - fact: co.dev.marketed_for_consequential
-    show_when: {fact: co.role.develops, equals: true}
   - fact: co.tech.generates_output
   - fact: co.tech.excluded
     show_when: {fact: co.tech.generates_output, equals: true}

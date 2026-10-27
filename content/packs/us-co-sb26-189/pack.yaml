@@ -194,68 +194,6 @@ provisions:
   summary: Meaningful human review is by an individual the deployer designates with authority to approve, modify
     or override the decision, who considers the relevant primary evidence, is trained, does not default to the system
     output, and can understand the output's intended use, limitations, inputs and principal factors.
-- id: co-6-1-1702-1
-  citation: C.R.S. § 6-1-1702(1)
-  source: co-sb26-189-signed
-  location: Signed act, pp. 9-10
-  effective_from: '2027-01-01'
-  text: '(1) ON AND AFTER JANUARY 1, 2027, A DEVELOPER SHALL MAKE AVAILABLE TO EACH DEPLOYER OF A COVERED ADMT DEVELOPED
-    BY THE DEVELOPER, IN A FORM AND MANNER THAT IS REASONABLY UNDERSTANDABLE TO A DEPLOYER AND THAT PROTECTS TRADE
-    SECRETS OR INFORMATION PROTECTED FROM DISCLOSURE BY STATE OR FEDERAL LAW: (a) A GENERAL STATEMENT DESCRIBING
-    THE INTENDED USES AND KNOWN HARMFUL OR INAPPROPRIATE USES OF THE COVERED ADMT; (b) A DESCRIPTION OF THE CATEGORIES
-    OF DATA, INCLUDING PERSONAL DATA, USED TO TRAIN THE COVERED ADMT, TO THE EXTENT KNOWN; (c) KNOWN LIMITATIONS
-    OF THE COVERED ADMT, INCLUDING KNOWN RISKS AND CIRCUMSTANCES IN WHICH THE COVERED ADMT SHOULD NOT BE USED; (d)
-    INSTRUCTIONS FOR THE DEPLOYER''S APPROPRIATE USE, MONITORING, AND MEANINGFUL HUMAN REVIEW, WHERE APPLICABLE;
-    (e) INFORMATION REASONABLY NECESSARY FOR THE DEPLOYER TO COMPLY WITH SECTION 6-1-1704. IF INFORMATION IS WITHHELD,
-    THE DEVELOPER SHALL NOTIFY THE DEPLOYER.'
-  summary: From January 1, 2027, a developer must give each deployer intended and known harmful uses, categories
-    of training data, known limitations and risks, instructions for use, monitoring and meaningful human review,
-    and what the deployer needs to give consumer disclosures, and must say if anything is withheld.
-- id: co-6-1-1702-2
-  citation: C.R.S. § 6-1-1702(2)
-  source: co-sb26-189-signed
-  location: Signed act, p. 10
-  effective_from: '2027-01-01'
-  text: (2) (a) A DEVELOPER SHALL PROVIDE TO EACH DEPLOYER OF A COVERED ADMT DEVELOPED BY THE DEVELOPER A NOTICE
-    OF MATERIAL UPDATES, INTENTIONAL AND SUBSTANTIAL MODIFICATIONS, AND CHANGES TO THE INTENDED USE OF, LIMITATIONS
-    FOR, OR RISK MITIGATION FOR THE COVERED ADMT WITHIN A REASONABLE TIME. (b) A DEVELOPER MAY USE PUBLIC RELEASE
-    NOTES CONTAINING THE INFORMATION REQUIRED BY SUBSECTION (2)(a) OF THIS SECTION TO COMPLY WITH THIS SUBSECTION
-    (2) IF THE DEVELOPER PROVIDES DIRECT NOTICE OF THE PUBLIC RELEASE TO EACH DEPLOYER OF THE COVERED ADMT.
-  summary: A developer must notify each deployer of material updates, intentional and substantial modifications,
-    and changes to intended use, limitations or risk mitigation within a reasonable time; release notes count if
-    deployers get direct notice of them.
-- id: co-6-1-1702-3
-  citation: C.R.S. § 6-1-1702(3)
-  source: co-sb26-189-signed
-  location: Signed act, p. 10
-  effective_from: '2027-01-01'
-  text: (3) A DEVELOPER IS SUBJECT TO THE DISCLOSURE REQUIREMENTS DESCRIBED IN SUBSECTIONS (1) AND (2) OF THIS SECTION
-    ONLY FOR A DEPLOYER'S USE OF A COVERED ADMT WHERE THE ADMT WAS MARKETED, ADVERTISED, CONFIGURED, CONTRACTED,
-    SOLD, OR LICENSED TO BE USED TO MATERIALLY INFLUENCE A CONSEQUENTIAL DECISION.
-  summary: The developer disclosure duties apply only where the ADMT was marketed, advertised, configured, contracted,
-    sold or licensed to materially influence a consequential decision.
-- id: co-6-1-1702-4
-  citation: C.R.S. § 6-1-1702(4)
-  source: co-sb26-189-signed
-  location: Signed act, p. 10
-  effective_from: '2027-01-01'
-  text: (4) A DEVELOPER SHALL RETAIN, FOR NOT LESS THAN THREE YEARS AFTER THE CREATION OF A RECORD REQUIRED OR CREATED
-    UNDER THIS SECTION OR FOR A LONGER PERIOD IF REQUIRED BY APPLICABLE STATE OR FEDERAL LAW, RECORDS REASONABLY
-    NECESSARY TO DEMONSTRATE COMPLIANCE WITH THIS SECTION. RECORDS INCLUDE SYSTEM VERSION IDENTIFIERS, CHANGELOGS,
-    AND DOCUMENTATION AND NOTICES OF MATERIAL UPDATES PROVIDED TO DEPLOYERS PURSUANT TO SUBSECTION (2) OF THIS SECTION.
-  summary: A developer must keep records showing compliance, including version identifiers, changelogs and update
-    notices, for at least three years or longer if other law requires.
-- id: co-6-1-1702-5
-  citation: C.R.S. § 6-1-1702(5)
-  source: co-sb26-189-signed
-  location: Signed act, p. 10
-  effective_from: '2027-01-01'
-  text: (5) THIS SECTION APPLIES WHEN A DEVELOPER CREATES A COVERED ADMT THAT IS INTENDED, DOCUMENTED, MARKETED,
-    ADVERTISED, CONFIGURED, OR CONTRACTED TO BE USED TO MAKE CONSEQUENTIAL DECISIONS OR WHEN THE DEVELOPER BECOMES
-    AWARE THAT THE COVERED ADMT IS BEING USED TO MAKE CONSEQUENTIAL DECISIONS IN A MANNER CONSISTENT WITH THE INTENDED
-    AND CONTRACTED USES.
-  summary: The developer section applies when the developer intends or markets a covered ADMT for consequential
-    decisions, or learns it is being used that way consistent with its intended and contracted uses.
 - id: co-6-1-1703
   citation: C.R.S. § 6-1-1703
   source: co-sb26-189-signed
@@ -382,13 +320,6 @@ facts:
   type: boolean
   defined_by:
   - co-6-1-1701-7
-- id: co.role.develops
-  question: Does the organization develop, offer, sell, lease, license or otherwise make the technology commercially
-    available, develop a component designed or contracted to be part of it, or intentionally and substantially modify
-    it so that it becomes covered, with none of the developer exclusions applying?
-  type: boolean
-  defined_by:
-  - co-6-1-1701-8
 - id: co.tech.generates_output
   question: Does the technology process personal data and use computation to generate output, such as predictions,
     recommendations, classifications, rankings or scores, that is used to make, guide or assist a decision, judgment
@@ -485,14 +416,6 @@ facts:
   type: boolean
   defined_by:
   - co-6-1-1701-1
-- id: co.dev.marketed_for_consequential
-  question: Is the technology intended, documented, marketed, advertised, configured, contracted, sold or licensed
-    to be used to materially influence consequential decisions, or does the organization know it is being used that
-    way consistent with its intended and contracted uses?
-  type: boolean
-  defined_by:
-  - co-6-1-1702-3
-  - co-6-1-1702-5
 - id: co.exempt.hipaa_covered_entity
   question: Is the organization a HIPAA covered entity doing business in Colorado, or a business associate providing
     services to one? A covered entity that is a health-care provider counts only if it operates from a location
@@ -733,31 +656,3 @@ rules:
     retain_years: 3
   explanation: The deployer must keep records showing compliance for at least three years after each consequential
     decision, such as ADMT version identifiers, changelogs and records of mitigation changes.
-- id: CO-DEVELOPER-DOCS
-  kind: obligation
-  title: Give deployers documentation and update notices, and keep records
-  provisions:
-  - co-6-1-1702-1
-  - co-6-1-1702-2
-  - co-6-1-1702-3
-  - co-6-1-1702-4
-  - co-6-1-1702-5
-  - co-sb26-189-s5
-  when:
-    all:
-    - fact: co.scope.doing_business
-      equals: true
-    - fact: co.role.develops
-      equals: true
-    - fact: co.dev.marketed_for_consequential
-      equals: true
-    - not:
-        fact: co.exempt
-        equals: true
-  result:
-    obligation: co_developer_documentation
-    applies_from: '2027-01-01'
-    retain_years: 3
-  explanation: A developer of ADMT marketed or used for consequential decisions must give each deployer its intended
-    and harmful uses, training data categories, limitations, instructions for use and human review, and what deployers
-    need for consumer disclosures; notify deployers of material updates; and keep records for three years.

@@ -28,7 +28,6 @@
     "ai.trains_identity_or_biometric": false,
     "co.subjects.colorado_consumers": true,
     "co.role.deploys": true,
-    "co.role.develops": false,
     "co.tech.generates_output": true,
     "co.tech.excluded": false,
     "co.decision.domain": "employment",

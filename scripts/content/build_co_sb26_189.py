@@ -12,6 +12,7 @@ ocr-corrections.yaml next to the pack so the verification worksheet can show the
 
 Capital letters are kept as printed: in the act they mark new statutory text.
 Facts and rules are authored by hand in pack.yaml and are kept when this script reruns.
+Section 6-1-1702 (developer duties) is left out of the preview, which models deployers only.
 """
 import re
 import sys
@@ -122,23 +123,6 @@ PROVISIONS = [
      "Meaningful human review is by an individual the deployer designates with authority to approve, modify or "
      "override the decision, who considers the relevant primary evidence, is trained, does not default to the "
      "system output, and can understand the output's intended use, limitations, inputs and principal factors."),
-    ("6-1-1702-1", "6-1-1702(1)", "(1) ON AND AFTER JANUARY 1, 2027, A DEVELOPER", "(2) (a) A DEVELOPER SHALL PROVIDE",
-     "From January 1, 2027, a developer must give each deployer intended and known harmful uses, categories of "
-     "training data, known limitations and risks, instructions for use, monitoring and meaningful human review, and "
-     "what the deployer needs to give consumer disclosures, and must say if anything is withheld."),
-    ("6-1-1702-2", "6-1-1702(2)", "(2) (a) A DEVELOPER SHALL PROVIDE", "(3) A DEVELOPER IS SUBJECT",
-     "A developer must notify each deployer of material updates, intentional and substantial modifications, and "
-     "changes to intended use, limitations or risk mitigation within a reasonable time; release notes count if "
-     "deployers get direct notice of them."),
-    ("6-1-1702-3", "6-1-1702(3)", "(3) A DEVELOPER IS SUBJECT", "( 4) A DEVELOPER SHALL RETAIN",
-     "The developer disclosure duties apply only where the ADMT was marketed, advertised, configured, contracted, "
-     "sold or licensed to materially influence a consequential decision."),
-    ("6-1-1702-4", "6-1-1702(4)", "( 4) A DEVELOPER SHALL RETAIN", "(5) THIS SECTION APPLIES",
-     "A developer must keep records showing compliance, including version identifiers, changelogs and update "
-     "notices, for at least three years or longer if other law requires."),
-    ("6-1-1702-5", "6-1-1702(5)", "(5) THIS SECTION APPLIES", "6-1-1703. Deployer record keeping.",
-     "The developer section applies when the developer intends or markets a covered ADMT for consequential "
-     "decisions, or learns it is being used that way consistent with its intended and contracted uses."),
     ("6-1-1703", "6-1-1703", "A DEPLOYER SHALL RETAIN", "6-1-1704. Deployer disclosures",
      "A deployer must keep records showing compliance for at least three years after each consequential decision, "
      "or longer if other law requires, such as version identifiers, changelogs and records of mitigation changes."),
