@@ -331,16 +331,23 @@ facts:
   defined_by:
   - co-6-1-1701-2-a
 - id: co.tech.excluded
-  question: 'Is the technology only one the act excludes: a listed routine tool (anti-malware, anti-virus, calculators,
-    databases, data storage, firewalls, domain registration, website loading, networking, spam and robocall filtering,
-    spell-checking, spreadsheets that need human analysis and use no machine learning, foundation models or large
-    language models, web caching or web hosting); a tool an individual uses solely to summarize, organize, translate,
-    draft, route or present information for human review of administrative processing; or a technology that talks
-    with consumers that is not contracted, marketed, configured or intended for consequential decisions and is under
-    a use policy that prohibits using its content in them?'
+  question: Is the technology one of the tools the act excludes?
   type: boolean
   defined_by:
   - co-6-1-1701-2-b
+  help: 'Answer yes if it is one of these:
+
+    - A routine tool: anti-malware, anti-virus, calculators, databases, data storage, firewalls, internet domain
+    registration, website loading, networking, spam and robocall filtering, spell-checking, web caching or web hosting
+
+    - A spreadsheet that needs human analysis and uses no machine learning, foundation models or large language
+    models
+
+    - A tool a person uses solely to summarize, organize, translate, draft, route or present information for human
+    review of administrative processing
+
+    - A technology that communicates with consumers, is not contracted, marketed, configured or intended for consequential
+    decisions, and is under a use policy that prohibits using its content in them'
 - id: co.decision.domain
   question: Which area is the decision in?
   type: choice
@@ -373,19 +380,33 @@ facts:
   defined_by:
   - co-6-1-1701-3-a
 - id: co.decision.excluded
-  question: 'Is the use one the act excludes from consequential decisions: low-stakes or routine processes that
-    do not materially influence eligibility, selection, denial, compensation, pricing or access (such as scheduling,
-    classroom personalization, administrative routing, customer service triage, communicating decisions or workflow
-    management); advertising, marketing, differentiated product recommendations, search or content moderation; spreadsheets
-    that need manual human analysis and use no machine learning, foundation models or large language models; summarizing,
-    organizing or presenting information for human review where the system produces no score, ranking, recommendation,
-    classification, prediction or other inference that materially influences the outcome; narrow procedural or data-processing
-    tasks that generate no prediction or inference about a person; cybersecurity, spam and robocall filtering, system
-    reliability, anti-money laundering, counter-terrorist financing, sanctions compliance or fraud prevention; or
-    routine academic administration and student support?'
+  question: Is this use one the act excludes from consequential decisions?
   type: boolean
   defined_by:
   - co-6-1-1701-3-b
+  help: 'Answer yes if it is one of these:
+
+    - A low-stakes or routine process that does not materially influence eligibility, selection, denial, compensation,
+    pricing or access, such as scheduling, classroom personalization, administrative routing, customer service triage,
+    communicating decisions or workflow management
+
+    - Advertising, marketing, differentiated product recommendations, search or content moderation
+
+    - A spreadsheet that needs manual human analysis and uses no machine learning, foundation models or large language
+    models
+
+    - Summarizing, organizing or presenting information for human review, where the system produces no score, ranking,
+    recommendation, classification, prediction or other inference that materially influences the outcome
+
+    - A narrow procedural or data-processing task that generates no prediction or inference about a person and does
+    not materially influence the decision
+
+    - Cybersecurity, spam and robocall filtering, system reliability, anti-money laundering or counter-terrorist
+    financing controls
+
+    - Economic sanctions compliance, or fraud prevention such as identity verification and legally required monitoring
+
+    - Routine academic administration and student support that does not materially influence a consequential decision'
 - id: co.influence.non_de_minimis
   question: Is the technology's output a non-de minimis factor used in making the decision?
   type: boolean

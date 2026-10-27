@@ -102,7 +102,8 @@ def main(path):
                 f"- **Asks:** {f['question']} ({f['type']}, asked in {f.get('asked_in', 'intake')})" + opts,
                 f"- **Defined by:** {', '.join(f['defined_by']) if f.get('defined_by') else 'none yet'}"]
         if f.get("help"):
-            out.append(f"- **Note:** {f['help']}")
+            lead, *items = f["help"].split("\n- ")
+            out.append(f"- **Note:** {lead}" + "".join(f"\n    - {i}" for i in items))
         if f.get("pending"):
             out.append(f"- **Pending:** {f['pending']}")
         out += ["", f"- [ ] Question captures its definition ({f['id']})", ""]

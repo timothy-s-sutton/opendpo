@@ -65,6 +65,9 @@ tr.clickable:hover td { background: #f8fafc; }
 .question.has-problem { border-left: 3px solid var(--bad); padding-left: 10px; }
 .question .q { display: block; font-weight: 600; margin-bottom: 4px; }
 .help { margin: 0 0 6px; font-size: 13px; color: var(--muted); }
+.help p { margin: 0; }
+.help ul { margin: 4px 0 0; padding-left: 18px; }
+.help li { margin: 2px 0; }
 .note { font-size: 13px; color: var(--warn); background: #fffaf0; border: 1px solid #e6c27a; border-radius: 6px; padding: 8px 10px; }
 input[type="text"], input[type="date"], textarea, select { font: inherit; width: 100%; padding: 8px; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
 input[type="date"] { width: auto; }

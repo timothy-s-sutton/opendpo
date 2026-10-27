@@ -234,10 +234,21 @@ function Question({ id, prop, value, onChange, problem }: {
   return (
     <div className={`question ${problem ? "has-problem" : ""}`}>
       <label className="q" htmlFor={id}>{prop.title}</label>
-      {prop.description && <p className="help">{prop.description}</p>}
+      {prop.description && <Help text={prop.description} />}
       {input}
       {problem && <p className="err small">{problem}</p>}
       {meta.definitions && meta.definitions.length > 0 && <Definitions defs={meta.definitions} />}
+    </div>
+  );
+}
+
+// Help text may end in a list: lines after the first that start with "- " show as bullets.
+function Help({ text }: { text: string }) {
+  const [lead, ...items] = text.split("\n- ");
+  return (
+    <div className="help">
+      <p>{lead}</p>
+      {items.length > 0 && <ul>{items.map((i) => <li key={i}>{i}</li>)}</ul>}
     </div>
   );
 }
