@@ -425,7 +425,7 @@ facts:
   help: This includes Colorado residents, your employees, job applicants who live in Colorado, and anyone being
     considered for an opportunity in Colorado. An analyst confirms anything unusual.
 - id: co.decision.adverse_possible
-  question: Could the decision go against someone?
+  question: Could the decision have a negative outcome for someone?
   type: boolean
   defined_by:
   - co-6-1-1701-1
