@@ -11,13 +11,19 @@ from opendpo import main
 from opendpo.config import settings
 
 from .conftest import HARBOR, as_user
-from .test_triage import FIXTURE
+from .test_triage import FIXTURE, all_rules_usable
 
 BASE = f"/api/tenants/{HARBOR}"
 
 
 @pytest.fixture(autouse=True)
 def rules_loaded():
+    """Run these tests with every rule usable, so they test the API, not today's sign-offs."""
+    lib = all_rules_usable()
+    saved, main._library = main._library, lib
+    main.publish_content_to_policy_engine(retries=3)
+    yield
+    main._library = saved
     main.publish_content_to_policy_engine(retries=3)
 
 
@@ -46,8 +52,7 @@ def test_submit_runs_triage_with_citations(client):
     assert [a["assessment"] for a in result["assessments"]] == ["ccpa_risk_assessment"]
     admt = next(c for c in result["classifications"] if c["rule"] == "CCPA-CLASS-ADMT")
     assert any(c["id"] == "ccpa-7001-e-1" for c in admt["citations"])
-    # Rules not yet verified are listed, not run.
-    assert any(n["rule"] == "CO-DEPLOYER-NOTICE" for n in result["not_run"])
+    assert any(o["rule"] == "CO-DEPLOYER-NOTICE" for o in result["obligations"])
     detail = client.get(f"{BASE}/projects/{pid}", headers=as_user("ana.patel")).json()
     assert detail["status"] == "triaged" and detail["triage"]["status"] == "proposed"
 

@@ -353,63 +353,61 @@ provisions:
     writing; answer written requests within 30 days; and explain any refusal based on law or an investigation.
 facts:
 - id: nyc.scope.employer_or_agency
-  question: Is the organization an employer or employment agency that uses, or plans to use, the tool to screen
-    candidates or employees for an employment decision in New York City?
+  question: Is your organization an employer or employment agency that hires or promotes people in New York City?
   type: boolean
   asked_in: scoping
   defined_by:
   - nyc-20-871-a
   - nyc-20-870-employment-decision
 - id: nyc.tool.ml_derived
-  question: Is the tool a computational process derived from machine learning, statistical modeling, data analytics
-    or artificial intelligence, meaning computer-based techniques that generate a prediction or classification and
-    for which a computer at least in part identifies the inputs, their relative importance or other model parameters?
+  question: Is the tool built with machine learning, statistics, data analytics or AI?
   type: boolean
   defined_by:
   - nyc-20-870-aedt
   - nyc-5-300-ml
+  help: Answer yes if a computer at least partly chose which inputs it uses, how much each one counts, or other
+    settings of the model.
 - id: nyc.tool.simplified_output
-  question: Does the tool issue simplified output, such as a score, tag or categorization, recommendation or ranking,
-    rather than only translating or transcribing existing text?
+  question: Does the tool give people a score, tag, ranking or recommendation?
   type: boolean
   defined_by:
   - nyc-20-870-aedt
   - nyc-5-300-simplified-output
+  help: Tools that only translate or transcribe, like converting a resume from PDF, don't count.
 - id: nyc.tool.output_use
-  question: How is the tool's output used in the decision?
+  question: How much does the tool's output count in the decision?
   type: choice
   options:
   - value: sole
-    label: Relied on solely, with no other factors considered
+    label: It's the only thing considered
   - value: weighted_most
-    label: One of a set of criteria, weighted more than any other criterion
+    label: It counts more than any other factor
   - value: overrules
-    label: Used to overrule conclusions from other factors, including human decision-making
+    label: It can overrule other factors, including a person's judgment
   - value: other
-    label: None of these
+    label: Less than that
   defined_by:
   - nyc-5-300-aedt
 - id: nyc.tool.screens
-  question: Is the tool used to screen, that is, to decide whether candidates for employment, or employees being
-    considered for promotion within the city, should be selected or advanced in the hiring or promotion process?
+  question: Is the tool used to decide who moves forward in hiring or promotion?
   type: boolean
   defined_by:
   - nyc-20-870-employment-decision
   - nyc-5-300-screen
   - nyc-5-300-candidate
 - id: nyc.tool.output_kinds
-  question: What does the tool do with the people it assesses?
+  question: What does the tool do?
   type: multichoice
   options:
   - value: selects_or_classifies
-    label: Selects them to move forward or classifies them into groups
+    label: Picks who moves forward, or sorts people into groups
   - value: scores
-    label: Scores them
+    label: Gives people scores
   defined_by:
   - nyc-5-301-b
   - nyc-5-301-c
 - id: nyc.subjects.city_residents
-  question: Do any of the candidates or employees the tool screens reside in New York City?
+  question: Do any of the candidates or employees live in New York City?
   type: boolean
   defined_by:
   - nyc-20-871-b-1-2

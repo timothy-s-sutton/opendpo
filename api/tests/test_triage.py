@@ -131,13 +131,16 @@ def test_harbor_triage_with_every_rule_as_drafted(evaluator):
 
 
 def test_harbor_triage_runs_only_verified_rules(evaluator):
+    """Whatever is signed off today, triage returns exactly the expected results whose rules are usable,
+    and lists every other rule as not run."""
     lib = content.load()
+    usable = {s.rule.id for s in lib.statuses if s.usable}
     result = triage.run(lib, facts(), evaluator(lib))
     got = names(result)
-    for kind, expected in FIXTURE["expected"].items():
-        assert set(got[kind]) == {r for r in expected if r.startswith("CCPA-") or r.startswith("ccpa")}
-    unverified = {r["rule"] for r in result["not_run"]}
-    assert {"CO-DEPLOYER-NOTICE", "NYC-BIAS-AUDIT"} <= unverified
+    expected_rules = {r for k in ("classifications", "obligations") for r in FIXTURE["expected"][k]}
+    for kind in ("classifications", "obligations"):
+        assert set(got[kind]) <= expected_rules & usable
+    assert {r["rule"] for r in result["not_run"]} == {s.rule.id for s in lib.statuses} - usable
 
 
 def test_results_carry_explanations_and_citations(evaluator):

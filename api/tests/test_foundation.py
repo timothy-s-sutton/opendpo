@@ -84,7 +84,7 @@ def test_allowed_actions_reflect_role(client):
 def test_denied_attempt_is_audited(client):
     r = client.post(f"/api/tenants/{HARBOR}/intended-use/ack", headers=as_user("sam.rivera"))
     assert r.status_code == 403
-    events = client.get(f"/api/tenants/{HARBOR}/audit", headers=as_user("avery.shaw")).json()
+    events = client.get(f"/api/tenants/{HARBOR}/audit?limit=1000", headers=as_user("avery.shaw")).json()
     assert any(e["action"] == "access.denied" and e["payload"]["attempted"] == "tenant.ack_intended_use"
                for e in events)
 
@@ -92,7 +92,7 @@ def test_denied_attempt_is_audited(client):
 def test_intended_use_ack_is_audited(client):
     r = client.post(f"/api/tenants/{HARBOR}/intended-use/ack", headers=as_user("terry.lin"))
     assert r.status_code == 200
-    events = client.get(f"/api/tenants/{HARBOR}/audit", headers=as_user("avery.shaw")).json()
+    events = client.get(f"/api/tenants/{HARBOR}/audit?limit=1000", headers=as_user("avery.shaw")).json()
     assert any(e["action"] == "tenant.intended_use_acknowledged" for e in events)
 
 

@@ -309,27 +309,26 @@ provisions:
     The rulemaking deadlines and appropriation took effect on passage.
 facts:
 - id: co.scope.doing_business
-  question: Does the organization do business in Colorado?
+  question: Does your organization do business in Colorado?
   type: boolean
   asked_in: scoping
   defined_by:
   - co-6-1-1701-7
   - co-6-1-1701-8
 - id: co.role.deploys
-  question: Does the organization deploy the technology?
+  question: Does your organization deploy the technology itself?
   type: boolean
   defined_by:
   - co-6-1-1701-7
-  help: The act does not define "deploy". Answer yes if the organization itself puts the technology into use, rather
-    than only developing or selling it. Whether it is a covered ADMT, and whether the organization does business
-    in Colorado, are decided from other answers.
+  help: The act does not define "deploy". Answer yes if your organization puts the technology into use, and no if
+    you only build or sell it.
 - id: co.tech.generates_output
-  question: Does the technology process personal data and use computation to generate output, such as predictions,
-    recommendations, classifications, rankings or scores, that is used to make, guide or assist a decision, judgment
-    or determination about an individual?
+  question: Does the technology use personal data to produce a score, ranking, prediction, recommendation or classification
+    about a person?
   type: boolean
   defined_by:
   - co-6-1-1701-2-a
+  help: Answer yes if that output is used to make, guide or assist a decision about the person.
 - id: co.tech.excluded
   question: Is the technology one of the tools the act excludes?
   type: boolean
@@ -337,121 +336,115 @@ facts:
   - co-6-1-1701-2-b
   help: 'Answer yes if it is one of these:
 
-    - A routine tool: anti-malware, anti-virus, calculators, databases, data storage, firewalls, internet domain
-    registration, website loading, networking, spam and robocall filtering, spell-checking, web caching or web hosting
+    - Routine IT: anti-malware, anti-virus, calculators, databases, data storage, firewalls, domain registration,
+    website loading, networking, spam and robocall filtering, spell-checking, web caching or web hosting
 
-    - A spreadsheet that needs human analysis and uses no machine learning, foundation models or large language
-    models
+    - A spreadsheet that needs a person to analyze it and uses no machine learning or AI models
 
-    - A tool a person uses solely to summarize, organize, translate, draft, route or present information for human
-    review of administrative processing
+    - A tool a person uses only to summarize, organize, translate, draft, route or present information for human
+    review of administrative work
 
-    - A technology that communicates with consumers, is not contracted, marketed, configured or intended for consequential
-    decisions, and is under a use policy that prohibits using its content in them'
+    - A chatbot or similar tool for consumers that is not meant or sold for these decisions, and whose use policy
+    forbids using it for them'
 - id: co.decision.domain
-  question: Which area is the decision in?
+  question: What area is the decision in?
   type: choice
   options:
   - value: education
-    label: Education enrollment or an education opportunity
+    label: 'Education: enrollment or an education opportunity'
   - value: employment
-    label: Employment or an employment opportunity that creates or may create an employer-employee relationship
+    label: 'Employment: a job or job opportunity'
   - value: housing
-    label: The lease or purchase of residential real estate in Colorado
+    label: Renting or buying a home in Colorado
   - value: financial
-    label: A financial or lending service
+    label: Financial or lending services
   - value: insurance
-    label: Insurance, including underwriting, pricing, coverage, claims adjudication or other determinations that
-      materially affect access to benefits
+    label: Insurance, including pricing, coverage and claims
   - value: healthcare
-    label: Health-care services
+    label: Healthcare services
   - value: government
-    label: Essential government services and public benefits, including eligibility and renewal determinations
+    label: Essential government services or public benefits
   - value: other
     label: None of these
   defined_by:
   - co-6-1-1701-6
 - id: co.decision.affects_access
-  question: Is the decision, determination or action about a person, and does it relate to the provision of, or
-    their access to, eligibility for, selection for or compensation for, that opportunity or service, or to a differentiated
-    price, cost sharing, compensation or other material terms in a way reasonably likely to materially limit, delay,
-    effectively deny or otherwise fundamentally alter their access, eligibility or opportunity?
+  question: Could this decision change whether someone gets the opportunity or service, or the price or terms they
+    get?
   type: boolean
   defined_by:
   - co-6-1-1701-3-a
+  help: Answer yes if it affects their access, eligibility, selection or pay, or gives them a different price or
+    terms in a way likely to limit, delay or deny that access.
 - id: co.decision.excluded
-  question: Is this use one the act excludes from consequential decisions?
+  question: Is this use one the act excludes?
   type: boolean
   defined_by:
   - co-6-1-1701-3-b
   help: 'Answer yes if it is one of these:
 
-    - A low-stakes or routine process that does not materially influence eligibility, selection, denial, compensation,
-    pricing or access, such as scheduling, classroom personalization, administrative routing, customer service triage,
-    communicating decisions or workflow management
+    - A routine task that does not really affect who gets what, such as scheduling, routing, customer service triage,
+    sending out decisions or managing workflow
 
-    - Advertising, marketing, differentiated product recommendations, search or content moderation
+    - Advertising, marketing, product recommendations, search or content moderation
 
-    - A spreadsheet that needs manual human analysis and uses no machine learning, foundation models or large language
-    models
+    - A spreadsheet that needs a person to analyze it and uses no machine learning or AI models
 
-    - Summarizing, organizing or presenting information for human review, where the system produces no score, ranking,
-    recommendation, classification, prediction or other inference that materially influences the outcome
+    - Summarizing or presenting information for a person to review, with no score, ranking, recommendation or prediction
+    that really affects the outcome
 
-    - A narrow procedural or data-processing task that generates no prediction or inference about a person and does
-    not materially influence the decision
+    - A narrow data-processing step that makes no prediction about anyone
 
     - Cybersecurity, spam and robocall filtering, system reliability, anti-money laundering or counter-terrorist
-    financing controls
+    financing
 
-    - Economic sanctions compliance, or fraud prevention such as identity verification and legally required monitoring
+    - Sanctions compliance, or fraud prevention such as identity verification
 
-    - Routine academic administration and student support that does not materially influence a consequential decision'
+    - Routine school administration and student support'
 - id: co.influence.non_de_minimis
-  question: Is the technology's output a non-de minimis factor used in making the decision?
+  question: Is the technology's output more than a minor factor in the decision?
   type: boolean
   defined_by:
   - co-6-1-1701-13
 - id: co.influence.affects_outcome
-  question: Does the output affect the outcome of the decision, including by constraining, ranking, scoring, recommending
-    or classifying, or otherwise meaningfully altering how the decision is made?
+  question: Does the output change the outcome, or how the decision is made?
   type: boolean
   defined_by:
   - co-6-1-1701-13
+  help: For example by ranking, scoring, filtering out or recommending people.
 - id: co.influence.incidental_only
-  question: Is the use of the output only incidental, trivial or clerical?
+  question: Is the output used only for clerical or trivial purposes?
   type: boolean
   defined_by:
   - co-6-1-1701-13
 - id: co.subjects.colorado_consumers
-  question: Does the decision concern Colorado consumers, such as Colorado residents, employees, job applicants
-    who are Colorado residents, or anyone whose access to, eligibility for or opportunity in Colorado is evaluated
-    by an organization doing business in Colorado?
+  question: Does the decision affect people in Colorado?
   type: boolean
   defined_by:
   - co-6-1-1701-4
-  help: Paragraph (4)(a) adopts the Colorado Privacy Act definition in section 6-1-1303(6)(a), which is not in a
-    pack yet. Paragraph (4)(b) is enough on its own for employees and Colorado-resident applicants; an analyst confirms
-    any other case.
+  help: This includes Colorado residents, your employees, job applicants who live in Colorado, and anyone being
+    considered for an opportunity in Colorado. An analyst confirms anything unusual.
 - id: co.decision.adverse_possible
-  question: Can the decision result in an adverse outcome for a person, such as denying, terminating or materially
-    reducing their access to or selection for the opportunity or service, or giving them materially less favorable
-    price, compensation or terms than similarly situated people?
+  question: Could the decision go against someone?
   type: boolean
   defined_by:
   - co-6-1-1701-1
+  help: For example turning them down, ending or reducing what they get, or giving them a worse price, pay or terms
+    than similar people.
 - id: co.exempt.hipaa_covered_entity
-  question: Is the organization a HIPAA covered entity doing business in Colorado, or a business associate providing
-    services to one? A covered entity that is a health-care provider counts only if it operates from a location
-    in Colorado.
+  question: Is your organization covered by HIPAA, or a business associate of an organization that is?
   type: boolean
   defined_by:
   - co-6-1-1708-3-a-b
+  help: A healthcare provider counts only if it operates from a location in Colorado.
 - id: co.exempt.insurer
-  question: Is the organization an insurer, or an affiliated entity, subject to the requirements of section 10-3-1104.9?
+  question: Is your organization an insurer, or an affiliate of one, subject to Colorado insurance code section
+    10-3-1104.9?
   type: boolean
   defined_by:
   - co-6-1-1708-1-2
+  help: That section covers insurers' use of outside consumer data and algorithms. Ask your compliance team if you're
+    not sure.
 rules:
 - id: CO-CLASS-ADMT
   kind: classification
