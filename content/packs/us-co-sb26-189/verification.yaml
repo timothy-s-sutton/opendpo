@@ -218,21 +218,21 @@
   self_verified: true
   note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
 - fact: co.role.deploys
-  fingerprint: 1e960ec01636a6efe6d761b8eb969c1d0a7524f2f3460762c9a0e81c8f4fe3d9
+  fingerprint: d25a44902eaef6d0adbf415173801a54e74174be23f3071c10c66fcca556fe7b
   verified_by: Tim Sutton
   verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
   note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
 - fact: co.tech.generates_output
-  fingerprint: 2f2e011c3e38a53cde6046dbcfdfd32967b850efe9908ef11ba396204002cad3
+  fingerprint: aaf9c3e07bf083b9f8e0639cdd4f3c2a2b4039145407b5fa5205f85593569026
   verified_by: Tim Sutton
   verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
   note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
 - fact: co.tech.excluded
-  fingerprint: 894e139c94920074274bd5f039da9ebdfd728e64c56e3339b796e47a3c6d8d3a
+  fingerprint: 862143c98903816d3bebbde25c59ff92d04c8221728f20f9f04ae0e074ea6902
   verified_by: Tim Sutton
   verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
@@ -246,14 +246,14 @@
   self_verified: true
   note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
 - fact: co.decision.affects_access
-  fingerprint: aa0f2a8ae300af749df2e0ca2ba5792b38b38d2ee21955e67b26cd0cb0e45592
+  fingerprint: ceb3de759476a9d8a938476aaf6ad00832db9b6e647a6ea52dfa6e524e3877b3
   verified_by: Tim Sutton
   verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
   note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
 - fact: co.decision.excluded
-  fingerprint: f860f700dd6a742609de469b459b127b0705c69e6c5a4055358975ba0a9f9907
+  fingerprint: 9160aa8e318ac6dcf9c68c7ad7d6f916942c4292a26750e1559152c939a22b36
   verified_by: Tim Sutton
   verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
@@ -267,7 +267,7 @@
   self_verified: true
   note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
 - fact: co.influence.affects_outcome
-  fingerprint: da23acb306ee095593c3125c23aafb70ac5765e2596c790299403252208a3271
+  fingerprint: 85435c44a1209ce635fbec6ea3f5a99c5727ea99c6d409666fcc475160ce070e
   verified_by: Tim Sutton
   verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
@@ -288,21 +288,21 @@
   self_verified: true
   note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
 - fact: co.decision.adverse_possible
-  fingerprint: ce142a936c06c596dd5a8fa3acd8e4b5e4507a3b35028acbe899100319b5542c
+  fingerprint: 3cbb858aacac1314a0c0e70de90ae03612bb26c719ff718f20b6abebc9976d23
   verified_by: Tim Sutton
   verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
   note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
 - fact: co.exempt.hipaa_covered_entity
-  fingerprint: cd066710cfced176f7dea4faa10ab7178cc3607069ec8c61a7de4c778934d88a
+  fingerprint: f05c590ac2be0dd4590eeba85a49a37f442bd06cd767af01924784bf1c168be0
   verified_by: Tim Sutton
   verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
   note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
 - fact: co.exempt.insurer
-  fingerprint: 14284e6abe85d9dd60804afd5206e28bdb92ec8e3098c3039a9d5a5b91445c7f
+  fingerprint: e2da2ec65c98418349f0363070789b089e9ff13b8186db523c9ac443bf63ebd0
   verified_by: Tim Sutton
   verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites

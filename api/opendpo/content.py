@@ -81,9 +81,12 @@ class Fact(Strict):
 
     @property
     def fingerprint(self) -> str:
-        """Covers what the question asks and the definitions it is checked against."""
+        """Covers what the question asks, its answers, its note and the definitions it is checked
+        against. The note is included because plain-language questions carry legal detail there."""
         q = {"question": self.question, "type": self.type, "defined_by": sorted(self.defined_by),
              "options": [o.model_dump() for o in self.options or []]}
+        if self.help:
+            q["help"] = self.help
         return hashlib.sha256(json.dumps(q, sort_keys=True).encode("utf-8")).hexdigest()
 
     @model_validator(mode="after")

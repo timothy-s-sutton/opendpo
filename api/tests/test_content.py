@@ -207,3 +207,11 @@ def test_rule_on_a_derived_fact_waits_for_the_rule_that_sets_it(tmp_path):
     lib = content.load(write(tmp_path, pack, [record("A business shall assess."), rule_record(pack, "R1"),
                                               rule_record(pack, "C1"), fact_record(pack), fact_record(pack, "x")]))
     assert next(s for s in lib.statuses if s.rule.id == "R1").usable
+
+
+def test_question_fingerprint_covers_its_note():
+    base = {"id": "q", "question": "Does it?", "type": "boolean"}
+    plain = content.Fact.model_validate(base).fingerprint
+    noted = content.Fact.model_validate({**base, "help": "Answer yes if it does."}).fingerprint
+    changed = content.Fact.model_validate({**base, "help": "Answer yes if it might."}).fingerprint
+    assert len({plain, noted, changed}) == 3

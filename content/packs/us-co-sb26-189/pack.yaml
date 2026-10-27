@@ -422,8 +422,15 @@ facts:
   type: boolean
   defined_by:
   - co-6-1-1701-4
-  help: This includes Colorado residents, your employees, job applicants who live in Colorado, and anyone being
-    considered for an opportunity in Colorado. An analyst confirms anything unusual.
+  help: 'Answer yes if the decision covers any of these:
+
+    - Colorado residents
+
+    - Employees, when the job or opportunity being decided is in Colorado
+
+    - Job applicants who live in Colorado
+
+    - Anyone being considered for an opportunity in Colorado'
 - id: co.decision.adverse_possible
   question: Could the decision have a negative outcome for someone?
   type: boolean

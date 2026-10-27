@@ -239,14 +239,14 @@
   self_verified: true
   note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
 - fact: nyc.tool.ml_derived
-  fingerprint: 14be713eb8ae14669174704927b98af4c57d6d83d1602830fb4fe1faab5f7e06
+  fingerprint: f0a3f60ccec8250ff93f932798c839478d33adbc934db80c7f72a2bcc91e5cc8
   verified_by: Tim Sutton
   verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
   note: Ticked in NYC Local Law 144 Verification Worksheet v0.1 (https://claude.ai/artifact/5RCwJK13n5M3EnmcdrYpPq)
 - fact: nyc.tool.simplified_output
-  fingerprint: cdf3f7b5fd0b07f2dde8409a75374e5376973f6e7da75c891ead65c76d81b837
+  fingerprint: 22b398b296444591fdc9f20c871bd836aa4f55927abae58cd5e16fa05c9a5c94
   verified_by: Tim Sutton
   verified_on: '2026-10-27'
   method: Checked that the question and its answers capture the definitions it cites
