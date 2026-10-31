@@ -15,7 +15,7 @@ from psycopg.types.json import Jsonb
 from pydantic import BaseModel, Field
 
 from . import assessment as engine
-from . import audit
+from . import audit, harms
 from .auth import Principal, current_principal
 from .db import tenant_tx
 from .main import NOTICE, audit_actor, library, load_project, load_tenant, require
@@ -30,6 +30,10 @@ def template() -> engine.Template:
 
 def methodology() -> engine.Methodology:
     return engine.load_methodology(library())
+
+
+def harm_list() -> harms.Harms:
+    return harms.load(library(), {t.id for t in template().framework_tags})
 
 
 class CreateIn(BaseModel):
@@ -159,9 +163,23 @@ def assessment_detail(tenant_id: UUID, assessment_id: UUID,
         "methodology": a["methodology"], "content_versions": a["content_versions"],
         "framework": tpl.framework, "framework_tags": [t.model_dump() for t in tpl.framework_tags],
         "risk_acceptances": a["risk_acceptances"], "sections": sections,
+        "harms": harm_view(lib),
         "computed": engine.derive(bodies, tpl, method, a["routing_floor"], a["risk_acceptances"]),
         "floor_rules": a["floor_rules"], "editable": a["status"] in EDITABLE_STATUSES, "notice": NOTICE,
     }
+
+
+def harm_view(lib) -> dict[str, Any]:
+    """The harm list with each entry's sign-off status and the law behind it (WF-25)."""
+    hs = harm_list()
+    index = lib.provision_index()
+    return {"id": hs.id, "version": hs.version, "entries": [{
+        "id": s.harm.id, "name": s.harm.name, "description": " ".join(s.harm.description.split()),
+        "citation": index[s.harm.named_by][1].citation + s.harm.clause, "quote": " ".join(s.harm.quote.split()),
+        "related": [{"provision": link.provision, "citation": index[link.provision][1].citation, "why": link.why}
+                    for link in s.harm.related],
+        "framework_tags": s.harm.framework_tags, "usable": s.usable, "problems": s.problems,
+    } for s in hs.statuses]}
 
 
 @router.put("/api/tenants/{tenant_id}/assessments/{assessment_id}/sections/{section_id}")
@@ -177,7 +195,7 @@ def save_section(tenant_id: UUID, assessment_id: UUID, section_id: str, body: Se
         raise HTTPException(status.HTTP_404_NOT_FOUND, "no such section")
     tags = {t.id for t in tpl.framework_tags}
     try:
-        parsed = engine.parse(section, body.body, tags)
+        parsed = engine.parse(section, body.body, tags, set(harm_list().usable()))
     except engine.Rejected as exc:
         raise HTTPException(422, {"problems": exc.problems}) from exc
     with tenant_tx(tenant_id) as conn:

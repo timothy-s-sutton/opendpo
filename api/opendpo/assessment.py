@@ -260,7 +260,8 @@ def _messages(exc: ValidationError) -> list[str]:
     return out
 
 
-def parse(section: Section, body: dict[str, Any], tags: set[str]) -> dict[str, Any]:
+def parse(section: Section, body: dict[str, Any], tags: set[str],
+          harm_ids: frozenset[str] | set[str] = frozenset()) -> dict[str, Any]:
     """Validate one section's body on its own. Returns it in normal form."""
     if not section.editable:
         raise Rejected([f"{section.title} is filled in by the approval steps and cannot be edited"])
@@ -277,6 +278,8 @@ def parse(section: Section, body: dict[str, Any], tags: set[str]) -> dict[str, A
             bad = set(r.framework_tags) - tags
             if bad:
                 problems.append(f"{r.id}: unknown framework tags {sorted(bad)}")
+            if r.harm is not None and r.harm not in harm_ids:
+                problems.append(f"{r.id}: {r.harm} is not on the signed-off harm list")
     if isinstance(model, Safeguards):
         ids = [s.id for s in model.safeguards]
         if len(ids) != len(set(ids)):

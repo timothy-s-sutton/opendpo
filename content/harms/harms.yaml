@@ -1,0 +1,164 @@
+# The unified harm list (WF-25), first slice.
+#
+# Each harm is one of the example negative impacts in the CCPA Regulations,
+# § 7152(a)(5)(A) to (H). The quote must appear word for word in that verified
+# provision, and the loader checks it. "Related" links point to other verified
+# provisions that bear on the same harm, each with a plain reason.
+#
+# A harm can be used in an assessment only after Tim signs it off (CNT-01): the
+# record in verification.yaml covers the name, description, quote, links and tags,
+# so any later change lapses it. The NIST AI RMF tags are a framework reference,
+# not law.
+#
+# Later slices add the Colorado Privacy Act Rules list, Virginia-model laws and
+# NIST PRAM's problems for individuals, each tagged with the laws that name it.
+id: opendpo-harms
+version: 0.1.0
+harms:
+- id: harm-security
+  name: Information exposed, changed or lost
+  description: >-
+    Someone gets, uses, changes, destroys or shares people's information without
+    permission, or the information becomes unavailable to them.
+  named_by: ccpa-7152-a-5
+  clause: (A)
+  quote: >-
+    Unauthorized access, destruction, use, modification, or disclosure of personal
+    information; and unauthorized activity resulting in the loss of availability of
+    personal information.
+  related:
+  - provision: ccpa-7152-a-6
+    why: Lists security safeguards the regulations suggest, such as encryption and access controls.
+  framework_tags: [secure_resilient, privacy_enhanced]
+
+- id: harm-discrimination
+  name: Unlawful discrimination
+  description: >-
+    People are treated worse because of a protected characteristic, such as race, sex
+    or disability, in a way that federal or state law forbids.
+  named_by: ccpa-7152-a-5
+  clause: (B)
+  quote: >-
+    Discrimination upon the basis of protected characteristics that would violate
+    federal or state law.
+  related:
+  - provision: ccpa-7152-a-6
+    why: Names policies, procedures and training that keep automated decisions from unlawfully discriminating as a safeguard.
+  - provision: nyc-20-871-a
+    why: In New York City, an automated hiring tool may not be used without a bias audit done within the past year.
+  - provision: nyc-20-870-bias-audit
+    why: Defines the bias audit, which tests the tool for unequal impact on groups of people.
+  - provision: nyc-5-300-impact-ratio
+    why: Defines the impact ratio, the measure a bias audit uses to compare results across groups.
+  - provision: nyc-5-301-b
+    why: How a bias audit measures a tool that selects or sorts people.
+  - provision: nyc-5-301-c
+    why: How a bias audit measures a tool that scores people.
+  framework_tags: [fair]
+
+- id: harm-loss-of-control
+  name: Loss of control over their information
+  description: >-
+    People are not told enough to make an informed choice about how their information
+    is used, or cannot make choices that match what they reasonably expect.
+  named_by: ccpa-7152-a-5
+  clause: (C)
+  quote: >-
+    Impairing consumers’ control over their personal information, such as by providing
+    insufficient information for consumers to make an informed decision regarding the
+    processing of their personal information, or by interfering with consumers’ ability
+    to make choices consistent with their reasonable expectations.
+  related:
+  - provision: ccpa-7220-a
+    why: Requires a notice before an automated decision is used, telling people about it and their rights.
+  - provision: ccpa-7221-a
+    why: Gives people a right to opt out of automated significant decisions, unless an exception applies.
+  - provision: ccpa-7222-a
+    why: People who ask must be told how the business uses automated decision technology for significant decisions.
+  - provision: co-6-1-1704-1-2
+    why: In Colorado, people must be told before covered automated technology is used in a decision about them.
+  - provision: nyc-20-871-b-1-2
+    why: In New York City, candidates who live in the city must be told at least ten business days before an automated hiring tool is used.
+  framework_tags: [accountable_transparent, explainable_interpretable, privacy_enhanced]
+
+- id: harm-coercion
+  name: Pressured into giving up information
+  description: >-
+    People are forced or pushed into allowing their information to be used, for example
+    by having to hand over information a service does not need, or by consent that is
+    not freely given.
+  named_by: ccpa-7152-a-5
+  clause: (D)
+  quote: >-
+    Coercing or compelling consumers into allowing the processing of their personal
+    information, such as by conditioning consumers’ acquisition or use of an online
+    service upon their disclosure of personal information that is unnecessary to the
+    expected functionality of the service, or requiring consumers to consent to
+    processing when such consent cannot be freely given (e.g., because it was obtained
+    through the use of a dark pattern).
+  related: []
+  framework_tags: [privacy_enhanced]
+
+- id: harm-economic
+  name: Lost opportunities or money
+  description: >-
+    People lose economic opportunities, pay more or are paid less because of profiling,
+    or face extra costs, including costs from someone getting their information without
+    permission.
+  named_by: ccpa-7152-a-5
+  clause: (E)
+  quote: >-
+    Economic harms, including limiting or depriving consumers of economic opportunities,
+    charging consumers higher prices, or compensating consumers at lower rates based upon
+    profiling; or imposing additional costs upon consumers, including costs associated
+    with the unauthorized access to consumers’ personal information.
+  related:
+  - provision: ccpa-7001-ddd
+    why: Decisions about jobs, lending, housing and education count as significant decisions.
+  - provision: co-6-1-1701-1
+    why: In Colorado, an adverse outcome is a decision that denies or reduces access to things like a job.
+  - provision: co-6-1-1704-3
+    why: In Colorado, within 30 days after an adverse outcome, people must be told about the decision and the technology's role in it.
+  - provision: co-6-1-1705-1
+    why: In Colorado, after an adverse outcome people can ask how to correct wrong information used in the decision, and for human review.
+  framework_tags: [valid_reliable, fair]
+
+- id: harm-physical
+  name: Physical harm
+  description: >-
+    Harm to people's bodies or property, including processing that creates an
+    opportunity for physical or sexual violence.
+  named_by: ccpa-7152-a-5
+  clause: (F)
+  quote: >-
+    Physical harms to consumers or to property, including processing that creates the
+    opportunity for physical or sexual violence.
+  related: []
+  framework_tags: [safe, secure_resilient]
+
+- id: harm-reputational
+  name: Damage to reputation
+  description: >-
+    Harm to how others see a person, including stigma, of a kind that would affect an
+    average person.
+  named_by: ccpa-7152-a-5
+  clause: (G)
+  quote: >-
+    Reputational harms, including stigmatization, that could negatively impact an
+    average consumer
+  related: []
+  framework_tags: [privacy_enhanced]
+
+- id: harm-psychological
+  name: Emotional harm
+  description: >-
+    Distress, stress, anxiety, embarrassment, fear, frustration, shame or a feeling of
+    being violated, of a kind that would affect an average person.
+  named_by: ccpa-7152-a-5
+  clause: (H)
+  quote: >-
+    Psychological harms, including emotional distress, stress, anxiety, embarrassment,
+    fear, frustration, shame, and feelings of violation, that could negatively impact
+    an average consumer.
+  related: []
+  framework_tags: [privacy_enhanced]

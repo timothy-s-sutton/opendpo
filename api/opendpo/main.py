@@ -16,7 +16,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from psycopg.types.json import Jsonb
 from pydantic import BaseModel, Field
 
-from . import assessment, audit, content, intake, triage
+from . import assessment, audit, content, harms, intake, triage
 from .auth import Principal, current_principal
 from .authz import decide
 from .config import settings
@@ -56,6 +56,7 @@ async def lifespan(_app: FastAPI):
         raise RuntimeError(f"intake.yaml places no question for {unplaced}; rules testing them could never fire")
     assessment.load_template(library())      # raise if the template or method is inconsistent
     assessment.load_methodology(library())
+    harms.load(library(), {t.id for t in assessment.load_template(library()).framework_tags})
     threading.Thread(target=publish_content_to_policy_engine, daemon=True).start()
     yield
 
