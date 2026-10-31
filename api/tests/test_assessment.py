@@ -40,7 +40,9 @@ def risk(rid="r1", lik="high", sev="high", res=None, **extra):
 
 def test_template_sections_follow_7152(tpl):
     assert [s.id for s in tpl.sections] == ["purpose", "personal_information", "operations", "benefits", "risks",
-                                           "safeguards", "decision", "contributors", "approval"]
+                                           "safeguards", "decision", "contributors", "approval",
+                                           "obligations", "policy_check"]
+    assert [s.id for s in tpl.sections if s.appendix] == ["obligations", "policy_check"]
     assert tpl.section("risks").provisions == ["ccpa-7152-a-5"]
     assert not tpl.section("benefits").in_regulator_report and tpl.section("safeguards").in_regulator_report
     assert not tpl.section("approval").editable
@@ -177,7 +179,7 @@ def test_open_assessment(client, opened):
     assert a["computed"]["routing"]["level"] == "high"
     risks = next(s for s in a["sections"] if s["id"] == "risks")
     assert risks["what_the_law_says"][0]["citation"] == "Cal. Code Regs. tit. 11, § 7152(a)(5)"
-    assert len(a["computed"]["sections_not_started"]) == 8
+    assert len(a["computed"]["sections_not_started"]) == 10
     assert a["methodology"]["id"] == "opendpo-default-5x5"
 
 

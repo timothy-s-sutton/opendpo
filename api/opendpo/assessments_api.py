@@ -15,10 +15,12 @@ from psycopg.types.json import Jsonb
 from pydantic import BaseModel, Field
 
 from . import assessment as engine
-from . import audit, harms
+from . import audit, content, harms
 from .auth import Principal, current_principal
 from .db import tenant_tx
-from .inventory_api import current_policies
+from .agent import drafter, providers
+from .authz import decide
+from .inventory_api import activity_record, current_policies
 from .main import NOTICE, audit_actor, library, load_project, load_tenant, require
 
 router = APIRouter()
@@ -64,9 +66,32 @@ def load_assessment(conn, assessment_id: UUID) -> dict:
     return row
 
 
+def first_authors(assessment_id: UUID, tenant_id: UUID) -> list[dict]:
+    with tenant_tx(tenant_id) as conn:
+        return conn.execute("SELECT section, author_type FROM assessment_revision WHERE assessment_id = %s "
+                            "AND revision = 1", (assessment_id,)).fetchall()
+
+
 def method_of(a: dict) -> engine.Methodology:
     """The method as it was when the assessment was opened (PLT-13)."""
     return engine.Methodology.model_validate(a["methodology"])
+
+
+def verified_provisions(lib) -> frozenset[str]:
+    return frozenset(pid for pack in lib.packs for pid, prov in ((p.id, p) for p in pack.provisions)
+                     if content.provision_status(prov, lib.verifications[pack.id].get(pid)) is None)
+
+
+def refs_for(conn, a: dict) -> engine.Refs:
+    """ARC-02: what this assessment's findings may cite."""
+    ids = [v["version_id"] for v in a["policy_versions"]]
+    keys = conn.execute("SELECT position_key FROM policy_position WHERE policy_version_id = ANY(%s::uuid[])",
+                        (ids,)).fetchall() if ids else []
+    run = conn.execute("SELECT result FROM triage_run WHERE id = %s", (a["triage_run_id"],)).fetchone()
+    rules = {e["rule"] for k in ("classifications", "obligations") for e in run["result"].get(k, [])}
+    rules |= {t["rule"] for x in run["result"].get("assessments", []) for t in x["triggered_by"]}
+    return engine.Refs(provisions=verified_provisions(library()), positions=frozenset(k["position_key"] for k in keys),
+                       rules=frozenset(rules))
 
 
 def triggered(run: dict) -> list[str]:
@@ -177,6 +202,8 @@ def assessment_detail(tenant_id: UUID, assessment_id: UUID,
         "computed": engine.derive(bodies, tpl, method, a["routing_floor"], a["risk_acceptances"]),
         "floor_rules": a["floor_rules"], "editable": a["status"] in EDITABLE_STATUSES, "notice": NOTICE,
         "processing_activity_id": a["processing_activity_id"], "policy_versions": a["policy_versions"],
+        "ai_draft_label": drafter.LABEL if any(x["author_type"] == "agent" for x in first_authors(assessment_id,
+                                                                                               tenant_id)) else None,
     }
 
 
@@ -205,14 +232,14 @@ def save_section(tenant_id: UUID, assessment_id: UUID, section_id: str, body: Se
     if section is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "no such section")
     tags = {t.id for t in tpl.framework_tags}
-    try:
-        parsed = engine.parse(section, body.body, tags, set(harm_list().usable()))
-    except engine.Rejected as exc:
-        raise HTTPException(422, {"problems": exc.problems}) from exc
     with tenant_tx(tenant_id) as conn:
         a = conn.execute("SELECT * FROM assessment WHERE id = %s FOR UPDATE", (assessment_id,)).fetchone()
         if a is None:
             raise HTTPException(status.HTTP_404_NOT_FOUND, "assessment not found")
+        try:
+            parsed = engine.parse(section, body.body, tags, set(harm_list().usable()), refs_for(conn, a))
+        except engine.Rejected as exc:
+            raise HTTPException(422, {"problems": exc.problems}) from exc
         if a["status"] not in EDITABLE_STATUSES:
             raise HTTPException(status.HTTP_409_CONFLICT, f"this assessment is {a['status']}; it cannot be edited")
         state = current_state(conn, assessment_id)
@@ -266,3 +293,91 @@ def section_history(tenant_id: UUID, assessment_id: UUID, section_id: str,
     since_first = engine.diff(section.kind, rows[0]["body"], rows[-1]["body"]) if len(rows) > 1 else None
     return {"section": section_id, "revisions": history,
             "first_author_type": rows[0]["author_type"] if rows else None, "since_first": since_first}
+
+
+# ---------------------------------------------------------------------------
+# The agent draft (WF-11 to WF-13, ARC-01 to ARC-03, SOD-6)
+# ---------------------------------------------------------------------------
+
+AGENT_ACTOR = {"type": "agent", "id": drafter.AGENT_ID, "roles": [], "workspace_roles": []}
+
+
+class DraftIn(BaseModel):
+    model: str | None = Field(None, max_length=100)   # override the configured model, e.g. claude-haiku-5-5
+
+
+def build_material(conn, a: dict) -> drafter.Material:
+    lib, tpl = library(), template()
+    run = conn.execute("SELECT result, decision FROM triage_run WHERE id = %s", (a["triage_run_id"],)).fetchone()
+    sub = conn.execute(
+        """SELECT s.answers, u.display_name, u.job_title FROM intake_submission s
+           JOIN app_user u ON u.id = s.submitted_by WHERE s.project_id = %s ORDER BY s.version DESC LIMIT 1""",
+        (a["project_id"],)).fetchone()
+    ids = [v["version_id"] for v in a["policy_versions"]]
+    positions = conn.execute(
+        """SELECT pp.position_key, pp.section, pp.type, pp.statement, pp.parameters, p.title AS policy
+           FROM policy_position pp JOIN policy_version v ON v.id = pp.policy_version_id
+           JOIN policy p ON p.id = v.policy_id WHERE pp.policy_version_id = ANY(%s::uuid[])
+           ORDER BY pp.position_key""", (ids,)).fetchall() if ids else []
+    activity = activity_record(conn, a["processing_activity_id"]) if a["processing_activity_id"] else None
+    contributors = [{"name": sub["display_name"], "position": sub["job_title"] or "Not recorded",
+                     "provided": "The intake answers"}] if sub else []
+    return drafter.Material(
+        template=tpl, method=method_of(a), lib=lib, harms=harm_list().usable(), triage=run["result"],
+        triage_decision=run["decision"], positions=positions, intake=sub["answers"] if sub else {},
+        activity=activity, contributors=contributors, refs=refs_for(conn, a))
+
+
+@router.post("/api/tenants/{tenant_id}/assessments/{assessment_id}/draft")
+def agent_draft(tenant_id: UUID, assessment_id: UUID, body: DraftIn,
+                p: Principal = Depends(current_principal)) -> dict[str, Any]:
+    """The agent drafts every section as revision 1, on behalf of the analyst who asked.
+    It writes only drafts: it cannot approve, and the decision stays undecided (ARC-01)."""
+    tenant = load_tenant(p, tenant_id)
+    actor = require(p, tenant, "draft.edit", log_denial=True)
+    if not decide(AGENT_ACTOR, "draft.write", None, {"approval_preset": tenant["approval_preset"]}).allow:
+        raise HTTPException(status.HTTP_403_FORBIDDEN, "the agent identity may not draft")
+    with tenant_tx(tenant_id) as conn:
+        a = load_assessment(conn, assessment_id)
+        if a["status"] != "draft" or current_state(conn, assessment_id):
+            raise HTTPException(status.HTTP_409_CONFLICT, "the agent drafts only a new, empty assessment")
+        m = build_material(conn, a)
+    try:
+        provider = providers.from_settings(body.model)
+    except providers.ProviderError as exc:
+        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, str(exc)) from exc
+    agent = audit.Actor("agent", drafter.AGENT_ID, (), on_behalf_of=actor["id"])
+    try:
+        d = drafter.draft(m, provider)
+    except drafter.DraftRejected as exc:
+        with tenant_tx(tenant_id) as conn:
+            audit.append(conn, tenant_id, agent, "assessment.draft_rejected", object_type="assessment",
+                         object_id=str(assessment_id),
+                         payload={"provider": provider.name, "model": provider.model, "problems": exc.problems[:50]})
+        raise HTTPException(status.HTTP_502_BAD_GATEWAY, {"message": "the draft failed validation and was not saved",
+                                                          "problems": exc.problems}) from exc
+    if d.open_questions:
+        dec = d.sections["decision"]
+        extra = "\n\nOpen questions for the reviewer:\n" + "\n".join(f"- {q}" for q in d.open_questions)
+        dec["rationale"] = (dec["rationale"] + extra)[:4000]
+    note = f"{drafter.LABEL} Drafted by {d.reply.provider} ({d.reply.model}), attempt {d.attempts}."
+    with tenant_tx(tenant_id) as conn:
+        a = conn.execute("SELECT * FROM assessment WHERE id = %s FOR UPDATE", (assessment_id,)).fetchone()
+        if current_state(conn, assessment_id):
+            raise HTTPException(status.HTTP_409_CONFLICT, "someone started editing while the draft was being written")
+        for sid, sec_body in d.sections.items():
+            conn.execute(
+                """INSERT INTO assessment_revision (tenant_id, assessment_id, section, revision, body, author_type,
+                                                    author_id, on_behalf_of, note)
+                   VALUES (%s, %s, %s, 1, %s, 'agent', %s, %s, %s)""",
+                (tenant_id, assessment_id, sid, Jsonb(sec_body), drafter.AGENT_ID, p.user_id, note))
+        conn.execute("UPDATE assessment SET updated_at = now() WHERE id = %s", (assessment_id,))
+        audit.append(conn, tenant_id, agent, "assessment.drafted", object_type="assessment",
+                     object_id=str(assessment_id),
+                     payload={"provider": d.reply.provider, "model": d.reply.model, "attempts": d.attempts,
+                              "usage": d.reply.usage, "prompt_sha256": d.prompt_sha256,
+                              "sections": {sid: engine.digest(b) for sid, b in d.sections.items()},
+                              "open_questions": d.open_questions},
+                     content_versions=a["content_versions"])
+    return {"drafted": sorted(d.sections), "provider": d.reply.provider, "model": d.reply.model,
+            "attempts": d.attempts, "open_questions": d.open_questions, "label": drafter.LABEL}

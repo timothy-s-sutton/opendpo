@@ -74,8 +74,14 @@ services:
       OPENDPO_OPA_URL: http://opa:8181
       OPENDPO_SEED_DEMO: "true"
       OPENDPO_CONTENT_DIR: /content/packs
+      # The drafting agent. With no key, drafts come from the saved fixture (labelled as such).
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      OPENDPO_AGENT_PROVIDER: ${OPENDPO_AGENT_PROVIDER:-}
+      OPENDPO_AGENT_MODEL: ${OPENDPO_AGENT_MODEL:-claude-sonnet-5-5}
+      OPENDPO_AGENT_FIXTURE: /fixtures/harbor_draft.json
     volumes:
       - ./content:/content:ro
+      - ./api/tests/fixtures:/fixtures:ro
     ports:
       - "127.0.0.1:8000:8000"
     depends_on:

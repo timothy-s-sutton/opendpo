@@ -1,0 +1,224 @@
+{
+  "note": "Hand-written sample in the agent's output format, for CI and as a recording-day backup. It was not produced by a model. Revisions written from it are labelled as coming from the fixture provider.",
+  "draft": {
+    "purpose": "Rank applicants for warehouse and driver roles by how well their resume and application answers match each job's stated requirements, so recruiters call the strongest matches first and fill open shifts faster.",
+    "personal_information": "The screening uses five kinds of information about job applicants. None of it is sensitive personal information.\n\n- Contact details (name, email, phone, home city and state): needed to contact the applicant. Not used in the scoring.\n- Work history (past employers, job titles, dates, duties): the main input to the match score.\n- Education (schools, degrees, certificates): used only where a job lists a certificate or license requirement.\n- Application answers (shift availability, licenses held, willingness to travel): matched against each job's shift and license requirements.\n- Screening results (match score, rank, the recruiter's call decision): the screener's output, kept with the application.\n\nMinimum necessary: contact details and education are already limited as above. Whether the screener needs full dates of employment, which reveal employment gaps the vendor says lower scores, should be reviewed.",
+    "operations": "How it works: applicants apply on Harbor's careers site. The applicant tracking system, hosted by Crestline Software, stores the application and sends the resume and answers to the Brightpath screener, which returns a score and rank.\n\nRetention: every category is kept four years after the hiring decision, under Harbor's records retention schedule.\n\nHow Harbor interacts with applicants: they apply online for a specific job, and Harbor contacts them by phone or email to schedule a screening call.\n\nApproximate number of people: about 48,000 applicants a year (California 21,000; Colorado 6,500; New York City 4,200; other states 16,300).\n\nWhat applicants are told: Harbor's applicant privacy notice, linked from every job posting, says applications may be reviewed with automated tools. There is no separate notice about the screener yet.\n\nWho receives the information: Brightpath Hiring (service provider) scores and ranks applicants for each job. Crestline Software (service provider) hosts and stores applications and screening results.\n\nHow the automated decision works: Brightpath Match Score version 4.2 is a vendor-built model that scores from 0 to 100 how well a resume and application answers match a job's stated requirements, and ranks applicants for the same job. Vendor documentation says it was trained mostly on US warehouse and logistics hiring data from 2019 to 2024, scores resumes in unusual formats less accurately, and gives lower scores to resumes with employment gaps longer than six months. How the score is used: recruiters see each score and rank and can call anyone, but in practice they work down the ranked list and do not review resumes ranked below the top 25.",
+    "benefits": "For Harbor: recruiters spend their time calling the applicants most likely to meet each job's requirements, so open warehouse and driver shifts can be filled sooner. For applicants who meet a job's requirements: they may be contacted sooner. The material gives no figures for either benefit; Harbor should measure time to fill and time to first contact before and after go-live to show them.",
+    "risks": [
+      {
+        "id": "r1",
+        "title": "Qualified applicants screened out unfairly",
+        "harm": "harm-discrimination",
+        "source_and_cause": "The model was trained mostly on 2019 to 2024 hiring data, so it can repeat past hiring patterns. No bias audit of the tool is on file, so whether its scores differ by sex or by race and ethnicity is unknown.",
+        "affected": "Applicants in groups that past hiring favored less",
+        "framework_tags": ["fair", "valid_reliable"],
+        "citations": ["ccpa-7152-a-5", "nyc-20-871-a", "nyc-5-301-c"],
+        "policy_refs": ["POS-AI-005", "POS-AI-006"],
+        "likelihood": "high",
+        "severity": "high",
+        "residual_likelihood": "moderate",
+        "residual_severity": "high"
+      },
+      {
+        "id": "r2",
+        "title": "Applicants with employment gaps or unusual resumes ranked too low",
+        "harm": "harm-economic",
+        "source_and_cause": "Vendor documentation says the model gives lower scores to resumes with gaps longer than six months and scores unusual resume formats less accurately.",
+        "affected": "Applicants with employment gaps or non-standard resumes",
+        "framework_tags": ["valid_reliable", "fair"],
+        "citations": ["ccpa-7152-a-5", "ccpa-7152-a-3"],
+        "policy_refs": ["POS-AI-002"],
+        "likelihood": "high",
+        "severity": "moderate",
+        "residual_likelihood": "low",
+        "residual_severity": "moderate"
+      },
+      {
+        "id": "r3",
+        "title": "Low-ranked applicants never seen by a person",
+        "harm": "harm-economic",
+        "source_and_cause": "Recruiters work down the ranked list and do not review resumes ranked below the top 25. They can change the outcome but do not look at other information, so review is limited, not meaningful.",
+        "affected": "Applicants ranked below the top 25 for a job",
+        "framework_tags": ["accountable_transparent", "valid_reliable"],
+        "citations": ["ccpa-7001-e-1", "co-6-1-1701-15"],
+        "policy_refs": ["POS-AI-002"],
+        "likelihood": "very_high",
+        "severity": "high",
+        "residual_likelihood": "low",
+        "residual_severity": "high"
+      },
+      {
+        "id": "r4",
+        "title": "Applicants not told an automated tool ranks them",
+        "harm": "harm-loss-of-control",
+        "source_and_cause": "The applicant privacy notice only says applications may be reviewed with automated tools. No notice about the screener, or about how to ask for a person to review, exists yet.",
+        "affected": "All applicants, especially in California, Colorado and New York City",
+        "framework_tags": ["accountable_transparent", "privacy_enhanced"],
+        "citations": ["ccpa-7220-a", "co-6-1-1704-1-2", "nyc-20-871-b-1-2"],
+        "policy_refs": ["POS-AI-003"],
+        "likelihood": "very_high",
+        "severity": "moderate",
+        "residual_likelihood": "very_low",
+        "residual_severity": "moderate"
+      },
+      {
+        "id": "r5",
+        "title": "Vendor uses applicants' information to improve its model without approval",
+        "harm": "harm-loss-of-control",
+        "source_and_cause": "Section 9 of Brightpath's agreement lets it use de-identified customer data to improve its matching model. No DPO approval of that clause is on file.",
+        "affected": "All applicants",
+        "framework_tags": ["privacy_enhanced", "accountable_transparent"],
+        "citations": ["ccpa-7152-a-3"],
+        "policy_refs": ["POS-AI-007"],
+        "likelihood": "high",
+        "severity": "moderate",
+        "residual_likelihood": "low",
+        "residual_severity": "moderate"
+      },
+      {
+        "id": "r6",
+        "title": "Applicant information exposed through the vendor connection",
+        "harm": "harm-security",
+        "source_and_cause": "Applications flow between two vendor clouds. The material does not describe either vendor's security controls.",
+        "affected": "All applicants",
+        "framework_tags": ["secure_resilient"],
+        "citations": ["ccpa-7152-a-6"],
+        "policy_refs": [],
+        "likelihood": "low",
+        "severity": "moderate",
+        "residual_likelihood": "very_low",
+        "residual_severity": "moderate"
+      },
+      {
+        "id": "r7",
+        "title": "Rejected applicants cannot get an explanation or a correction",
+        "harm": "harm-economic",
+        "source_and_cause": "No process exists yet to explain an adverse outcome, correct wrong information or offer human review after one.",
+        "affected": "Applicants who are not called, in Colorado and California",
+        "framework_tags": ["explainable_interpretable", "accountable_transparent"],
+        "citations": ["co-6-1-1704-3", "co-6-1-1705-1", "ccpa-7222-a"],
+        "policy_refs": [],
+        "likelihood": "high",
+        "severity": "moderate",
+        "residual_likelihood": "low",
+        "residual_severity": "moderate"
+      }
+    ],
+    "safeguards": [
+      {
+        "id": "s1",
+        "title": "Independent bias audit before go-live, then every year",
+        "description": "An independent auditor calculates scoring rates and impact ratios by sex, race and ethnicity, and their intersections, before January 15, 2027 and at least once a year after. The summary is published on the careers site before use.",
+        "status": "planned",
+        "owner": "Head of Talent Acquisition",
+        "addresses": ["r1", "r2"],
+        "citations": ["nyc-20-871-a", "nyc-5-301-c", "nyc-5-303"],
+        "policy_refs": ["POS-AI-005"]
+      },
+      {
+        "id": "s2",
+        "title": "Quarterly impact ratio check with a 0.80 review trigger",
+        "description": "Each quarter, compare selection rates across groups. If any group's impact ratio falls below 0.80, privacy counsel and the DPO review the tool before it is used again.",
+        "status": "planned",
+        "owner": "Privacy office",
+        "addresses": ["r1"],
+        "citations": ["nyc-5-300-impact-ratio"],
+        "policy_refs": ["POS-AI-006"]
+      },
+      {
+        "id": "s3",
+        "title": "Meaningful human review before anyone is screened out",
+        "description": "A trained recruiter reviews each applicant's resume and answers, not only the score, before deciding not to call them, and can override the rank. Recruiters learn what the score means and its known limits, including employment gaps and unusual formats.",
+        "status": "planned",
+        "owner": "Head of Talent Acquisition",
+        "addresses": ["r2", "r3"],
+        "citations": ["co-6-1-1701-15"],
+        "policy_refs": ["POS-AI-002"]
+      },
+      {
+        "id": "s4",
+        "title": "Plain-language notice before the screener is used",
+        "description": "Every job posting links to a notice that an automated tool scores applications, what it looks at, and how to ask for a person to review or for another selection process. It goes up at least ten business days before use for New York City residents.",
+        "status": "planned",
+        "owner": "Privacy counsel",
+        "addresses": ["r4"],
+        "citations": ["ccpa-7220-a", "co-6-1-1704-1-2", "nyc-20-871-b-1-2", "nyc-5-304-a-c"],
+        "policy_refs": ["POS-AI-003"]
+      },
+      {
+        "id": "s5",
+        "title": "Close the vendor training clause",
+        "description": "Amend section 9 of Brightpath's agreement so it cannot use Harbor's applicant information to improve its model, or record the DPO's written approval with conditions.",
+        "status": "planned",
+        "owner": "Privacy counsel",
+        "addresses": ["r5"],
+        "citations": [],
+        "policy_refs": ["POS-AI-007"]
+      },
+      {
+        "id": "s6",
+        "title": "Confirm both vendors' security controls",
+        "description": "Get and review each vendor's security documentation, covering access controls, encryption and monitoring, before go-live.",
+        "status": "planned",
+        "owner": "Director of IT",
+        "addresses": ["r6"],
+        "citations": ["ccpa-7152-a-6"],
+        "policy_refs": []
+      },
+      {
+        "id": "s7",
+        "title": "Adverse outcome process",
+        "description": "Within 30 days of not advancing an applicant, explain the decision and the screener's role, explain how to correct wrong information, and offer human review. Answer requests to access information about the screener.",
+        "status": "planned",
+        "owner": "Head of Talent Acquisition",
+        "addresses": ["r7"],
+        "citations": ["co-6-1-1704-3", "co-6-1-1705-1", "ccpa-7222-a"],
+        "policy_refs": []
+      },
+      {
+        "id": "s8",
+        "title": "Keep decision records for three years",
+        "description": "Keep records showing how each decision followed these steps for at least three years after the decision.",
+        "status": "planned",
+        "owner": "Head of Talent Acquisition",
+        "addresses": ["r7"],
+        "citations": ["co-6-1-1703"],
+        "policy_refs": []
+      }
+    ],
+    "obligations": [
+      {"ref": "CCPA-ADMT-NOTICE", "status": "not_met", "note": "Needed before go-live on January 15, 2027. Only a general notice exists.", "addresses": ["s4"]},
+      {"ref": "CCPA-ADMT-OPT-OUT", "status": "unknown", "note": "Depends on whether the hiring exception applies; see the next item.", "addresses": []},
+      {"ref": "CCPA-ADMT-HIRING-EXCEPTION", "status": "unknown", "note": "An analyst must decide whether the screener is used only to assess ability to perform the job and works for that purpose without unlawful discrimination. The bias audit result bears on this.", "addresses": ["s1"]},
+      {"ref": "CCPA-ADMT-ACCESS", "status": "not_met", "note": "No process yet to answer requests about the screener.", "addresses": ["s7"]},
+      {"ref": "CO-DEPLOYER-NOTICE", "status": "not_met", "note": "Needed before go-live.", "addresses": ["s4"]},
+      {"ref": "CO-DEPLOYER-ADVERSE-OUTCOME", "status": "not_met", "note": "No 30-day explanation process yet.", "addresses": ["s7"]},
+      {"ref": "CO-CONSUMER-RIGHTS", "status": "not_met", "note": "No correction or human review process yet.", "addresses": ["s7"]},
+      {"ref": "CO-DEPLOYER-RECORDS", "status": "not_met", "note": "Record keeping not yet set up for this activity.", "addresses": ["s8"]},
+      {"ref": "NYC-BIAS-AUDIT", "status": "not_met", "note": "No bias audit is on file.", "addresses": ["s1"]},
+      {"ref": "NYC-BIAS-AUDIT-SCORING", "status": "not_met", "note": "The screener scores applicants, so the audit uses scoring rates.", "addresses": ["s1"]},
+      {"ref": "NYC-PUBLISH-RESULTS", "status": "not_met", "note": "Summary must be on the careers site before use.", "addresses": ["s1"]},
+      {"ref": "NYC-CANDIDATE-NOTICE", "status": "not_met", "note": "Ten business days before use, for city residents.", "addresses": ["s4"]},
+      {"ref": "NYC-DATA-DISCLOSURE", "status": "not_met", "note": "The data types, sources and retention policy are not yet posted.", "addresses": ["s4"]}
+    ],
+    "policy_check": [
+      {"ref": "POS-AI-001", "status": "met", "note": "The screener is in the inventory with a named system owner.", "addresses": []},
+      {"ref": "POS-AI-002", "status": "not_met", "note": "Recruiters do not review resumes below the top 25 and do not look at other information.", "addresses": ["r3", "s3"]},
+      {"ref": "POS-AI-003", "status": "not_met", "note": "No notice about the screener yet.", "addresses": ["r4", "s4"]},
+      {"ref": "POS-AI-004", "status": "unknown", "note": "The material does not say whether the model infers emotions or protected characteristics. Ask Brightpath.", "addresses": []},
+      {"ref": "POS-AI-005", "status": "not_met", "note": "No bias test is on file.", "addresses": ["r1", "s1"]},
+      {"ref": "POS-AI-006", "status": "not_yet_due", "note": "Applies once monitoring starts after go-live.", "addresses": ["s2"]},
+      {"ref": "POS-AI-007", "status": "not_met", "note": "The vendor contract allows training on customer data and no DPO approval is on file.", "addresses": ["r5", "s5"]},
+      {"ref": "POS-RA-001", "status": "met", "note": "This assessment is being done before go-live.", "addresses": []},
+      {"ref": "POS-RA-005", "status": "met", "note": "The activity is treated as high risk because triage found ADMT for a significant decision and covered ADMT in Colorado.", "addresses": []}
+    ],
+    "decision_rationale": "The screener is high risk under Harbor's policy whatever the scores, and several duties apply from January 1, 2027, before the planned go-live. With the planned safeguards, every risk falls to moderate or lower; unfair screening stays moderate because a bias audit can find a problem but cannot by itself fix it. The people deciding should weigh whether the bias audit, the human review step and the applicant notices can all be in place before January 15, 2027, and whether go-live should wait until the audit result is known.",
+    "open_questions": [
+      "Has Brightpath run any bias audit or test of version 4.2, and can Harbor see the results?",
+      "Does the model infer emotions or any protected characteristic from resumes or answers?",
+      "Is the screener used only to assess ability to perform the job, so the hiring exception to the opt-out could apply?",
+      "How many applicants a month fall below the top 25 for their job?"
+    ]
+  }
+}

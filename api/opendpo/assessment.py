@@ -14,6 +14,7 @@ decision to go ahead.
 from __future__ import annotations
 
 import difflib
+from dataclasses import dataclass
 import hashlib
 import json
 from datetime import date
@@ -28,7 +29,7 @@ from . import content
 
 ASSESSMENT_DIR = content.CONTENT_DIR.parent / "assessment"
 
-Kind = Literal["text", "risk_register", "safeguards", "decision", "people", "approval"]
+Kind = Literal["text", "risk_register", "safeguards", "decision", "people", "approval", "checklist"]
 LEVELS = ("very_low", "low", "moderate", "high", "very_high")
 Level = Literal["very_low", "low", "moderate", "high", "very_high"]
 ROUTING = ("low", "medium", "high")
@@ -47,10 +48,20 @@ class Section(Strict):
     number: str
     title: str
     kind: Kind
-    provisions: list[str] = Field(min_length=1)
+    provisions: list[str] = []
     in_regulator_report: bool
     editable: bool = True
+    appendix: bool = False
+    checks: Literal["rules", "positions"] | None = None   # what a checklist's items refer to
     help: str
+
+    @model_validator(mode="after")
+    def law_behind_every_main_section(self) -> "Section":
+        if not self.appendix and not self.provisions:
+            raise ValueError(f"section {self.id} needs at least one provision")
+        if (self.kind == "checklist") != (self.checks is not None):
+            raise ValueError(f"section {self.id}: a checklist says what it checks, and only a checklist does")
+        return self
 
 
 class FrameworkTag(Strict):
@@ -181,6 +192,8 @@ class Risk(Strict):
     source_and_cause: str = Field(min_length=3, max_length=4000)   # § 7152(a)(5): sources and causes
     affected: str | None = Field(None, max_length=1000)
     framework_tags: list[str] = []                 # NIST AI RMF characteristics: a reference, not law
+    citations: list[str] = []                      # ARC-02: verified provision ids
+    policy_refs: list[str] = []                    # ARC-02: policy position keys, e.g. POS-AI-002
     likelihood: Level
     severity: Level
     residual_likelihood: Level | None = None
@@ -209,6 +222,8 @@ class Safeguard(Strict):
     status: Literal["planned", "in_place"] = "planned"
     owner: str | None = Field(None, max_length=200)
     addresses: list[str] = Field(min_length=1)    # risk ids this safeguard reduces
+    citations: list[str] = []
+    policy_refs: list[str] = []
 
     @field_validator("addresses")
     @classmethod
@@ -220,6 +235,17 @@ class Safeguard(Strict):
 
 class Safeguards(Strict):
     safeguards: list[Safeguard] = []
+
+
+class CheckItem(Strict):
+    ref: str                                      # a triage rule id, or a policy position key
+    status: Literal["met", "not_met", "not_yet_due", "not_applicable", "unknown"]
+    note: str = Field("", max_length=2000)
+    addresses: list[str] = []                     # risk or safeguard ids that deal with a gap
+
+
+class Checklist(Strict):
+    items: list[CheckItem] = []
 
 
 class DecisionBody(Strict):
@@ -239,7 +265,7 @@ class People(Strict):
 
 BODY_MODELS: dict[str, type[BaseModel]] = {
     "text": TextBody, "risk_register": RiskRegister, "safeguards": Safeguards,
-    "decision": DecisionBody, "people": People,
+    "decision": DecisionBody, "people": People, "checklist": Checklist,
 }
 
 
@@ -260,8 +286,17 @@ def _messages(exc: ValidationError) -> list[str]:
     return out
 
 
+@dataclass(frozen=True)
+class Refs:
+    """What a section may point at (ARC-02): verified provisions, policy position keys, and the
+    triage rules that matched. None means "not checked here"."""
+    provisions: frozenset[str] | None = None
+    positions: frozenset[str] | None = None
+    rules: frozenset[str] | None = None
+
+
 def parse(section: Section, body: dict[str, Any], tags: set[str],
-          harm_ids: frozenset[str] | set[str] = frozenset()) -> dict[str, Any]:
+          harm_ids: frozenset[str] | set[str] = frozenset(), refs: Refs = Refs()) -> dict[str, Any]:
     """Validate one section's body on its own. Returns it in normal form."""
     if not section.editable:
         raise Rejected([f"{section.title} is filled in by the approval steps and cannot be edited"])
@@ -284,6 +319,25 @@ def parse(section: Section, body: dict[str, Any], tags: set[str],
         ids = [s.id for s in model.safeguards]
         if len(ids) != len(set(ids)):
             problems.append("each safeguard needs its own id")
+    for item in getattr(model, "risks", []) + getattr(model, "safeguards", []):
+        if refs.provisions is not None:
+            for pid in item.citations:
+                if pid not in refs.provisions:
+                    problems.append(f"{item.id}: {pid} is not a verified provision")
+        if refs.positions is not None:
+            for key in item.policy_refs:
+                if key not in refs.positions:
+                    problems.append(f"{item.id}: {key} is not a position in this assessment's policies")
+    if isinstance(model, Checklist):
+        allowed = refs.rules if section.checks == "rules" else refs.positions
+        seen = [i.ref for i in model.items]
+        if len(seen) != len(set(seen)):
+            problems.append("list each item once")
+        if allowed is not None:
+            for i in model.items:
+                if i.ref not in allowed:
+                    what = "triage result" if section.checks == "rules" else "assessment's policies"
+                    problems.append(f"{i.ref} is not in this {what}")
     if problems:
         raise Rejected(problems)
     return model.model_dump(mode="json")
@@ -321,6 +375,14 @@ def check(state: dict[str, dict[str, Any] | None], template: Template, method: M
     for r in risks:
         if r.get("residual_likelihood") and r["id"] not in covered:
             problems.append(f"risk {r['id']} has a rating with safeguards, but no safeguard addresses it")
+    sg_ids = {s["id"] for s in safeguards}
+    for sec in template.sections:
+        if sec.kind != "checklist":
+            continue
+        for item in (state.get(sec.id) or {}).get("items", []):
+            missing = [x for x in item.get("addresses", []) if x not in risk_ids | sg_ids]
+            if missing:
+                problems.append(f"{sec.title}: {item['ref']} points at {', '.join(missing)}, which is not in the assessment")
     if decision and decision["initiate"] == "yes":
         for b in blockers(risks, method, acceptances):
             problems.append(b)
@@ -389,11 +451,11 @@ def diff(kind: str, before: dict[str, Any] | None, after: dict[str, Any] | None)
         lines = list(difflib.unified_diff((before.get("text") or "").splitlines(),
                                           (after.get("text") or "").splitlines(), lineterm="", n=1))
         return {"text": lines[2:]}
-    key = {"risk_register": "risks", "safeguards": "safeguards", "people": "people"}.get(kind)
+    key = {"risk_register": "risks", "safeguards": "safeguards", "people": "people", "checklist": "items"}.get(kind)
     if key is None:
         return {"changed": {k: {"from": before.get(k), "to": after.get(k)}
                             for k in sorted(set(before) | set(after)) if before.get(k) != after.get(k)}}
-    ident = "name" if kind == "people" else "id"
+    ident = {"people": "name", "checklist": "ref"}.get(kind, "id")
     old = {i[ident]: i for i in before.get(key, [])}
     new = {i[ident]: i for i in after.get(key, [])}
     changed = {}

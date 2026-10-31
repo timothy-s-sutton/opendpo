@@ -9,7 +9,7 @@
 # in_regulator_report follows the requirements (WF-21). Confirm it against the
 # CCPA Regulations, section 7157, before the regulator-ready export relies on it.
 id: ai-admt-risk-assessment
-version: 1
+version: 2
 title: AI and automated decision risk assessment
 basis: [ccpa-7152-a]
 
@@ -139,3 +139,28 @@ sections:
     Filled in by the approval steps: who reviewed and approved the assessment, their job
     titles and the date. At least one approver must have the authority to decide whether
     the processing goes ahead.
+
+# OpenDPO additions (WF-11 report table): shown as appendices to the internal report.
+- id: obligations
+  number: A
+  title: Obligations checklist
+  kind: checklist
+  checks: rules
+  appendix: true
+  provisions: []
+  in_regulator_report: false
+  help: >-
+    For each duty the triage found, say whether it is met, not met yet, or not yet due, and
+    what shows it. A duty that is not met becomes a risk or a safeguard.
+
+- id: policy_check
+  number: B
+  title: Policy check
+  kind: checklist
+  checks: positions
+  appendix: true
+  provisions: []
+  in_regulator_report: false
+  help: >-
+    For each of the organization's policy rules that applies, say whether the activity meets
+    it. A rule that is not met becomes a risk, a safeguard or a documented exception.
