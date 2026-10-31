@@ -67,3 +67,28 @@ test_auditor_reads_inventory_but_submitter_does_not if {
 test_everyone_in_the_tenant_reads_policies if {
 	authz.allow with input as {"actor": user(["submitter"]), "action": "policy.read"}
 }
+
+test_sod1_no_approving_own_work if {
+	inp := {"actor": user(["dpo"]), "action": "assessment.approve", "resource": {"involved": ["u1"]},
+	        "tenant": {"approval_preset": "standard"}}
+	not authz.allow with input as inp
+	some r in authz.reasons with input as inp
+	startswith(r, "SOD-1")
+}
+
+test_sod1_single_person_needs_justification if {
+	base := {"actor": user(["dpo"]), "action": "assessment.approve", "tenant": {"approval_preset": "single_person"}}
+	not authz.allow with input as object.union(base, {"resource": {"involved": ["u1"]}})
+	authz.allow with input as object.union(base, {"resource": {"involved": ["u1"], "self_approval_reason": "Sole privacy staff"}})
+}
+
+test_sod2_one_approval_per_person if {
+	inp := {"actor": user(["dpo", "privacy_counsel"]), "action": "assessment.approve",
+	        "resource": {"involved": [], "approved_this_round": ["u1"]}, "tenant": {"approval_preset": "standard"}}
+	not authz.allow with input as inp
+}
+
+test_only_dpo_accepts_risk if {
+	authz.allow with input as {"actor": user(["dpo"]), "action": "assessment.accept_risk"}
+	not authz.allow with input as {"actor": user(["privacy_counsel"]), "action": "assessment.accept_risk"}
+}

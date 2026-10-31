@@ -14,6 +14,8 @@ role_actions := {
 	"review.comment": {"system_owner", "privacy_analyst", "privacy_counsel", "dpo"},
 	"assessment.read": {"system_owner", "privacy_analyst", "privacy_counsel", "dpo", "auditor"},
 	"assessment.approve": {"privacy_analyst", "privacy_counsel", "dpo"},
+	"assessment.submit": {"privacy_analyst", "privacy_counsel", "dpo"},
+	"assessment.accept_risk": {"dpo"},
 	"inventory.read": {"system_owner", "privacy_analyst", "privacy_counsel", "dpo", "auditor"},
 	"policy.read": {"submitter", "system_owner", "privacy_analyst", "privacy_counsel", "dpo", "tenant_admin", "auditor"},
 	"policy.propose": {"privacy_counsel", "dpo"},
@@ -79,6 +81,27 @@ deny contains "SOD-4: you cannot change your own roles" if {
 deny contains "SOD-3: you proposed this change, so another person must approve it" if {
 	input.action == "policy.approve"
 	input.resource.proposed_by == input.actor.id
+}
+
+# SOD-1: no one approves an assessment they submitted, drafted (or asked the agent to draft)
+# or edited. The single-person office preset relaxes this with a recorded justification (PLT-34).
+deny contains "SOD-1: you submitted, drafted or edited this assessment, so another person must approve it" if {
+	input.action == "assessment.approve"
+	input.actor.id in input.resource.involved
+	input.tenant.approval_preset != "single_person"
+}
+
+deny contains "PLT-34: approving your own work needs a recorded justification" if {
+	input.action == "assessment.approve"
+	input.actor.id in input.resource.involved
+	input.tenant.approval_preset == "single_person"
+	not input.resource.self_approval_reason
+}
+
+# SOD-2: one person gives one approval per review round, so high risk gets two different people.
+deny contains "SOD-2: you already approved this assessment in this round; another person must give the next approval" if {
+	input.action == "assessment.approve"
+	input.actor.id in input.resource.approved_this_round
 }
 
 reasons contains r if some r in deny

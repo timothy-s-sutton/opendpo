@@ -172,10 +172,13 @@ def assessment_detail(tenant_id: UUID, assessment_id: UUID,
     tenant = load_tenant(p, tenant_id)
     require(p, tenant, "assessment.read")
     tpl, lib = template(), library()
+    from .review_api import approval_section, review_view
     with tenant_tx(tenant_id) as conn:
         a = load_assessment(conn, assessment_id)
         state = current_state(conn, assessment_id)
         names = {r["id"]: r["display_name"] for r in conn.execute("SELECT id::text, display_name FROM app_user")}
+        review_state = review_view(conn, a, tenant, p)
+        approved = approval_section(conn, a)
     method = method_of(a)
     bodies = {sid: r["body"] for sid, r in state.items()}
     sections = []
@@ -186,7 +189,7 @@ def assessment_detail(tenant_id: UUID, assessment_id: UUID,
             "editable": s.editable, "in_regulator_report": s.in_regulator_report,
             "what_the_law_says": engine.citations(lib, s.provisions),
             "revision": cur["revision"] if cur else 0,
-            "body": cur["body"] if cur else None,
+            "body": approved if s.kind == "approval" else (cur["body"] if cur else None),
             "last_edited_by": (names.get(cur["author_id"], cur["author_id"]) if cur else None),
             "last_edited_by_type": cur["author_type"] if cur else None,
             "last_edited_at": cur["created_at"] if cur else None,
@@ -202,6 +205,7 @@ def assessment_detail(tenant_id: UUID, assessment_id: UUID,
         "computed": engine.derive(bodies, tpl, method, a["routing_floor"], a["risk_acceptances"]),
         "floor_rules": a["floor_rules"], "editable": a["status"] in EDITABLE_STATUSES, "notice": NOTICE,
         "processing_activity_id": a["processing_activity_id"], "policy_versions": a["policy_versions"],
+        "review": review_state,
         "ai_draft_label": drafter.LABEL if any(x["author_type"] == "agent" for x in first_authors(assessment_id,
                                                                                                tenant_id)) else None,
     }
