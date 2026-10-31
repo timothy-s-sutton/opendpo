@@ -92,8 +92,11 @@ def test_denied_attempt_is_audited(client):
 def test_intended_use_ack_is_audited(client):
     r = client.post(f"/api/tenants/{HARBOR}/intended-use/ack", headers=as_user("terry.lin"))
     assert r.status_code == 200
-    events = client.get(f"/api/tenants/{HARBOR}/audit?limit=1000", headers=as_user("avery.shaw")).json()
-    assert any(e["action"] == "tenant.intended_use_acknowledged" for e in events)
+    # Read the log directly: on a reused test database the event can be older than the API's page.
+    with tenant_tx(HARBOR) as conn:
+        n = conn.execute("SELECT count(*) AS n FROM audit_event WHERE action = 'tenant.intended_use_acknowledged'"
+                         ).fetchone()["n"]
+    assert n == 1
 
 
 def test_export_verifies_chain(client):
