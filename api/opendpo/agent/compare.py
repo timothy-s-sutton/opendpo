@@ -2,7 +2,7 @@
 
 Run inside the API container once ANTHROPIC_API_KEY is set:
 
-    docker compose exec api python -m opendpo.agent.compare --assessment <id> > compare.md
+    docker compose exec api python -m opendpo.agent.compare > compare.md
 
 Each model drafts the same assessment from the same material. The report shows, for each:
 whether the draft passed validation and in how many attempts, tokens and estimated cost,
@@ -103,13 +103,17 @@ def report(results: list[dict], m: drafter.Material) -> str:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--assessment", required=True, type=UUID)
+    ap.add_argument("--assessment", type=UUID, help="default: the most recently updated assessment")
     ap.add_argument("--tenant", type=UUID, default=HARBOR)
     ap.add_argument("--models", default="claude-sonnet-5-5,claude-haiku-5-5")
     ap.add_argument("--json", type=Path, help="also save the raw drafts here")
     args = ap.parse_args()
     with tenant_tx(args.tenant) as conn:
-        m = assessments_api.build_material(conn, assessments_api.load_assessment(conn, args.assessment))
+        aid = args.assessment or (conn.execute("SELECT id FROM assessment ORDER BY updated_at DESC LIMIT 1")
+                                  .fetchone() or {}).get("id")
+        if aid is None:
+            raise SystemExit("no assessment yet; start one in the app first")
+        m = assessments_api.build_material(conn, assessments_api.load_assessment(conn, aid))
     results = [run(m, model.strip()) for model in args.models.split(",")]
     if args.json:
         args.json.write_text(json.dumps(results, indent=1, default=str))

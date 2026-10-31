@@ -73,6 +73,27 @@ To see tamper evidence, run `./scripts/tamper-demo.sh`, then click **Verify chai
 | http://localhost:8080 | Keycloak (admin password printed by `setup.sh`) |
 | http://localhost:8181 | Open Policy Agent |
 
+### The drafting agent
+
+With no API key, "Draft with AI" fills the assessment from a saved, hand-written sample (`api/tests/fixtures/harbor_draft.json`), and every section it writes says so. To draft with Claude instead, add a key from console.anthropic.com to `.env` (set a monthly spending limit there first), then restart the API:
+
+```bash
+ANTHROPIC_API_KEY=your-key
+OPENDPO_AGENT_MODEL=claude-sonnet-5-5   # or claude-haiku-5-5
+```
+
+```bash
+docker compose up -d api
+```
+
+To compare Sonnet and Haiku on the most recent assessment without saving anything (it costs well under a dollar):
+
+```bash
+docker compose exec api python -m opendpo.agent.compare > compare.md
+```
+
+The agent can only cite verified law, signed-off harms and the organization's own policy positions, treats intake and inventory text as data rather than instructions, and cannot approve anything.
+
 ## Architecture at a glance
 
 Python (FastAPI), PostgreSQL with row-level security, React in TypeScript with schema-driven forms, Keycloak for identity, Open Policy Agent for roles, segregation of duties and triage rules, YAML content packs, and the Anthropic API behind a provider interface. Everything runs from one Docker Compose setup. See [docs/architecture.md](docs/architecture.md).
