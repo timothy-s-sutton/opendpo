@@ -16,6 +16,7 @@ from __future__ import annotations
 import difflib
 import hashlib
 import json
+from datetime import date
 from functools import lru_cache
 from pathlib import Path
 from typing import Any, Literal
@@ -100,6 +101,8 @@ class Methodology(Strict):
     id: str
     version: str
     status: Literal["draft", "confirmed"]
+    confirmed_by: str | None = None
+    confirmed_on: date | None = None
     title: str
     sources: list[dict[str, str]]
     levels: list[MethodLevel]
@@ -118,6 +121,8 @@ class Methodology(Strict):
                 raise ValueError("risk must not fall as severity rises")
         if set(self.routing.by_inherent_risk) != set(LEVELS):
             raise ValueError("routing.by_inherent_risk needs every level")
+        if self.status == "confirmed" and not (self.confirmed_by and self.confirmed_on):
+            raise ValueError("a confirmed method records who confirmed it and when")
         if self.routing.floor.get("default") not in ROUTING:
             raise ValueError("routing.floor.default must be low, medium or high")
         return self

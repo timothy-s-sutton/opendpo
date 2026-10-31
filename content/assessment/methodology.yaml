@@ -1,15 +1,14 @@
 # OpenDPO's default risk method (WF-19, WF-20, C5). A tenant's assessment policy can
 # replace it; each assessment records the method id and version it used (PLT-13).
 #
-# STATUS: draft. Before it is confirmed:
-# - check the matrix against NIST SP 800-30 Rev. 1, Appendix I, Table I-2
-# - check the likelihood wording against Appendix G, Table G-5
-# - check the severity wording against NIST PRAM's framing (impact on individuals,
-#   and on the organization)
-# - confirm the routing floor rules below
+# Confirmed by Tim Sutton on 2026-10-31: the matrix against NIST SP 800-30 Rev. 1,
+# Appendix I, Table I-2; the plain-language likelihood and severity wording; and the
+# two triage results that set a high routing floor.
 id: opendpo-default-5x5
-version: 0.1.0
-status: draft
+version: 1.0.0
+status: confirmed
+confirmed_by: Tim Sutton
+confirmed_on: 2026-10-31
 title: Five-level likelihood and severity scale
 sources:
 - title: "NIST SP 800-30 Rev. 1, Guide for Conducting Risk Assessments (Appendices G, H and I)"

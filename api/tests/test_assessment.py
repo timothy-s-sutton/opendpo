@@ -54,6 +54,13 @@ def test_unknown_provision_is_refused(monkeypatch):
         engine.load_template(content.load())
 
 
+def test_method_is_confirmed(method):
+    assert method.status == "confirmed" and method.confirmed_by == "Tim Sutton"
+    raw = {**engine._read("methodology.yaml"), "confirmed_by": None}
+    with pytest.raises(ValueError, match="who confirmed it"):
+        engine.Methodology.model_validate(raw)
+
+
 def test_matrix(method):
     assert method.rate("very_high", "very_high") == "very_high"
     assert method.rate("moderate", "high") == "moderate"
