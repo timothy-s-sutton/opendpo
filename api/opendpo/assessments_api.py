@@ -186,7 +186,7 @@ def assessment_detail(tenant_id: UUID, assessment_id: UUID,
         cur = state.get(s.id)
         sections.append({
             "id": s.id, "number": s.number, "title": s.title, "kind": s.kind, "help": s.help,
-            "editable": s.editable, "in_regulator_report": s.in_regulator_report,
+            "editable": s.editable, "in_regulator_report": s.in_regulator_report, "appendix": s.appendix,
             "what_the_law_says": engine.citations(lib, s.provisions),
             "revision": cur["revision"] if cur else 0,
             "body": approved if s.kind == "approval" else (cur["body"] if cur else None),

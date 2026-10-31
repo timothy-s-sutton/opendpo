@@ -272,4 +272,41 @@ def accept_risk(tenant_id: UUID, assessment_id: UUID, body: AcceptanceIn,
     return rec
 
 
+
+
+@router.get("/api/tenants/{tenant_id}/assessments/{assessment_id}/export")
+def export_assessment(tenant_id: UUID, assessment_id: UUID, kind: Literal["internal", "regulator"] = "internal",
+                      fmt: Literal["html", "json"] = "html", p: Principal = Depends(current_principal)):
+    """WF-21: the internal assessment or the regulator-ready report, as printable HTML or JSON.
+    The regulator-ready report exists only for an approved assessment. Every export is logged."""
+    from fastapi.responses import HTMLResponse
+
+    from . import export
+    from .assessments_api import assessment_detail
+    tenant = load_tenant(p, tenant_id)
+    actor = require(p, tenant, "assessment.export", log_denial=True)
+    detail = assessment_detail(tenant_id, assessment_id, p)
+    if kind == "regulator" and detail["status"] != "approved":
+        raise HTTPException(status.HTTP_409_CONFLICT, "the regulator-ready report needs an approved assessment")
+    with tenant_tx(tenant_id) as conn:
+        a = load_assessment(conn, assessment_id)
+        run = conn.execute("SELECT result FROM triage_run WHERE id = %s", (a["triage_run_id"],)).fetchone()
+        project = conn.execute("SELECT name FROM project WHERE id = %s", (a["project_id"],)).fetchone()
+        history = conn.execute(
+            """SELECT r.section, r.revision, r.created_at AS at, r.note,
+                      CASE WHEN r.author_type = 'agent' THEN 'OpenDPO agent, for ' || coalesce(u2.display_name, '?')
+                           ELSE coalesce(u.display_name, r.author_id) END AS author
+               FROM assessment_revision r LEFT JOIN app_user u ON u.id::text = r.author_id
+               LEFT JOIN app_user u2 ON u2.id = r.on_behalf_of
+               WHERE r.assessment_id = %s ORDER BY r.created_at, r.section""", (assessment_id,)).fetchall()
+        report = export.build(detail, kind, history, run["result"], tenant["name"], project["name"])
+        audit.append(conn, tenant_id, audit_actor(actor), "assessment.exported", object_type="assessment",
+                     object_id=str(assessment_id),
+                     payload={"kind": kind, "format": fmt, "status": detail["status"],
+                              "digest": a["submitted_digest"]})
+    if fmt == "json":
+        return report
+    return HTMLResponse(export.html(report))
+
+
 __all__ = ["router", "review_view", "approval_section", "load_assessment"]

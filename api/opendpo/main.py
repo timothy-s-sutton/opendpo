@@ -67,7 +67,8 @@ app.add_middleware(CORSMiddleware, allow_origins=list(settings.cors_origins),
 
 # Actions the web app asks about to decide what to show a user.
 UI_ACTIONS = ["intake.submit", "intake.read", "intake.clarify", "triage.confirm", "draft.edit", "assessment.read",
-              "assessment.approve", "assessment.submit", "assessment.accept_risk", "inventory.read", "policy.read",
+              "assessment.approve", "assessment.submit", "assessment.accept_risk", "assessment.export",
+              "inventory.read", "policy.read",
               "members.read", "tenant.ack_intended_use", "audit.read", "audit.verify", "audit.export"]
 
 

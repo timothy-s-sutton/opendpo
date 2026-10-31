@@ -16,6 +16,7 @@ role_actions := {
 	"assessment.approve": {"privacy_analyst", "privacy_counsel", "dpo"},
 	"assessment.submit": {"privacy_analyst", "privacy_counsel", "dpo"},
 	"assessment.accept_risk": {"dpo"},
+	"assessment.export": {"privacy_analyst", "privacy_counsel", "dpo", "auditor"},
 	"inventory.read": {"system_owner", "privacy_analyst", "privacy_counsel", "dpo", "auditor"},
 	"policy.read": {"submitter", "system_owner", "privacy_analyst", "privacy_counsel", "dpo", "tenant_admin", "auditor"},
 	"policy.propose": {"privacy_counsel", "dpo"},
