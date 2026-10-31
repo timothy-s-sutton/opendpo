@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { api } from "./auth";
+import { AssessmentStart, AssessmentView } from "./Assessment";
 import {
   Answers, Change, Citation, Definition, Explained, IntakeForm, ProjectDetail, ProjectRow, Property,
   STATUS_LABELS, humanize, visibleIds,
@@ -283,6 +284,7 @@ function Definitions({ defs }: { defs: Definition[] }) {
 function ProjectView({ tenant, can, id, onBack }: { tenant: Tenant; can: Can; id: string; onBack: () => void }) {
   const [p, setP] = useState<ProjectDetail | null>(null);
   const [editing, setEditing] = useState(false);
+  const [assessment, setAssessment] = useState<string | null>(null);
   const [err, setErr] = useState<string | null>(null);
   const load = useCallback(() => {
     api<ProjectDetail>(`/api/tenants/${tenant.id}/projects/${id}`).then(setP).catch((e: Error) => setErr(e.message));
@@ -291,6 +293,9 @@ function ProjectView({ tenant, can, id, onBack }: { tenant: Tenant; can: Can; id
 
   if (err) return <p className="err">{err}</p>;
   if (!p) return <p className="loading">Loading…</p>;
+  if (assessment) {
+    return <AssessmentView tenant={tenant} id={assessment} can={can} onBack={() => { setAssessment(null); load(); }} />;
+  }
   if (editing) {
     return <IntakeEditor tenant={tenant} id={p.id} initial={p.answers}
                          onDone={() => { setEditing(false); load(); }} onCancel={() => { setEditing(false); load(); }} />;
@@ -311,6 +316,9 @@ function ProjectView({ tenant, can, id, onBack }: { tenant: Tenant; can: Can; id
         </button></div>
       )}
       {p.status === "awaiting_clarification" && <Clarification tenant={tenant} p={p} can={can} reload={load} />}
+      {p.status === "confirmed" && p.triage?.result.assessments.length && (can("assessment.read") || can("draft.edit")) ? (
+        <AssessmentStart tenant={tenant} projectId={p.id} can={can} onOpen={setAssessment} />
+      ) : null}
       {p.triage && p.triage.status !== "superseded" && (
         <Triage tenant={tenant} p={p} can={can} reload={load} />
       )}

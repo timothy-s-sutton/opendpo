@@ -95,3 +95,60 @@ blockquote { margin: 6px 0; padding: 8px 10px; background: #f6f7f9; border-radiu
 .change { display: grid; grid-template-columns: 1fr 1fr auto; gap: 8px; margin: 8px 0; }
 button:disabled { opacity: 0.5; cursor: default; }
 @media (max-width: 700px) { .change { grid-template-columns: 1fr; } }
+/* Assessments */
+.plain { list-style: none; padding: 0; margin: 8px 0; }
+.plain li { padding: 4px 0; }
+.q { display: block; font-weight: 600; margin: 8px 0 4px; }
+.actions.wrap { flex-wrap: wrap; }
+.small-card { padding: 8px 12px; font-size: 13px; }
+.card.bad-soft { border-color: #e9a7a2; background: #fdf3f2; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid2 .card { margin: 0; }
+@media (max-width: 860px) { .grid2 { grid-template-columns: 1fr; } }
+.facts { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; margin: 0; font-size: 14px; }
+.facts dt { color: var(--muted); }
+.facts dd { margin: 0; font-weight: 600; }
+.status.a-in_review { background: #e8eef8; color: var(--accent); }
+.status.a-approved { background: #e6f4ec; color: var(--good); }
+.status.a-returned, .status.a-rejected { background: #fdf3e1; color: var(--warn); }
+.status.risk-high { background: #fbe4e2; color: var(--bad); }
+.status.risk-medium { background: #fdf3e1; color: var(--warn); }
+.status.risk-low { background: #e6f4ec; color: var(--good); }
+.badge { background: #eef0f3; color: var(--muted); }
+.badge.ai { background: #efe8fb; color: #5b3aa6; }
+.badge.bad { background: #fbe4e2; color: var(--bad); }
+.section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.section-meta { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.card.appendix { background: #fbfbfc; }
+.prose p { margin: 6px 0; line-height: 1.55; }
+.prose ul { margin: 4px 0; padding-left: 20px; }
+table.compact td, table.compact th { font-size: 13px; padding: 6px 8px; }
+.lvl { font-size: 12px; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.lv-very_low { background: #edf6ef; } .lv-low { background: #dceede; } .lv-moderate { background: #fbedc9; }
+.lv-high { background: #f6d0c5; } .lv-very_high { background: #e9a99a; }
+.map { display: flex; gap: 6px; }
+.map-y { writing-mode: vertical-rl; transform: rotate(180deg); font-size: 11px; color: var(--muted); text-align: center; }
+.map-grid { flex: 1; }
+.map-row { display: grid; grid-template-columns: 64px repeat(5, 1fr); gap: 2px; margin-bottom: 2px; }
+.map-label { font-size: 11px; color: var(--muted); display: flex; align-items: center; }
+.map-label.col { justify-content: center; text-align: center; }
+.map-cell { min-height: 34px; border-radius: 3px; display: flex; flex-wrap: wrap; gap: 2px; padding: 2px; align-content: flex-start; }
+.map-x { text-align: center; font-size: 11px; color: var(--muted); padding-left: 64px; }
+.chip { font-size: 10px; padding: 1px 4px; border-radius: 3px; font-family: ui-monospace, Menlo, monospace; }
+.chip.before { border: 1px solid var(--ink); background: #fff; }
+.chip.after { background: var(--ink); color: #fff; border: 1px solid var(--ink); }
+.review-box { border-top: 1px solid var(--line); padding-top: 8px; }
+.review-box label { display: block; margin: 6px 0; }
+button.danger { color: var(--bad); border-color: var(--bad); }
+.history { border-left: 3px solid #efe8fb; padding-left: 10px; margin: 8px 0; }
+.rev { margin: 6px 0; }
+pre.diff { font-size: 12px; background: #f6f7f9; padding: 6px; border-radius: 4px; white-space: pre-wrap; margin: 4px 0; }
+pre.diff .add { color: var(--good); } pre.diff .del { color: var(--bad); text-decoration: line-through; }
+.edit-block { border: 1px solid var(--line); border-radius: 6px; padding: 8px; margin: 8px 0; display: grid; gap: 6px; }
+.row2 { display: grid; grid-template-columns: 2fr 1fr; gap: 6px; }
+.row3 { display: grid; grid-template-columns: 1fr 1fr 2fr auto; gap: 6px; align-items: center; margin: 4px 0; }
+.ratings { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; font-size: 13px; }
+.ratings select { width: auto; }
+.accept { display: grid; gap: 4px; margin-top: 6px; }
+.small-btn { padding: 4px 8px; font-size: 12px; }
+@media (max-width: 700px) { .row2, .row3 { grid-template-columns: 1fr; } }
