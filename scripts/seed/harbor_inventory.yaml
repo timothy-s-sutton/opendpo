@@ -1,0 +1,166 @@
+# Harbor Staffing's inventory for the preview walkthrough. Fictional: every organization,
+# person, product and figure here is invented. It matches the intake fixture
+# (api/tests/fixtures/harbor_resume_screener.json). scripts/seed/build_seed_004.py turns
+# this file and the policy templates into api/migrations/seed_demo_004.sql.
+#
+# Two gaps are left in on purpose, for the assessment to find:
+# - Recruiters can change the screener's ranking but do not look at other information, so
+#   their review is limited, not meaningful (POS-AI-002).
+# - Brightpath's contract lets it use customer data to improve its model, and no DPO
+#   approval is on file (POS-AI-007).
+
+job_titles:
+  sam.rivera: Talent Acquisition Coordinator, Harbor Staffing
+  olivia.grant: Head of Talent Acquisition, Harbor Staffing
+  ana.patel: Senior Privacy Analyst, Northbridge Privacy Advisors
+  ben.okafor: Privacy Analyst, Northbridge Privacy Advisors
+  carla.mendes: Privacy Counsel, Harbor Staffing
+  devon.hart: Data Protection Officer (outsourced), Northbridge Privacy Advisors
+  terry.lin: Director of IT, Harbor Staffing
+  avery.shaw: Internal Audit Manager, Harbor Staffing
+  wren.ellis: Managing Director, Northbridge Privacy Advisors
+
+vendors:
+- key: brightpath
+  name: Brightpath Hiring
+  role: service_provider
+  dpa_status: signed
+  locations: [US]
+  notes: >-
+    Service provider agreement signed September 2026. Section 9 lets Brightpath use
+    de-identified customer data to improve its matching model. No DPO approval of that
+    clause is on file.
+- key: crestline
+  name: Crestline Software
+  role: service_provider
+  dpa_status: signed
+  locations: [US]
+  notes: Hosts Harbor's applicant tracking system. Service provider agreement signed 2024.
+
+systems:
+- key: ats
+  name: Crestline applicant tracking system
+  business_owner: Olivia Grant, Head of Talent Acquisition
+  technical_owner: Terry Lin, Director of IT
+  origin: vendor
+  vendor: crestline
+  hosting: Vendor cloud (US)
+  locations: [US]
+  sensitivity: moderate
+  status: live
+- key: screener
+  name: Brightpath resume screener
+  business_owner: Olivia Grant, Head of Talent Acquisition
+  technical_owner: Terry Lin, Director of IT
+  origin: vendor
+  vendor: brightpath
+  hosting: Vendor cloud (US), connected to the applicant tracking system
+  locations: [US]
+  sensitivity: moderate
+  status: testing
+
+ai_components:
+- key: match-score
+  name: Brightpath Match Score
+  origin: vendor
+  kind: traditional_model
+  vendor: brightpath
+  version: "4.2"
+  systems: [screener]
+  intended_use: >-
+    Scores how well an applicant's resume and application answers match a job's stated
+    requirements, so recruiters can decide whom to call first.
+  inputs: >-
+    Resume text, application answers (availability, shift preference, licenses such as a
+    commercial driver's license) and the job's stated requirements.
+  output: A match score from 0 to 100 and a rank among applicants for the same job.
+  trained_on_personal_data: true
+  known_limitations: >-
+    Vendor documentation says the model was trained mostly on US warehouse and logistics
+    hiring data from 2019 to 2024, scores resumes in unusual formats less accurately, and
+    gives lower scores to resumes with employment gaps longer than six months.
+
+data_categories:
+- key: contact
+  name: Contact details
+  examples: Name, email address, phone number, home city and state
+  sensitive: false
+  ccpa_category: Identifiers
+  retention: Four years after the hiring decision, under Harbor's records retention schedule
+- key: work-history
+  name: Work history
+  examples: Past employers, job titles, dates of employment, duties
+  sensitive: false
+  ccpa_category: Professional or employment-related information
+  retention: Four years after the hiring decision, under Harbor's records retention schedule
+- key: education
+  name: Education
+  examples: Schools attended, degrees, certificates
+  sensitive: false
+  ccpa_category: Education information
+  retention: Four years after the hiring decision, under Harbor's records retention schedule
+- key: application-answers
+  name: Application answers
+  examples: Shift availability, licenses held, willingness to travel
+  sensitive: false
+  ccpa_category: Professional or employment-related information
+  retention: Four years after the hiring decision, under Harbor's records retention schedule
+- key: match-results
+  name: Screening results
+  examples: Match score, rank, recruiter's call decision
+  sensitive: false
+  ccpa_category: Inferences drawn from other personal information
+  retention: Four years after the hiring decision, under Harbor's records retention schedule
+
+subject_groups:
+- key: applicants
+  name: Job applicants
+  approximate_count: 48000
+  jurisdictions: [US-CA, US-CO, US-NYC, US-other]
+
+activities:
+- key: screening
+  name: AI resume screening for warehouse and driver roles
+  purpose: >-
+    Rank applicants for warehouse and driver roles by how well they meet each job's stated
+    requirements, so recruiters call the strongest matches first and fill open shifts faster.
+  legal_basis: null
+  decision_domain: employment
+  ai_role: materially_influences
+  human_review: limited
+  human_review_note: >-
+    Recruiters see each applicant's score and rank and can call anyone, but in practice they
+    work down the ranked list and do not review resumes ranked below the top 25.
+  people_affected:
+    job_applicants: {US-CA: 21000, US-CO: 6500, US-NYC: 4200, US-other: 16300}
+  collection: >-
+    Applicants apply on Harbor's careers site. The applicant tracking system stores the
+    application and sends the resume and answers to the screener, which returns a score and
+    rank to the applicant tracking system.
+  consumer_interaction: >-
+    Applicants apply online for a specific job; Harbor contacts them by phone or email to
+    schedule a screening call.
+  disclosures: >-
+    Harbor's applicant privacy notice, linked from every job posting, says applications may
+    be reviewed with automated tools. No separate notice about the screener exists yet.
+  go_live: 2027-01-15
+  stage: testing
+  systems: [ats, screener]
+  ai_components: [match-score]
+  data_categories:
+    contact: Needed to contact the applicant; not sent to the screener's scoring.
+    work-history: The main input to the match score.
+    education: Used only where a job lists a certificate or license requirement.
+    application-answers: Matched against the job's shift and license requirements.
+    match-results: The screener's output, kept with the application.
+  subject_groups: [applicants]
+  recipients:
+    brightpath: Scores and ranks applicants for each job.
+    crestline: Hosts and stores applications and screening results.
+
+# Who proposed and who confirmed Harbor's copy of each policy (SOD-3: different people).
+policy_approvals:
+  proposed_by: carla.mendes
+  confirmed_by: devon.hart
+  confirmed_at: "2026-10-15T15:00:00Z"
+  effective_from: 2026-10-15

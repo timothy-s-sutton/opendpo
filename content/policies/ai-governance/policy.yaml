@@ -1,0 +1,169 @@
+# OpenDPO policy template (PLT-10, PLT-15). Written by OpenDPO; no text reused from
+# other templates. Licensed CC BY 4.0 with the rest of the content (see LICENSE-CONTENT.md).
+# Framework references are OpenDPO's interpretation: neither NIST CSF 2.0 nor the
+# Privacy Framework names policies (PLT-10).
+#
+# Each tenant gets its own copy and records the template version it came from (PLT-19).
+# Positions are the policy's rules as structured records (PLT-12); assessments cite them.
+id: ai-governance
+title: AI governance and acceptable AI use
+version: 0.1.0
+license: CC BY 4.0
+authored_by: OpenDPO
+reused_sources: []
+framework_anchors: [NIST AI RMF GOVERN, NIST CSF 2.0 GV.PO]
+sections:
+- number: "1"
+  title: Purpose
+  text: >-
+    This policy sets the rules for choosing, building and using AI systems at
+    {organization}. It makes sure AI helps people do their jobs without harming the
+    people it is used on, and that a named person is always responsible for each system.
+
+- number: "2"
+  title: Scope
+  text: >-
+    This policy covers every AI system {organization} builds, buys or uses, including AI
+    features inside other software. It applies to all employees and contractors, and to
+    vendors who run AI systems for us.
+
+- number: "3"
+  title: Roles
+  text: |-
+    - **System owner:** the business leader responsible for an AI system and how it is used.
+    - **Privacy office:** the privacy analysts, privacy counsel and data protection officer
+      (DPO) who assess AI systems and approve them for use.
+    - **DPO:** approves high-risk AI uses and any exception to this policy.
+
+- number: "4"
+  title: Before an AI system is used
+  text: |-
+    4.1 Every AI system is recorded in the inventory, with a named system owner, before it is used.
+
+    4.2 The system owner submits an intake for every new AI system or new use of an existing one.
+    The privacy office decides whether a risk assessment is needed, following the Privacy and AI
+    risk assessment policy.
+
+    4.3 An AI system that is used in hiring or promotion decisions is tested for unequal results
+    across groups of people before first use. See section 6.
+
+- number: "5"
+  title: Decisions about people
+  text: |-
+    5.1 When an AI system plays a real part in a decision about someone's job, credit, housing,
+    education or healthcare, a person must review the outcome before it takes effect. That person
+    must understand what the system's output means, look at other relevant information, and have
+    the authority to change the outcome.
+
+    5.2 People are told, in plain language and before the AI system is used, that it will be used
+    in a decision about them, and how to ask for a person to review the decision.
+
+    5.3 We do not use AI to detect people's emotions, or to guess their race, health, religion,
+    sexual orientation or other protected characteristics, in decisions about them.
+
+- number: "6"
+  title: Testing for unfair results
+  text: |-
+    6.1 Hiring and promotion tools are tested for unequal results by sex and by race and ethnicity
+    before first use and at least once a year after that. Someone independent of the team that
+    uses the tool does the testing.
+
+    6.2 If, for any group, the selection rate divided by the rate of the most-selected group falls
+    below 0.80, the privacy counsel and the DPO review the tool before it is used again.
+
+- number: "7"
+  title: Vendors
+  text: |-
+    7.1 A vendor may use our personal information to train or improve its AI models only if our
+    contract with the vendor allows it and the DPO approves it in writing.
+
+    7.2 Contracts with AI vendors require the vendor to tell us about changes to the model that
+    could change its results, such as retraining or a new version.
+
+- number: "8"
+  title: Acceptable use of AI tools by staff
+  text: |-
+    8.1 Staff may use only the AI tools on the approved list for work.
+
+    8.2 Staff must not enter personal information about applicants, employees or customers into
+    an AI tool that is not on the approved list.
+
+- number: "9"
+  title: Exceptions and review
+  text: >-
+    Exceptions to this policy need the DPO's written approval, with a reason and an end date.
+    The DPO reviews this policy at least once a year.
+
+positions:
+- id: POS-AI-001
+  section: "4.1"
+  type: requirement
+  statement: Every AI system is recorded in the inventory, with a named system owner, before it is used.
+  applies_to: {}
+  parameters: {inventory_before_use: true}
+  framework_refs: [NIST AI RMF GOVERN]
+- id: POS-AI-002
+  section: "5.1"
+  type: requirement
+  statement: >-
+    When an AI system plays a real part in a decision about someone's job, credit, housing,
+    education or healthcare, a person who understands the output, looks at other relevant
+    information and can change the outcome reviews it before it takes effect.
+  applies_to: {decision_domains: [employment, lending, housing, education, healthcare]}
+  parameters: {human_review: meaningful, when: before_outcome_takes_effect}
+  framework_refs: [NIST AI RMF GOVERN, NIST AI RMF MANAGE]
+- id: POS-AI-003
+  section: "5.2"
+  type: requirement
+  statement: >-
+    People are told in plain language, before the AI system is used, that it will be used in a
+    decision about them and how to ask for a person to review it.
+  applies_to: {decision_domains: [employment, lending, housing, education, healthcare]}
+  parameters: {notice: before_use, includes_human_review_route: true}
+  framework_refs: [NIST AI RMF GOVERN, NIST Privacy Framework CM.AW-P]
+- id: POS-AI-004
+  section: "5.3"
+  type: prohibition
+  statement: >-
+    AI is not used to detect people's emotions, or to guess their protected characteristics, in
+    decisions about them.
+  applies_to: {}
+  parameters: {emotion_recognition: false, infer_protected_characteristics: false}
+  framework_refs: [NIST AI RMF MAP]
+- id: POS-AI-005
+  section: "6.1"
+  type: requirement
+  statement: >-
+    Hiring and promotion tools are tested by someone independent for unequal results by sex and
+    by race and ethnicity, before first use and at least once a year.
+  applies_to: {decision_domains: [employment]}
+  parameters: {bias_testing: [before_first_use, annually], independent_tester: true,
+               groups: [sex, race_ethnicity]}
+  framework_refs: [NIST AI RMF MEASURE]
+- id: POS-AI-006
+  section: "6.2"
+  type: threshold
+  statement: >-
+    If any group's selection rate divided by the most-selected group's rate falls below 0.80,
+    privacy counsel and the DPO review the tool before it is used again.
+  applies_to: {decision_domains: [employment]}
+  parameters: {impact_ratio_floor: 0.80, review_by: [privacy_counsel, dpo]}
+  framework_refs: [NIST AI RMF MEASURE, NIST AI RMF MANAGE]
+- id: POS-AI-007
+  section: "7.1"
+  type: conditional_permission
+  statement: >-
+    A vendor may train or improve its AI models on our personal information only if the contract
+    allows it and the DPO approves it in writing.
+  applies_to: {}
+  parameters: {vendor_training_on_our_data: {requires: [contract_allows, dpo_written_approval]}}
+  framework_refs: [NIST CSF 2.0 GV.SC]
+- id: POS-AI-008
+  section: "8.2"
+  type: prohibition
+  statement: >-
+    Staff do not enter personal information about applicants, employees or customers into an AI
+    tool that is not on the approved list.
+  applies_to: {}
+  parameters: {unapproved_tools_personal_information: false}
+  framework_refs: [NIST CSF 2.0 PR.AT]

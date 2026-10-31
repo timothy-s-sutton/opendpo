@@ -67,7 +67,7 @@ app.add_middleware(CORSMiddleware, allow_origins=list(settings.cors_origins),
 
 # Actions the web app asks about to decide what to show a user.
 UI_ACTIONS = ["intake.submit", "intake.read", "intake.clarify", "triage.confirm", "draft.edit", "assessment.read",
-              "assessment.approve",
+              "assessment.approve", "inventory.read", "policy.read",
               "members.read", "tenant.ack_intended_use", "audit.read", "audit.verify", "audit.export"]
 
 
@@ -486,4 +486,7 @@ def decide_triage(tenant_id: UUID, project_id: UUID, run_id: UUID, body: Decisio
 # Assessments (WF-11 onward) live in their own module; it uses the helpers above.
 from .assessments_api import router as assessments_router  # noqa: E402
 
+from .inventory_api import router as inventory_router  # noqa: E402
+
 app.include_router(assessments_router)
+app.include_router(inventory_router)

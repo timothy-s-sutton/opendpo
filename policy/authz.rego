@@ -14,6 +14,8 @@ role_actions := {
 	"review.comment": {"system_owner", "privacy_analyst", "privacy_counsel", "dpo"},
 	"assessment.read": {"system_owner", "privacy_analyst", "privacy_counsel", "dpo", "auditor"},
 	"assessment.approve": {"privacy_analyst", "privacy_counsel", "dpo"},
+	"inventory.read": {"system_owner", "privacy_analyst", "privacy_counsel", "dpo", "auditor"},
+	"policy.read": {"submitter", "system_owner", "privacy_analyst", "privacy_counsel", "dpo", "tenant_admin", "auditor"},
 	"policy.propose": {"privacy_counsel", "dpo"},
 	"policy.approve": {"dpo"},
 	"members.read": {"tenant_admin", "dpo", "auditor"},

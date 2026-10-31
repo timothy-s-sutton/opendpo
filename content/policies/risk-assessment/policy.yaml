@@ -1,0 +1,143 @@
+# OpenDPO policy template (PLT-10, PLT-15). Written by OpenDPO; no text reused from
+# other templates. Licensed CC BY 4.0 with the rest of the content (see LICENSE-CONTENT.md).
+# Framework references are OpenDPO's interpretation (PLT-10).
+#
+# This policy holds the risk method (content/assessment/methodology.yaml) and the
+# approval routing for the standard preset, so an organization can change both by
+# changing its own copy.
+id: risk-assessment
+title: Privacy and AI risk assessment
+version: 0.1.0
+license: CC BY 4.0
+authored_by: OpenDPO
+reused_sources: []
+framework_anchors: [NIST Privacy Framework ID.RA-P, NIST AI RMF MAP, NIST AI RMF MEASURE]
+sections:
+- number: "1"
+  title: Purpose
+  text: >-
+    This policy sets out when {organization} assesses the privacy and AI risks of a new
+    activity, how the risks are rated, and who approves the assessment.
+
+- number: "2"
+  title: When an assessment is needed
+  text: |-
+    2.1 A risk assessment is done before any activity that the intake triage says needs one,
+    and before the activity starts.
+
+    2.2 An activity that is already running when the need is found is assessed as a priority.
+
+- number: "3"
+  title: How risks are rated
+  text: |-
+    3.1 Each risk is rated for how likely it is and how bad it would be, on five levels from very
+    low to very high. The two ratings combine into a risk level using the organization's risk
+    matrix (OpenDPO default method, version 1.0.0, based on NIST SP 800-30).
+
+    3.2 Each risk is rated twice: before safeguards and after them.
+
+    3.3 An AI draft of an assessment is only a draft. A named person reviews and edits it, and
+    people make every approval.
+
+- number: "4"
+  title: Who approves
+  text: |-
+    4.1 Approval depends on the highest risk before safeguards:
+
+    - **Low:** a privacy analyst who did not draft or submit the assessment.
+    - **Medium:** a privacy analyst gives a provisional approval, then privacy counsel approves.
+    - **High:** a privacy analyst gives a provisional approval, then the DPO and privacy counsel
+      both approve. They must be two different people.
+
+    4.2 Some activities are high risk whatever the scores: using automated decision technology to
+    make a significant decision about someone under the CCPA Regulations, and using covered
+    automated decision technology in a consequential decision under Colorado law.
+
+    4.3 No one approves an assessment they submitted, drafted or substantially edited.
+
+- number: "5"
+  title: Accepting remaining risk
+  text: >-
+    If a risk is still high or very high after safeguards, the activity does not go ahead unless
+    the DPO records a risk acceptance: the DPO's name, the reason, the risk accepted and a date to
+    review it.
+
+- number: "6"
+  title: Keeping assessments current
+  text: |-
+    6.1 Assessments are reviewed at least once a year for high and very high risk, every two years
+    for moderate risk and every three years for low risk.
+
+    6.2 A material change, such as retraining a model, changing vendor, an incident, or a change
+    in the law, means the assessment is updated within 45 calendar days.
+
+positions:
+- id: POS-RA-001
+  section: "2.1"
+  type: requirement
+  statement: A risk assessment is done before any activity that triage says needs one, and before the activity starts.
+  applies_to: {}
+  parameters: {timing: before_start}
+  framework_refs: [NIST Privacy Framework ID.RA-P]
+- id: POS-RA-002
+  section: "3.1"
+  type: default
+  statement: Risks are rated on the OpenDPO default five-level method, version 1.0.0.
+  applies_to: {}
+  parameters: {methodology: opendpo-default-5x5, methodology_version: 1.0.0}
+  framework_refs: [NIST AI RMF MEASURE]
+- id: POS-RA-003
+  section: "3.3"
+  type: requirement
+  statement: An AI draft is only a draft; a named person reviews it and people make every approval.
+  applies_to: {}
+  parameters: {ai_may_approve: false}
+  framework_refs: [NIST AI RMF GOVERN]
+- id: POS-RA-004
+  section: "4.1"
+  type: approval_rule
+  statement: >-
+    Low risk: one analyst who did not draft it. Medium: analyst provisional approval, then privacy
+    counsel. High: analyst provisional approval, then the DPO and privacy counsel, two different people.
+  applies_to: {}
+  parameters:
+    routing:
+      low: {final: [privacy_analyst], provisional: []}
+      medium: {provisional: [privacy_analyst], final: [privacy_counsel]}
+      high: {provisional: [privacy_analyst], final: [dpo, privacy_counsel], distinct_people: true}
+  framework_refs: [NIST Privacy Framework GV.PO-P]
+- id: POS-RA-005
+  section: "4.2"
+  type: approval_rule
+  statement: >-
+    Automated decision technology used for a significant decision (CCPA Regulations) or covered
+    automated decision technology in a consequential decision (Colorado) is high risk whatever the scores.
+  applies_to: {}
+  parameters: {high_floor_rules: [CCPA-RA-ADMT, CO-CLASS-COVERED-ADMT]}
+  framework_refs: [NIST AI RMF MAP]
+- id: POS-RA-006
+  section: "4.3"
+  type: prohibition
+  statement: No one approves an assessment they submitted, drafted or substantially edited.
+  applies_to: {}
+  parameters: {self_approval: false}
+  framework_refs: [NIST Privacy Framework GV.PO-P]
+- id: POS-RA-007
+  section: "5"
+  type: threshold
+  statement: >-
+    A risk still high or very high after safeguards blocks going ahead unless the DPO records a
+    risk acceptance with a reason and a review date.
+  applies_to: {}
+  parameters: {acceptance_needed_at: high, acceptance_by: dpo, records: [name, reason, risk, review_date]}
+  framework_refs: [NIST AI RMF MANAGE]
+- id: POS-RA-008
+  section: "6"
+  type: requirement
+  statement: >-
+    Review every year for high and very high risk, every two years for moderate and every three
+    years for low; update within 45 calendar days of a material change.
+  applies_to: {}
+  parameters: {review_years: {very_high: 1, high: 1, moderate: 2, low: 3, very_low: 3},
+               material_change_days: 45}
+  framework_refs: [NIST Privacy Framework ID.RA-P]

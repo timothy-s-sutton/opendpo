@@ -265,3 +265,21 @@ def test_revisions_and_basis_cannot_be_changed(client, opened):
     with tenant_tx(HARBOR) as conn:
         with pytest.raises(psycopg.errors.InsufficientPrivilege):
             conn.execute("DELETE FROM assessment_revision WHERE assessment_id = %s", (opened,))
+
+
+def test_assessment_records_activity_and_policy_versions(client, rules_loaded):
+    pid = confirmed_project(client)
+    act = client.get(f"{BASE}/inventory/activities", headers=as_user("ana.patel")).json()[0]["id"]
+    r = client.post(f"{BASE}/projects/{pid}/assessments", json={"processing_activity": act},
+                    headers=as_user("ana.patel"))
+    assert r.status_code == 201, r.text
+    a = client.get(f"{BASE}/assessments/{r.json()['id']}", headers=as_user("ana.patel")).json()
+    assert str(a["processing_activity_id"]) == act
+    assert sorted(v["policy"] for v in a["policy_versions"]) == ["ai-governance", "risk-assessment"]
+
+
+def test_unknown_activity_is_refused(client, rules_loaded):
+    pid = confirmed_project(client)
+    r = client.post(f"{BASE}/projects/{pid}/assessments",
+                    json={"processing_activity": "00000000-0000-0000-0000-000000000000"}, headers=as_user("ana.patel"))
+    assert r.status_code == 422

@@ -58,3 +58,12 @@ test_only_analysts_and_dpo_ask_for_clarification if {
 test_submitter_cannot_confirm_triage if {
 	not authz.allow with input as {"actor": user(["submitter"]), "action": "triage.confirm"}
 }
+
+test_auditor_reads_inventory_but_submitter_does_not if {
+	authz.allow with input as {"actor": user(["auditor"]), "action": "inventory.read"}
+	not authz.allow with input as {"actor": user(["submitter"]), "action": "inventory.read"}
+}
+
+test_everyone_in_the_tenant_reads_policies if {
+	authz.allow with input as {"actor": user(["submitter"]), "action": "policy.read"}
+}

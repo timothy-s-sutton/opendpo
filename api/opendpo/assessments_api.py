@@ -18,6 +18,7 @@ from . import assessment as engine
 from . import audit, harms
 from .auth import Principal, current_principal
 from .db import tenant_tx
+from .inventory_api import current_policies
 from .main import NOTICE, audit_actor, library, load_project, load_tenant, require
 
 router = APIRouter()
@@ -38,6 +39,7 @@ def harm_list() -> harms.Harms:
 
 class CreateIn(BaseModel):
     assessment: str | None = None     # which triggered assessment, when triage found more than one
+    processing_activity: UUID | None = None   # the inventory record this assessment covers
 
 
 class SectionIn(BaseModel):
@@ -97,20 +99,28 @@ def create_assessment(tenant_id: UUID, project_id: UUID, body: CreateIn,
         if existing:
             raise HTTPException(status.HTTP_409_CONFLICT, {"assessment": str(existing["id"]),
                                                             "message": "this assessment is already open"})
+        if body.processing_activity is not None and conn.execute(
+                "SELECT 1 FROM processing_activity WHERE id = %s", (body.processing_activity,)).fetchone() is None:
+            raise HTTPException(422, "no such processing activity in this tenant")
         floor, floor_rules = engine.floor_from_triage(run["result"], run["decision"], method)
+        used = [{"policy": v["template_id"] or str(v["policy_id"]), "title": v["title"], "version": v["version"],
+                 "version_id": str(v["version_id"])} for v in current_policies(conn)]
         aid = uuid4()
         conn.execute(
             """INSERT INTO assessment (id, tenant_id, project_id, triage_run_id, assessment_type, template_id,
                                        template_version, methodology, content_versions, routing_floor,
-                                       floor_rules, created_by)
-               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
+                                       floor_rules, created_by, processing_activity_id, policy_versions)
+               VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""",
             (aid, tenant_id, project_id, run["id"], kind, tpl.id, tpl.version, Jsonb(method.model_dump(mode="json")),
-             Jsonb(library().versions()), floor, Jsonb(floor_rules), p.user_id))
+             Jsonb(library().versions()), floor, Jsonb(floor_rules), p.user_id, body.processing_activity,
+             Jsonb(used)))
         audit.append(conn, tenant_id, audit_actor(actor), "assessment.created", object_type="assessment",
                      object_id=str(aid),
                      payload={"project": str(project_id), "triage_run": str(run["id"]), "type": kind,
                               "template": f"{tpl.id}@{tpl.version}", "methodology": f"{method.id}@{method.version}",
-                              "routing_floor": floor, "floor_rules": floor_rules},
+                              "routing_floor": floor, "floor_rules": floor_rules,
+                              "processing_activity": str(body.processing_activity) if body.processing_activity else None,
+                              "policy_versions": used},
                      content_versions=library().versions())
     return {"id": aid, "type": kind, "routing_floor": floor, "floor_rules": floor_rules}
 
@@ -166,6 +176,7 @@ def assessment_detail(tenant_id: UUID, assessment_id: UUID,
         "harms": harm_view(lib),
         "computed": engine.derive(bodies, tpl, method, a["routing_floor"], a["risk_acceptances"]),
         "floor_rules": a["floor_rules"], "editable": a["status"] in EDITABLE_STATUSES, "notice": NOTICE,
+        "processing_activity_id": a["processing_activity_id"], "policy_versions": a["policy_versions"],
     }
 
 
