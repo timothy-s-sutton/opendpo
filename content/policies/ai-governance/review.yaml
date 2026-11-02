@@ -1,0 +1,7 @@
+# Review record (PLT-15). Tied to the template's fingerprint; any change lapses it.
+template: ai-governance
+fingerprint: dabc93e17fc4e75455fb0ae25b5612b6ca52866cd548772c904663540c20965e
+reviewed_by: Tim Sutton
+reviewed_on: '2026-11-02'
+note: Ticked in Policy Template Review v0.1 (https://claude.ai/artifact/HXKzMkf667neArVW7tE46p)
+  after the 5.1 and 5.3 changes Tim asked for.

@@ -1,0 +1,66 @@
+# CNT-01 sign-offs for the harm list. Each record is tied to the entry's fingerprint; any change lapses it.
+# Written from the verification worksheet. Do not edit fingerprints.
+- harm: harm-security
+  fingerprint: 6a9efcde63d8aad5296ade4bcab35a8c502e6c9a55cc81dccd031b977ba9bf7f
+  verified_by: Tim Sutton
+  verified_on: '2026-11-02'
+  method: Checked the quote, the links and the plain-language wording against the
+    verified provisions
+  self_verified: true
+  note: Ticked in Harm List Verification Worksheet v0.1 (https://claude.ai/artifact/XvsEi47dgCASbJ5T7gdY7b)
+- harm: harm-discrimination
+  fingerprint: 057e6f20410e05926a31ef8f46afd62b1065bf0e956e33eb5f42a151a03a4599
+  verified_by: Tim Sutton
+  verified_on: '2026-11-02'
+  method: Checked the quote, the links and the plain-language wording against the
+    verified provisions
+  self_verified: true
+  note: Ticked in Harm List Verification Worksheet v0.1 (https://claude.ai/artifact/XvsEi47dgCASbJ5T7gdY7b)
+- harm: harm-loss-of-control
+  fingerprint: cdf8756ec21b2cc024c3c931195c9cef7b7c483cd1926a63e7320de81471036d
+  verified_by: Tim Sutton
+  verified_on: '2026-11-02'
+  method: Checked the quote, the links and the plain-language wording against the
+    verified provisions
+  self_verified: true
+  note: Ticked in Harm List Verification Worksheet v0.1 (https://claude.ai/artifact/XvsEi47dgCASbJ5T7gdY7b)
+- harm: harm-coercion
+  fingerprint: 086f62b080fc9f95a5d2721de3045e284e5e650444d40b5576058c00f70bf741
+  verified_by: Tim Sutton
+  verified_on: '2026-11-02'
+  method: Checked the quote, the links and the plain-language wording against the
+    verified provisions
+  self_verified: true
+  note: Ticked in Harm List Verification Worksheet v0.1 (https://claude.ai/artifact/XvsEi47dgCASbJ5T7gdY7b)
+- harm: harm-economic
+  fingerprint: 633358d2a2cf1c2de610f613f9dfde95a106db8f3d41e0edb7d4abe86d0629f1
+  verified_by: Tim Sutton
+  verified_on: '2026-11-02'
+  method: Checked the quote, the links and the plain-language wording against the
+    verified provisions
+  self_verified: true
+  note: Ticked in Harm List Verification Worksheet v0.1 (https://claude.ai/artifact/XvsEi47dgCASbJ5T7gdY7b)
+- harm: harm-physical
+  fingerprint: bace4bcfd6e5957a260927b7842712ff5e9f1b4a3af35ade9545d898f61aff26
+  verified_by: Tim Sutton
+  verified_on: '2026-11-02'
+  method: Checked the quote, the links and the plain-language wording against the
+    verified provisions
+  self_verified: true
+  note: Ticked in Harm List Verification Worksheet v0.1 (https://claude.ai/artifact/XvsEi47dgCASbJ5T7gdY7b)
+- harm: harm-reputational
+  fingerprint: f3bf71f4e5c98661eeb4b3e10ae4214a4c5921e354790c1a69ef2aff36335315
+  verified_by: Tim Sutton
+  verified_on: '2026-11-02'
+  method: Checked the quote, the links and the plain-language wording against the
+    verified provisions
+  self_verified: true
+  note: Ticked in Harm List Verification Worksheet v0.1 (https://claude.ai/artifact/XvsEi47dgCASbJ5T7gdY7b)
+- harm: harm-psychological
+  fingerprint: 104c83624599435821f8bab646cd58fca68deb95f1eda553ccaa7440c9d6ef97
+  verified_by: Tim Sutton
+  verified_on: '2026-11-02'
+  method: Checked the quote, the links and the plain-language wording against the
+    verified provisions
+  self_verified: true
+  note: Ticked in Harm List Verification Worksheet v0.1 (https://claude.ai/artifact/XvsEi47dgCASbJ5T7gdY7b)

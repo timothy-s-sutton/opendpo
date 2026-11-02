@@ -44,9 +44,9 @@ def test_eight_harms_from_7152_a_5(lib, tags):
     hs = harms.load(lib, tags)
     assert [s.harm.clause for s in hs.statuses] == ["(A)", "(B)", "(C)", "(D)", "(E)", "(F)", "(G)", "(H)"]
     assert all(s.harm.named_by == "ccpa-7152-a-5" for s in hs.statuses)
-    # The only thing between these entries and use is the sign-off.
+    # Each entry is either signed off and usable, or waiting only on the sign-off.
     for s in hs.statuses:
-        assert all("signed off" in p for p in s.problems), (s.harm.id, s.problems)
+        assert s.usable or all("signed off" in p for p in s.problems), (s.harm.id, s.problems)
 
 
 def test_signed_off_harms_are_usable(lib, tags, tmp_path):
