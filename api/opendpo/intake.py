@@ -103,9 +103,16 @@ class Form:
         return shown
 
     def prune(self, answers: dict[str, Any]) -> dict[str, Any]:
-        """Only the answers to questions that are showing; the rest are not part of the intake."""
-        ids = {q.id for q in self.visible(answers)}
-        return {k: v for k, v in answers.items() if k in ids}
+        """Only the answers to questions that are showing; the rest are not part of the intake.
+        A showing checklist left untouched means none of its options apply, so it counts as an
+        answer of "none" rather than a missing one."""
+        shown = self.visible(answers)
+        ids = {q.id for q in shown}
+        kept = {k: v for k, v in answers.items() if k in ids}
+        for q in shown:
+            if q.type == "multichoice" and q.id not in kept:
+                kept[q.id] = []
+        return kept
 
     def json_schema(self, only: list[Question] | None = None, required: bool = False) -> dict[str, Any]:
         qs = self.questions if only is None else only

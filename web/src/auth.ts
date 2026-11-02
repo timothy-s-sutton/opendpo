@@ -16,7 +16,12 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
   const body = await res.json().catch(() => ({}));
   if (!res.ok) {
     const detail = body?.detail;
-    const reasons: string[] = detail?.reasons ?? detail?.problems ?? [];
+    // Problems can be strings or {question, problem} records from the intake check.
+    const raw: unknown[] = detail?.reasons ?? detail?.problems ?? [];
+    const reasons = raw.map((r) => (typeof r === "string" ? r
+      : r && typeof r === "object" && "problem" in r
+        ? `${(r as { question?: string }).question ?? "answer"}: ${(r as { problem: string }).problem}`
+        : JSON.stringify(r)));
     const message: string | undefined = detail?.message;
     throw new Error(reasons.length ? [message, ...reasons].filter(Boolean).join("; ")
       : typeof detail === "string" ? detail : message ?? res.statusText);

@@ -130,3 +130,20 @@ def test_submissions_and_results_cannot_be_rewritten(superuser):
                 "UPDATE triage_run SET result = '{}'", "DELETE FROM triage_run"):
         with pytest.raises(psycopg.errors.RaiseException):
             superuser.execute(sql)
+
+
+def test_an_untouched_checklist_means_none_apply(client):
+    """A checklist with nothing ticked is an answer of "none", not a missing answer."""
+    answers = copy.deepcopy(FIXTURE["answers"])
+    del answers["ai.sensitive_location_types"]
+    pid = new_project(client, answers)
+    r = client.put(f"{BASE}/projects/{pid}/answers", json={"answers": answers}, headers=as_user("sam.rivera"))
+    assert r.json()["problems"] == []
+    r = client.post(f"{BASE}/projects/{pid}/submit", headers=as_user("sam.rivera"))
+    assert r.status_code == 200, r.text
+    assert r.json()["status"] == "triaged"
+    with psycopg.connect(settings.app_dsn, row_factory=dict_row) as conn:
+        conn.execute("SELECT set_config('app.tenant_id', %s, false)", (str(HARBOR),))
+        stored = conn.execute("SELECT s.answers FROM intake_submission s JOIN project p ON p.id = s.project_id "
+                              "WHERE p.id = %s", (pid,)).fetchone()["answers"]
+    assert stored["ai.sensitive_location_types"] == []
