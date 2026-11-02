@@ -175,42 +175,48 @@ export function AssessmentView({ tenant, id, can, onBack }: { tenant: Tenant; id
   );
 }
 
-// What still stands between the assessment and review, each linking to its section.
-function missing(a: Assessment): { text: string; section: string | null }[] {
+// What each section still needs before the assessment can go to review. These mirror the
+// server's checks on submit: every section has content, the decision is recorded, risks and
+// safeguards line up, and a high residual risk is accepted before a decision to go ahead.
+export type Issues = Record<string, string[]>;
+
+export function sectionIssues(a: Assessment): Issues {
+  const out: Issues = {};
+  const add = (id: string, text: string) => { (out[id] ??= []).push(text); };
   const c = a.computed;
-  const out: { text: string; section: string | null }[] = [];
-  const title = (id: string) => a.sections.find((x) => x.id === id)?.title ?? id;
-  for (const id of c.sections_not_started) out.push({ text: `${title(id)} has not been started`, section: id });
-  if ((sectionBody(a, "decision")?.initiate ?? "undecided") === "undecided") {
-    out.push({ text: "Record whether the business will go ahead (section 7)", section: "decision" });
+  for (const id of c.sections_not_started) add(id, "This section has no content yet.");
+  if (!c.sections_not_started.includes("decision") &&
+      (sectionBody(a, "decision")?.initiate ?? "undecided") === "undecided") {
+    add("decision", "Record whether the business will go ahead with this processing.");
   }
-  for (const p of c.consistency_problems) out.push({ text: p, section: null });
+  for (const p of c.consistency_problems) {
+    const checklist = a.sections.find((x) => x.kind === "checklist" && p.startsWith(`${x.title}:`));
+    if (checklist) add(checklist.id, p.slice(checklist.title.length + 1).trim());
+    else if (p.startsWith("safeguard")) add("safeguards", p);
+    else add("risks", p);
+  }
   if (sectionBody(a, "decision")?.initiate === "yes") {
-    for (const p of c.proceed_blockers) out.push({ text: p, section: "risks" });
+    for (const p of c.proceed_blockers) add("risks", p);
   }
   return out;
 }
 
+// Only the button. If something is still needed, it takes the reader to the first section
+// that says what, instead of submitting.
 function SubmitBar({ a, busy, onSubmit }: { a: Assessment; busy: string | null; onSubmit: () => void }) {
-  const todo = missing(a);
-  const go = (id: string | null) => id && document.getElementById(`sec-${id}`)?.scrollIntoView({ behavior: "smooth" });
+  const issues = sectionIssues(a);
+  const first = a.sections.find((s) => issues[s.id]?.length);
+  const click = () => {
+    if (!first) return onSubmit();
+    const el = document.getElementById(`sec-${first.id}`);
+    if (el instanceof HTMLDetailsElement) el.open = true;
+    el?.scrollIntoView({ behavior: "smooth", block: "start" });
+    el?.classList.add("flash");
+    window.setTimeout(() => el?.classList.remove("flash"), 1600);
+  };
   return (
     <div className="submitbar">
-      <div className="submitbar-inner">
-        <div className="submitbar-text">
-          {todo.length === 0 ? <strong>Ready to submit for review.</strong> : (
-            <>
-              <strong>Before you can submit:</strong>
-              <ul>
-                {todo.map((t) => (
-                  <li key={t.text}>{t.section ? <button className="link" onClick={() => go(t.section)}>{t.text}</button> : t.text}</li>
-                ))}
-              </ul>
-            </>
-          )}
-        </div>
-        <button disabled={!!busy} onClick={onSubmit}>{busy === "submit" ? "Submitting…" : "Submit for review"}</button>
-      </div>
+      <button disabled={!!busy} onClick={click}>{busy === "submit" ? "Submitting…" : "Submit for review"}</button>
     </div>
   );
 }
@@ -369,7 +375,9 @@ function SectionCard({ s, a, tenant, can, ratings, reload, base }: {
     setHistory(h.revisions);
   };
 
-  const decisionNeeded = s.kind === "decision" && canEdit && (s.body?.initiate ?? "undecided") === "undecided";
+  const needs = a.editable ? (sectionIssues(a)[s.id] ?? []) : [];
+  const isDecision = s.kind === "decision" && needs.length > 0;
+  const actionLabel = isDecision ? "Record the decision" : s.revision === 0 ? "Start this section" : "Fix this section";
   const meta = (
     <div className="section-meta small muted">
       {s.last_edited_by && <>
@@ -387,11 +395,13 @@ function SectionCard({ s, a, tenant, can, ratings, reload, base }: {
       <Help text={s.help} />
       {s.what_the_law_says.length > 0 && <Law cites={s.what_the_law_says} />}
       {history && <History revs={history} />}
-      {decisionNeeded && !editing && (
+      {needs.length > 0 && !editing && (
         <div className="decision-needed">
-          <div><strong>Decision required.</strong> Record whether the business will go ahead with this processing.
-            The assessment cannot be submitted for review until you do.</div>
-          <button className="attention" onClick={() => setEditing(true)}>Record the decision</button>
+          <div>
+            <strong>{isDecision ? "Decision required." : "Required before submitting."}</strong>{" "}
+            {needs.length === 1 ? needs[0] : <ul>{needs.map((n) => <li key={n}>{n}</li>)}</ul>}
+          </div>
+          {canEdit && s.editable && <button className="attention" onClick={() => setEditing(true)}>{actionLabel}</button>}
         </div>
       )}
       {editing ? (
@@ -399,7 +409,7 @@ function SectionCard({ s, a, tenant, can, ratings, reload, base }: {
       ) : (
         <>
           <View s={s} a={a} ratings={ratings} tenant={tenant} can={can} reload={reload} base={base} />
-          {canEdit && !decisionNeeded && (s.kind !== "checklist" || s.body) && (
+          {canEdit && needs.length === 0 && (
             <div className="actions"><button className="secondary" onClick={() => setEditing(true)}>Edit</button></div>
           )}
         </>
@@ -411,7 +421,8 @@ function SectionCard({ s, a, tenant, can, ratings, reload, base }: {
   // Appendices are supporting material: collapsed by default, with a one-line summary.
   if (s.appendix) {
     return (
-      <details className="card section appendix" id={`sec-${s.id}`}>
+      <details className={`card section appendix ${needs.length ? "needs-decision" : ""}`} id={`sec-${s.id}`}
+               open={needs.length > 0 || undefined}>
         <summary className="section-head">
           <h2>Appendix {s.number}. {s.title}</h2>
           <span className="muted">{appendixSummary(s)}</span>
@@ -422,7 +433,7 @@ function SectionCard({ s, a, tenant, can, ratings, reload, base }: {
     );
   }
   return (
-    <div className={`card section ${decisionNeeded ? "needs-decision" : ""}`} id={`sec-${s.id}`}>
+    <div className={`card section ${needs.length ? "needs-decision" : ""}`} id={`sec-${s.id}`}>
       <div className="section-head">
         <h2>{s.number}. {s.title}</h2>
         {meta}
