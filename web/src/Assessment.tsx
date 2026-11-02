@@ -109,8 +109,9 @@ export function AssessmentView({ tenant, id, can, onBack }: { tenant: Tenant; id
   const ratings = Object.fromEntries(a.computed.ratings.map((r) => [r.risk, r]));
   const c = a.computed;
 
+  const showSubmit = a.editable && !empty && can("assessment.submit");
   return (
-    <section>
+    <section className={showSubmit ? "has-submitbar" : ""}>
       <button className="link" onClick={onBack}>← Back to the project</button>
       <h1>{a.title}</h1>
       <p className="muted">
@@ -168,7 +169,7 @@ export function AssessmentView({ tenant, id, can, onBack }: { tenant: Tenant; id
       {a.sections.map((s) => (
         <SectionCard key={s.id} s={s} a={a} tenant={tenant} can={can} ratings={ratings} reload={load} base={base} />
       ))}
-      {a.editable && !empty && can("assessment.submit") && (
+      {showSubmit && (
         <SubmitBar a={a} busy={busy} onSubmit={() => run("submit", () => api(`${base}/submit`, json({})))} />
       )}
     </section>

@@ -174,8 +174,12 @@ details.card.appendix > summary::-webkit-details-marker { display: none; }
 details.card.appendix > summary h2::before { content: "▸ "; color: var(--muted); }
 details.card.appendix[open] > summary h2::before { content: "▾ "; }
 details.card.appendix[open] > summary { margin-bottom: 8px; }
-.submitbar { position: fixed; z-index: 5; bottom: 24px; right: max(24px, calc((100vw - 1180px) / 2 + 24px)); }
-.submitbar button { box-shadow: 0 6px 18px rgba(29, 36, 51, 0.25); padding: 14px 24px; font-size: 17px; }
+/* A white bar along the bottom edge of the window, like the bottom of a frame. */
+.submitbar { position: fixed; z-index: 5; left: 0; right: 0; bottom: 0; background: var(--panel);
+  border-top: 1px solid var(--line); box-shadow: 0 -4px 14px rgba(29, 36, 51, 0.08);
+  display: flex; justify-content: flex-end; padding: 14px max(24px, calc((100vw - 1180px) / 2 + 24px)); }
+.submitbar button { padding: 12px 24px; font-size: 17px; }
+.has-submitbar { padding-bottom: 120px; }
 .decision-needed ul { margin: 6px 0 0; padding-left: 20px; }
 .card.flash { animation: flash 1.6s ease-out; }
 @keyframes flash { 0% { box-shadow: 0 0 0 6px rgba(217, 119, 6, 0.55); } 100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0); } }
@@ -185,3 +189,5 @@ details.card.inventory-panel > summary { cursor: pointer; list-style: none; disp
 details.card.inventory-panel > summary::-webkit-details-marker { display: none; }
 details.card.inventory-panel > summary h2::before { content: "▸ "; color: var(--muted); }
 details.card.inventory-panel[open] > summary h2::before { content: "▾ "; }
+/* Keep the page footer clear of the bottom bar. */
+body:has(.submitbar) .notice { padding-bottom: 96px; }
