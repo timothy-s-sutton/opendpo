@@ -43,7 +43,7 @@ sections:
 - number: "4"
   title: Who approves
   text: |-
-    4.1 Approval depends on the highest risk before safeguards:
+    4.1 Approval depends on the highest inherent risk:
 
     - **Low:** a privacy analyst who did not draft or submit the assessment.
     - **Medium:** a privacy analyst gives a provisional approval, then privacy counsel approves.
@@ -59,7 +59,7 @@ sections:
 - number: "5"
   title: Accepting remaining risk
   text: >-
-    If a risk is still high or very high after safeguards, the activity does not go ahead unless
+    If a risk's residual risk is high or very high, the activity does not go ahead unless
     the DPO records a risk acceptance: the DPO's name, the reason, the risk accepted and a date to
     review it.
 
@@ -127,7 +127,7 @@ positions:
   section: "5"
   type: threshold
   statement: >-
-    A risk still high or very high after safeguards blocks going ahead unless the DPO records a
+    A residual risk of high or very high blocks going ahead unless the DPO records a
     risk acceptance with a reason and a review date.
   applies_to: {}
   parameters: {acceptance_needed_at: high, acceptance_by: dpo, records: [name, reason, risk, review_date]}
