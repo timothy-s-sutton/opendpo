@@ -7,7 +7,7 @@
 # Positions are the policy's rules as structured records (PLT-12); assessments cite them.
 id: ai-governance
 title: AI governance and acceptable AI use
-version: 0.1.0
+version: 0.2.0
 license: CC BY 4.0
 authored_by: OpenDPO
 reused_sources: []
@@ -50,8 +50,11 @@ sections:
 - number: "5"
   title: Decisions about people
   text: |-
-    5.1 When an AI system plays a real part in a decision about someone's job, credit, housing,
-    education or healthcare, a person must review the outcome before it takes effect. That person
+    5.1 When an AI system materially influences a decision about someone's job, credit, housing,
+    education or healthcare, a person must review the outcome before it takes effect. An AI system
+    materially influences a decision when its output is more than a minor factor in making the
+    decision and affects the outcome, for example by ranking, scoring, filtering or recommending.
+    Incidental, trivial or clerical uses do not count. That person
     must understand what the system's output means, look at other relevant information, and have
     the authority to change the outcome.
 
@@ -106,11 +109,15 @@ positions:
   section: "5.1"
   type: requirement
   statement: >-
-    When an AI system plays a real part in a decision about someone's job, credit, housing,
-    education or healthcare, a person who understands the output, looks at other relevant
-    information and can change the outcome reviews it before it takes effect.
+    When an AI system materially influences a decision about someone's job, credit, housing,
+    education or healthcare (its output is more than a minor factor and affects the outcome), a
+    person who understands the output, looks at other relevant information and can change the
+    outcome reviews it before it takes effect.
   applies_to: {decision_domains: [employment, lending, housing, education, healthcare]}
-  parameters: {human_review: meaningful, when: before_outcome_takes_effect}
+  # The threshold follows Colorado's "materially influence" (C.R.S. 6-1-1701(13)), the lowest of
+  # the three laws in scope, so it also covers CCPA ADMT and NYC AEDT uses.
+  parameters: {human_review: meaningful, influence_threshold: materially_influences,
+               when: before_outcome_takes_effect}
   framework_refs: [NIST AI RMF GOVERN, NIST AI RMF MANAGE]
 - id: POS-AI-003
   section: "5.2"
