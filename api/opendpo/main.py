@@ -490,7 +490,9 @@ from .assessments_api import router as assessments_router  # noqa: E402
 from .inventory_api import router as inventory_router  # noqa: E402
 
 from .review_api import router as review_router  # noqa: E402
+from .tasks_api import router as tasks_router  # noqa: E402
 
 app.include_router(assessments_router)
 app.include_router(inventory_router)
 app.include_router(review_router)
+app.include_router(tasks_router)

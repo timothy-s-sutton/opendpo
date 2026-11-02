@@ -175,10 +175,13 @@ export function AssessmentView({ tenant, id, can, onBack }: { tenant: Tenant; id
         <InventoryPanel tenant={tenant} activityId={a.processing_activity_id} startOpen={empty} />
       )}
 
-      <ReviewPanel a={a} tenant={tenant} can={can} run={run} busy={busy} />
-
-      {a.sections.map((s) => (
+      {/* Section 9 comes last on the page, after the appendices, so a reviewer reaches the
+          approval buttons only after passing everything they are approving. */}
+      {a.sections.filter((s) => s.kind !== "approval").map((s) => (
         <SectionCard key={s.id} s={s} a={a} tenant={tenant} can={can} ratings={ratings} reload={load} base={base} />
+      ))}
+      {a.sections.filter((s) => s.kind === "approval").map((s) => (
+        <ReviewPanel key={s.id} s={s} a={a} tenant={tenant} can={can} run={run} busy={busy} />
       ))}
       {showSubmit && (
         <SubmitBar a={a} busy={busy} onSubmit={() => run("submit", () => api(`${base}/submit`, json({})).then(() => setJump(true)))} />
@@ -284,8 +287,8 @@ function RiskMap({ a }: { a: Assessment }) {
 // Review and approval
 // ---------------------------------------------------------------------------
 
-function ReviewPanel({ a, tenant, can, run, busy }: {
-  a: Assessment; tenant: Tenant; can: Can; run: (l: string, f: () => Promise<unknown>) => void; busy: string | null;
+function ReviewPanel({ s, a, tenant, can, run, busy }: {
+  s: Section; a: Assessment; tenant: Tenant; can: Can; run: (l: string, f: () => Promise<unknown>) => void; busy: string | null;
 }) {
   const [note, setNote] = useState("");
   const [authority, setAuthority] = useState(false);
@@ -293,7 +296,6 @@ function ReviewPanel({ a, tenant, can, run, busy }: {
   const msgRef = useRef<HTMLDivElement>(null);
   useEffect(() => { if (msg) msgRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }); }, [msg]);
   const r = a.review;
-  if (!r.plan && r.decisions.length === 0) return null;
   const base = `/api/tenants/${tenant.id}/assessments/${a.id}`;
   // Errors from these buttons show under the buttons, not at the top of the page, so the
   // reviewer sees them wherever they are.
@@ -305,9 +307,28 @@ function ReviewPanel({ a, tenant, can, run, busy }: {
   };
   const plan = r.plan;
   return (
-    <div className="card" id="review">
-      <h2>Review and approval</h2>
-      {plan && (
+    <div className="card section" id="review">
+      <div className="section-head">
+        <h2>{s.number}. {s.title}</h2>
+        <div className="section-meta small muted">{!s.in_regulator_report && <span className="badge">Internal only</span>}</div>
+      </div>
+      <Help text={s.help} />
+      {s.what_the_law_says.length > 0 && <Law cites={s.what_the_law_says} />}
+      {s.body && (
+        <>
+          <h3>Approved by</h3>
+          <ul className="plain">
+            {(s.body.reviewers as Reviewer[]).map((x) => (
+              <li key={x.name + x.step}>{x.name}, {x.position} · {x.step === "provisional" ? "provisional approval" : "approval"} on {x.date}
+                {x.has_initiation_authority && <span className="muted small"> · authority over going ahead</span>}</li>
+            ))}
+          </ul>
+        </>
+      )}
+      {!plan && r.decisions.length === 0 && (
+        <p className="muted">Filled in by the approval steps once the assessment is submitted for review.</p>
+      )}
+      {plan && !s.body && (
         <p>
           {ROUTING_LABELS[plan.level]} risk.{" "}
           {plan.provisional.length > 0 && <>{roleList(plan.provisional, " or ")} gives a provisional approval, then </>}
@@ -317,6 +338,8 @@ function ReviewPanel({ a, tenant, can, run, busy }: {
         </p>
       )}
       {r.decisions.length > 0 && (
+        <>
+        {s.body && <h3>Review history</h3>}
         <ul className="plain">
           {r.decisions.map((d, i) => (
             <li key={i}>
@@ -330,6 +353,7 @@ function ReviewPanel({ a, tenant, can, run, busy }: {
             </li>
           ))}
         </ul>
+        </>
       )}
       {a.status === "in_review" && r.next && !r.next.done && (
         <>

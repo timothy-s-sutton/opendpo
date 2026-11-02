@@ -191,3 +191,13 @@ details.card.inventory-panel > summary h2::before { content: "▸ "; color: var(
 details.card.inventory-panel[open] > summary h2::before { content: "▾ "; }
 /* Keep the page footer clear of the bottom bar. */
 body:has(.submitbar) .notice { padding-bottom: 96px; }
+
+/* Tasks on the Overview page */
+.tasks h2 { display: flex; align-items: center; gap: 10px; }
+.tasks .count { background: var(--accent); color: #fff; border-radius: 999px; font-size: 14px; padding: 1px 10px; }
+.task-group + .task-group { margin-top: 18px; }
+.task-group h3 { font-size: 16px; margin: 8px 0 6px; }
+.task-list { list-style: none; padding: 0; margin: 0; }
+.task-list li { padding: 8px 0; border-top: 1px solid var(--line); }
+.task-list li:first-child { border-top: 0; }
+.task-list .link { font-size: 16px; font-weight: 600; padding: 0; text-align: left; }

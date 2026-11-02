@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { api, keycloak } from "./auth";
 import { InventoryPage } from "./Inventory";
-import { Projects } from "./Projects";
+import { Projects, Target } from "./Projects";
 import { AuditEvent, Me, ROLE_LABELS, Tenant, Verification } from "./types";
 
 type Page = "overview" | "projects" | "inventory" | "audit" | "members";
@@ -31,6 +31,9 @@ export function App() {
   const [tenant, setTenant] = useState<Tenant | null>(null);
   const [page, setPage] = useState<Page>("overview");
   const [error, setError] = useState<string | null>(null);
+  const [target, setTarget] = useState<Target | null>(null);
+  const go = (p: Page) => { setTarget(null); setPage(p); };
+  const openTask = (t: Target) => { setTarget(t); setPage("projects"); };
 
   const loadTenant = useCallback(async (id: string) => {
     setTenant(await api<Tenant>(`/api/tenants/${id}`));
@@ -72,25 +75,26 @@ export function App() {
       </header>
 
       <nav className="tabs">
-        <button className={page === "overview" ? "on" : ""} onClick={() => setPage("overview")}>Overview</button>
+        <button className={page === "overview" ? "on" : ""} onClick={() => go("overview")}>Overview</button>
         {can("intake.read") && (
-          <button className={page === "projects" ? "on" : ""} onClick={() => setPage("projects")}>Projects</button>
+          <button className={page === "projects" ? "on" : ""} onClick={() => go("projects")}>Projects</button>
         )}
         {can("inventory.read") && (
-          <button className={page === "inventory" ? "on" : ""} onClick={() => setPage("inventory")}>Inventory</button>
+          <button className={page === "inventory" ? "on" : ""} onClick={() => go("inventory")}>Inventory</button>
         )}
         {can("audit.read") && (
-          <button className={page === "audit" ? "on" : ""} onClick={() => setPage("audit")}>Audit log</button>
+          <button className={page === "audit" ? "on" : ""} onClick={() => go("audit")}>Audit log</button>
         )}
         {can("members.read") && (
-          <button className={page === "members" ? "on" : ""} onClick={() => setPage("members")}>Members</button>
+          <button className={page === "members" ? "on" : ""} onClick={() => go("members")}>Members</button>
         )}
       </nav>
 
       <main>
         {!tenant && <p>You have no tenant memberships yet.</p>}
-        {tenant && page === "overview" && <Overview tenant={tenant} can={can} reload={() => loadTenant(tenant.id)} />}
-        {tenant && page === "projects" && <Projects key={tenant.id} tenant={tenant} can={can} />}
+        {tenant && page === "overview" && <Overview tenant={tenant} can={can} reload={() => loadTenant(tenant.id)} onOpen={openTask} />}
+        {tenant && page === "projects" && <Projects key={`${tenant.id}:${target?.project ?? ""}:${target?.assessment ?? ""}`} tenant={tenant} can={can}
+                                                     target={target} />}
         {tenant && page === "inventory" && <InventoryPage key={tenant.id} tenant={tenant} />}
         {tenant && page === "audit" && <AuditLog tenant={tenant} can={can} />}
         {tenant && page === "members" && <Members tenant={tenant} />}
@@ -104,7 +108,50 @@ export function App() {
   );
 }
 
-function Overview({ tenant, can, reload }: { tenant: Tenant; can: (a: string) => boolean; reload: () => void }) {
+type Task = { project_id: string; project_name: string; assessment_id: string | null; detail: string | null;
+              since: string | null };
+type TaskList = { groups: { id: string; title: string; items: Task[] }[]; count: number };
+
+// Work waiting on the signed-in person. The API decides what counts, with the same checks as
+// the pages where the work is done.
+function Tasks({ tenant, onOpen }: { tenant: Tenant; onOpen: (t: Target) => void }) {
+  const [t, setT] = useState<TaskList | null>(null);
+  const [err, setErr] = useState<string | null>(null);
+  useEffect(() => {
+    api<TaskList>(`/api/tenants/${tenant.id}/tasks`).then(setT).catch((e: Error) => setErr(e.message));
+  }, [tenant.id]);
+  return (
+    <div className="card tasks">
+      <h2>Tasks{t && t.count > 0 && <span className="count">{t.count}</span>}</h2>
+      {err && <p className="err">{err}</p>}
+      {!t && !err && <p className="muted">Loading…</p>}
+      {t && t.count === 0 && <p className="muted">Nothing needs your action right now.</p>}
+      {t?.groups.map((g) => (
+        <div key={g.id} className="task-group">
+          <h3>{g.title}</h3>
+          <ul className="task-list">
+            {g.items.map((i) => (
+              <li key={(i.assessment_id ?? i.project_id) + g.id}>
+                <button className="link" onClick={() => onOpen({ project: i.project_id, assessment: i.assessment_id })}>
+                  {i.project_name}
+                </button>
+                {(i.detail || i.since) && (
+                  <div className="muted small">
+                    {i.detail}{i.detail && i.since ? " · " : ""}{i.since && new Date(i.since).toLocaleDateString()}
+                  </div>
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function Overview({ tenant, can, reload, onOpen }: {
+  tenant: Tenant; can: (a: string) => boolean; reload: () => void; onOpen: (t: Target) => void;
+}) {
   const [msg, setMsg] = useState<string | null>(null);
   const ack = async () => {
     try {
@@ -118,6 +165,8 @@ function Overview({ tenant, can, reload }: { tenant: Tenant; can: (a: string) =>
     <section>
       <h1>{tenant.name}</h1>
       <p className="muted">Approval preset: {tenant.approval_preset.replace("_", " ")}</p>
+
+      <Tasks tenant={tenant} onOpen={onOpen} />
 
       <div className={`card ${tenant.intended_use_acknowledged ? "" : "warn"}`}>
         <h2>Intended-use notice</h2>

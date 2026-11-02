@@ -9,8 +9,11 @@ import { Tenant } from "./types";
 
 type Can = (a: string) => boolean;
 
-export function Projects({ tenant, can }: { tenant: Tenant; can: Can }) {
-  const [open, setOpen] = useState<string | "new" | null>(null);
+// `target` opens a project, or one of its assessments, straight away (from the Tasks box).
+export type Target = { project: string; assessment: string | null };
+
+export function Projects({ tenant, can, target }: { tenant: Tenant; can: Can; target?: Target | null }) {
+  const [open, setOpen] = useState<string | "new" | null>(target?.project ?? null);
   const [rows, setRows] = useState<ProjectRow[]>([]);
   const [err, setErr] = useState<string | null>(null);
   const load = useCallback(() => {
@@ -22,7 +25,8 @@ export function Projects({ tenant, can }: { tenant: Tenant; can: Can }) {
     return <IntakeEditor tenant={tenant} onDone={(id) => { load(); setOpen(id); }} onCancel={() => setOpen(null)} />;
   }
   if (open) {
-    return <ProjectView tenant={tenant} can={can} id={open} onBack={() => { load(); setOpen(null); }} />;
+    return <ProjectView tenant={tenant} can={can} id={open} onBack={() => { load(); setOpen(null); }}
+                        assessmentId={target?.project === open ? target.assessment : null} />;
   }
   return (
     <section>
@@ -281,10 +285,12 @@ function Definitions({ defs }: { defs: Definition[] }) {
 // A project: its status, the triage result and the analyst's decision
 // ---------------------------------------------------------------------------
 
-function ProjectView({ tenant, can, id, onBack }: { tenant: Tenant; can: Can; id: string; onBack: () => void }) {
+function ProjectView({ tenant, can, id, onBack, assessmentId }: {
+  tenant: Tenant; can: Can; id: string; onBack: () => void; assessmentId?: string | null;
+}) {
   const [p, setP] = useState<ProjectDetail | null>(null);
   const [editing, setEditing] = useState(false);
-  const [assessment, setAssessment] = useState<string | null>(null);
+  const [assessment, setAssessment] = useState<string | null>(assessmentId ?? null);
   const [err, setErr] = useState<string | null>(null);
   const load = useCallback(() => {
     api<ProjectDetail>(`/api/tenants/${tenant.id}/projects/${id}`).then(setP).catch((e: Error) => setErr(e.message));
