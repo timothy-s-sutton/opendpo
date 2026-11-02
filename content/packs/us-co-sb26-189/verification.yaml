@@ -232,12 +232,12 @@
   self_verified: true
   note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
 - fact: co.tech.excluded
-  fingerprint: 862143c98903816d3bebbde25c59ff92d04c8221728f20f9f04ae0e074ea6902
+  fingerprint: e025c83c642d953b256f22b31ffa6ce05c323045aac6fe6468636f15e7c9e897
   verified_by: Tim Sutton
-  verified_on: '2026-10-27'
+  verified_on: '2026-11-02'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
-  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+  note: Reworded for clarity; Tim approved the exact wording in chat on 2026-11-02 (first signed off in the Colorado SB 26-189 Verification Worksheet v0.1)
 - fact: co.decision.domain
   fingerprint: 3662de9b8aa527c5b2d795df9fb861a0edc241abf3e652e4f58ef0b115100829
   verified_by: Tim Sutton
@@ -253,12 +253,12 @@
   self_verified: true
   note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
 - fact: co.decision.excluded
-  fingerprint: 9160aa8e318ac6dcf9c68c7ad7d6f916942c4292a26750e1559152c939a22b36
+  fingerprint: eb3c2d35ada50ae4202237091afb2a5f897cbb9162154e881afeb9c38eb8fd37
   verified_by: Tim Sutton
-  verified_on: '2026-10-27'
+  verified_on: '2026-11-02'
   method: Checked that the question and its answers capture the definitions it cites
   self_verified: true
-  note: Ticked in Colorado SB 26-189 Verification Worksheet v0.1 (https://claude.ai/artifact/VJuixMw3886zVaJsEpzhpc)
+  note: Reworded for clarity; Tim approved the exact wording in chat on 2026-11-02 (first signed off in the Colorado SB 26-189 Verification Worksheet v0.1)
 - fact: co.influence.non_de_minimis
   fingerprint: e03857210c15f24ad639c32f77a3d48351f456cb4cf8100a74f004652d6c4076
   verified_by: Tim Sutton
