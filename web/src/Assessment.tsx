@@ -91,6 +91,17 @@ export function AssessmentView({ tenant, id, can, onBack }: { tenant: Tenant; id
   }, [base]);
   useEffect(load, [load]);
 
+  // After a submit, take the reader to Review and approval so they can see who acts next.
+  const [jump, setJump] = useState(false);
+  useEffect(() => {
+    if (!jump || a?.status !== "in_review") return;
+    setJump(false);
+    const el = document.getElementById("review");
+    el?.scrollIntoView({ behavior: "smooth", block: "start" });
+    el?.classList.add("flash");
+    window.setTimeout(() => el?.classList.remove("flash"), 1600);
+  }, [a, jump]);
+
   const run = async (label: string, f: () => Promise<unknown>) => {
     setBusy(label);
     setErr(null);
@@ -170,7 +181,7 @@ export function AssessmentView({ tenant, id, can, onBack }: { tenant: Tenant; id
         <SectionCard key={s.id} s={s} a={a} tenant={tenant} can={can} ratings={ratings} reload={load} base={base} />
       ))}
       {showSubmit && (
-        <SubmitBar a={a} busy={busy} onSubmit={() => run("submit", () => api(`${base}/submit`, json({})))} />
+        <SubmitBar a={a} busy={busy} onSubmit={() => run("submit", () => api(`${base}/submit`, json({})).then(() => setJump(true)))} />
       )}
     </section>
   );
@@ -286,7 +297,7 @@ function ReviewPanel({ a, tenant, can, run, busy }: {
   })).then(() => { setNote(""); setAuthority(false); }));
   const plan = r.plan;
   return (
-    <div className="card">
+    <div className="card" id="review">
       <h2>Review and approval</h2>
       {plan && (
         <p>
@@ -316,6 +327,10 @@ function ReviewPanel({ a, tenant, can, run, busy }: {
         <>
           <p><strong>Next:</strong> {r.next.step === "provisional" ? "provisional approval" : "approval"} by{" "}
             {roleList(r.next.roles, r.next.step === "final" && plan?.each_final_role ? " and " : " or ")}.</p>
+          {!can("assessment.approve") && (
+            <p className="muted">Submitted. Nothing more is needed from you for now. If a reviewer returns the
+              assessment for changes, it comes back to you with their note.</p>
+          )}
           {can("assessment.approve") && (
             <div className="review-box">
               {!r.can_act && (
