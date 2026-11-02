@@ -43,15 +43,16 @@ def test_regulator_report_leaves_out_what_the_rules_do_not_require(client, appro
     sg = next(s for s in r["sections"] if s["id"] == "safeguards")["body"]["safeguards"]
     assert all("addresses" not in g for g in sg)
     approval = next(s for s in r["sections"] if s["id"] == "approval")["body"]
-    assert [x["name"] for x in approval["reviewers"]] == ["Ana Patel", "Devon Hart"]
-    assert approval["counsel_omitted"] is True
+    # Every approver is named, privacy counsel included (Tim's decision, Nov 2).
+    assert [x["name"] for x in approval["reviewers"]] == ["Ana Patel", "Devon Hart", "Carla Mendes"]
+    assert "counsel_omitted" not in approval
     assert "§ 7157" in r["pending_verification"] and "made_with" not in r
 
 
 def test_html_prints_and_escapes(client, approved):
     page = export(client, approved, "regulator", fmt="html").text
     assert page.startswith("<!doctype html>") and "Risk assessment report" in page
-    assert "Legal counsel who gave legal advice is not named" in page
+    assert "Carla Mendes" in page and "not named" not in page
     assert "<script" not in page.lower()
     internal = export(client, approved, "internal", fmt="html").text
     assert "Appendices" in internal and "Edit history" in internal and "Draft." not in internal

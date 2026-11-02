@@ -40,10 +40,6 @@ def build(detail: dict[str, Any], kind: Kind, history: list[dict[str, Any]], tri
         if s["kind"] == "safeguards" and kind == "regulator" and body:
             body = {"safeguards": [{k: v for k, v in g.items() if k not in ("addresses", "policy_refs")}
                                    for g in body["safeguards"]]}
-        if s["kind"] == "approval" and body and kind == "regulator":
-            counsel = [r for r in body["reviewers"] if r["legal_counsel"]]
-            body = {**body, "reviewers": [r for r in body["reviewers"] if not r["legal_counsel"]],
-                    "counsel_omitted": bool(counsel)}
         if s["kind"] == "risk_register" and body:
             body = {"risks": [{**r, "inherent": ratings[r["id"]]["inherent"], "residual": ratings[r["id"]]["residual"]}
                               for r in body["risks"]]}
@@ -194,8 +190,6 @@ def _section(s: dict[str, Any], kind: Kind) -> str:
                     if r["has_initiation_authority"] else ""
                 return f"{r['name']}, {r['position']} ({what}, {r['date']}){authority}"
             out.append(_list([line(r) for r in b["reviewers"]]))
-            if b.get("counsel_omitted"):
-                out.append("<p class='meta'>Legal counsel who gave legal advice is not named, as § 7152(a)(9) allows.</p>")
     elif k == "checklist":
         out.append("<table><tr><th style='width:11rem'>Item</th><th style='width:6rem'>Status</th><th>Note</th></tr>")
         for i in b.get("items", []):

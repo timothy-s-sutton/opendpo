@@ -118,8 +118,9 @@ def review_view(conn, a: dict, tenant: dict, p: Principal) -> dict[str, Any]:
 
 
 def approval_section(conn, a: dict) -> dict[str, Any] | None:
-    """Section 9, filled in by the approval steps (§ 7152(a)(9)); legal counsel is listed
-    internally but flagged, since the report itself leaves out counsel who gave legal advice."""
+    """Section 9, filled in by the approval steps (§ 7152(a)(9)). Privacy counsel is flagged as
+    legal counsel but still named in both reports: the exception lets counsel be left out, and
+    Harbor chooses to name every approver."""
     if a["status"] != "approved":
         return None
     final = [d for d in decisions(conn, a["id"], a["review_round"]) if d["decision"] == "approve"]

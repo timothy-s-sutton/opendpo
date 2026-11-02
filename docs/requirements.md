@@ -530,6 +530,7 @@ Found while folding the briefs in on 2026-10-15. Where the briefs disagree with 
 
 | Date | Decision |
 | --- | --- |
+| 2026-11-02 | Regulator-ready report names every approver, privacy counsel included. § 7152(a)(9) allows leaving out legal counsel who gave legal advice; Harbor chooses not to use that exception |
 | 2026-11-02 | Approval routing: the preparing analyst's provisional approval is given on submission; medium risk goes to the DPO (not privacy counsel); high risk to the DPO and privacy counsel. Privacy counsel is rarely involved at medium risk in practice |
 | 2026-10-18 | Session 8: per-law content packs with supersession maps; signed bundles in v1 (accepted scope growth); per-tenant adoption after a side-by-side dry run; risk-tiered reassessment windows of 30, 60 and 90 days |
 | 2026-10-18 | Session 8: deferral past the effective date allowed but recorded, visible and backed by DPO risk acceptance, with escalating reminders from 12 months out |
