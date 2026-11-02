@@ -206,7 +206,7 @@
       {"ref": "POS-AI-001", "status": "met", "note": "The screener is in the inventory with a named system owner.", "addresses": []},
       {"ref": "POS-AI-002", "status": "not_met", "note": "Recruiters do not review resumes below the top 25 and do not look at other information.", "addresses": ["r3", "s3"]},
       {"ref": "POS-AI-003", "status": "not_met", "note": "No notice about the screener yet.", "addresses": ["r4", "s4"]},
-      {"ref": "POS-AI-004", "status": "unknown", "note": "The material does not say whether the model infers emotions or protected characteristics. Ask Brightpath.", "addresses": []},
+      {"ref": "POS-AI-004", "status": "unknown", "note": "The material does not say whether the model infers protected characteristics. Ask Brightpath.", "addresses": []},
       {"ref": "POS-AI-005", "status": "not_met", "note": "No bias test is on file.", "addresses": ["r1", "s1"]},
       {"ref": "POS-AI-006", "status": "not_yet_due", "note": "Applies once monitoring starts after go-live.", "addresses": ["s2"]},
       {"ref": "POS-AI-007", "status": "not_met", "note": "The vendor contract allows training on customer data and no DPO approval is on file.", "addresses": ["r5", "s5"]},
@@ -216,7 +216,7 @@
     "decision_rationale": "The screener is high risk under Harbor's policy whatever the scores, and several duties apply from January 1, 2027, before the planned go-live. With the planned safeguards, every risk falls to moderate or lower; unfair screening stays moderate because a bias audit can find a problem but cannot by itself fix it. The people deciding should weigh whether the bias audit, the human review step and the applicant notices can all be in place before January 15, 2027, and whether go-live should wait until the audit result is known.",
     "open_questions": [
       "Has Brightpath run any bias audit or test of version 4.2, and can Harbor see the results?",
-      "Does the model infer emotions or any protected characteristic from resumes or answers?",
+      "Does the model infer any protected characteristic from resumes or answers?",
       "Is the screener used only to assess ability to perform the job, so the hiring exception to the opt-out could apply?",
       "How many applicants a month fall below the top 25 for their job?"
     ]

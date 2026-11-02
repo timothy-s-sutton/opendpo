@@ -7,7 +7,7 @@
 # Positions are the policy's rules as structured records (PLT-12); assessments cite them.
 id: ai-governance
 title: AI governance and acceptable AI use
-version: 0.2.0
+version: 0.3.0
 license: CC BY 4.0
 authored_by: OpenDPO
 reused_sources: []
@@ -61,8 +61,8 @@ sections:
     5.2 People are told, in plain language and before the AI system is used, that it will be used
     in a decision about them, and how to ask for a person to review the decision.
 
-    5.3 We do not use AI to detect people's emotions, or to guess their race, health, religion,
-    sexual orientation or other protected characteristics, in decisions about them.
+    5.3 We do not use AI to guess people's race, health, religion, sexual orientation or other
+    protected characteristics in decisions about them.
 
 - number: "6"
   title: Testing for unfair results
@@ -132,10 +132,11 @@ positions:
   section: "5.3"
   type: prohibition
   statement: >-
-    AI is not used to detect people's emotions, or to guess their protected characteristics, in
-    decisions about them.
+    AI is not used to guess people's protected characteristics in decisions about them.
   applies_to: {}
-  parameters: {emotion_recognition: false, infer_protected_characteristics: false}
+  # Emotion recognition was removed: no US law in scope bans it. The EU AI Act, Art. 5(1)(f),
+  # does, for workplaces and education; add it back as an EU-only position with the EU pack.
+  parameters: {infer_protected_characteristics: false}
   framework_refs: [NIST AI RMF MAP]
 - id: POS-AI-005
   section: "6.1"
