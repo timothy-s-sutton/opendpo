@@ -30,7 +30,7 @@ sections:
 - number: "3"
   title: How risks are rated
   text: |-
-    3.1 Each risk is rated for likelihood and impact, each on five levels from very low to very
+    3.1 Each risk is rated for likelihood and severity, each on five levels from very low to very
     high. The two ratings combine into a risk level using the organization's risk
     matrix (OpenDPO default method, version 1.0.0, based on NIST SP 800-30).
 
