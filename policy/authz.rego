@@ -86,13 +86,13 @@ deny contains "SOD-3: you proposed this change, so another person must approve i
 
 # SOD-1: no one approves an assessment they submitted, drafted (or asked the agent to draft)
 # or edited. The single-person office preset relaxes this with a recorded justification (PLT-34).
-deny contains "SOD-1: you submitted, drafted or edited this assessment, so another person must approve it" if {
+deny contains "You can't approve this assessment because you submitted, drafted or edited it. Someone who did not work on it must approve it. (Separation of duties, rule SOD-1)" if {
 	input.action == "assessment.approve"
 	input.actor.id in input.resource.involved
 	input.tenant.approval_preset != "single_person"
 }
 
-deny contains "PLT-34: approving your own work needs a recorded justification" if {
+deny contains "To approve your own work, record why no one else can approve it. (Single-person office, rule PLT-34)" if {
 	input.action == "assessment.approve"
 	input.actor.id in input.resource.involved
 	input.tenant.approval_preset == "single_person"
@@ -100,7 +100,7 @@ deny contains "PLT-34: approving your own work needs a recorded justification" i
 }
 
 # SOD-2: one person gives one approval per review round, so high risk gets two different people.
-deny contains "SOD-2: you already approved this assessment in this round; another person must give the next approval" if {
+deny contains "You already approved this assessment in this round. A different person must give the next approval. (Separation of duties, rule SOD-2)" if {
 	input.action == "assessment.approve"
 	input.actor.id in input.resource.approved_this_round
 }

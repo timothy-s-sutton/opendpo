@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { api, openPage } from "./auth";
 import {
   ASSESSMENT_STATUS, Assessment, AssessmentRow, CHECK_STATUS, CheckItem, LEVELS, LEVEL_LABELS, Level, LawCite, Person,
@@ -289,12 +289,20 @@ function ReviewPanel({ a, tenant, can, run, busy }: {
 }) {
   const [note, setNote] = useState("");
   const [authority, setAuthority] = useState(false);
+  const [msg, setMsg] = useState<string | null>(null);
+  const msgRef = useRef<HTMLDivElement>(null);
+  useEffect(() => { if (msg) msgRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }); }, [msg]);
   const r = a.review;
   if (!r.plan && r.decisions.length === 0) return null;
   const base = `/api/tenants/${tenant.id}/assessments/${a.id}`;
-  const send = (decision: string) => run(decision, () => api(`${base}/review`, json({
-    decision, note: note || null, has_initiation_authority: authority,
-  })).then(() => { setNote(""); setAuthority(false); }));
+  // Errors from these buttons show under the buttons, not at the top of the page, so the
+  // reviewer sees them wherever they are.
+  const send = (decision: string) => {
+    setMsg(null);
+    run(decision, () => api(`${base}/review`, json({
+      decision, note: note || null, has_initiation_authority: authority,
+    })).then(() => { setNote(""); setAuthority(false); }).catch((e: Error) => { setMsg(e.message); }));
+  };
   const plan = r.plan;
   return (
     <div className="card" id="review">
@@ -350,6 +358,7 @@ function ReviewPanel({ a, tenant, can, run, busy }: {
                 <button disabled={!!busy} className="secondary" onClick={() => send("return")}>Return for changes</button>
                 <button disabled={!!busy} className="secondary danger" onClick={() => send("reject")}>Reject</button>
               </div>
+              {msg && <div ref={msgRef} className="card bad-soft small-card" role="alert"><p className="err">{msg}</p></div>}
             </div>
           )}
         </>

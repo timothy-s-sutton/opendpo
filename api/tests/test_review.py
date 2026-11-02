@@ -62,7 +62,7 @@ def test_the_walkthrough_approval_path(client, drafted):
         headers=as_user("ana.patel")).status_code == 409
     # SOD-1: the analyst who asked for the draft and submitted it cannot approve it.
     r = act(client, drafted, "ana.patel")
-    assert r.status_code == 403 and r.json()["detail"]["reasons"][0].startswith("SOD-1")
+    assert r.status_code == 403 and r.json()["detail"]["reasons"][0].endswith("rule SOD-1)")
     # Final approvers wait for the provisional approval.
     r = act(client, drafted, "carla.mendes")
     assert r.status_code == 403 and "privacy_analyst" in r.json()["detail"]["reasons"][0]
@@ -71,7 +71,7 @@ def test_the_walkthrough_approval_path(client, drafted):
                                                          "role": "privacy_analyst"}
     # SOD-2: one approval per person per round.
     r = act(client, drafted, "ben.okafor")
-    assert r.status_code == 403 and r.json()["detail"]["reasons"][0].startswith("SOD-2")
+    assert r.status_code == 403 and r.json()["detail"]["reasons"][0].endswith("rule SOD-2)")
     assert act(client, drafted, "devon.hart", has_initiation_authority=True).json()["status"] == "in_review"
     r = act(client, drafted, "carla.mendes", note="Notices must be live ten business days before use.")
     assert r.json() == {"status": "approved", "step": "final", "role": "privacy_counsel"}

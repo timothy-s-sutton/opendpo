@@ -73,7 +73,7 @@ test_sod1_no_approving_own_work if {
 	        "tenant": {"approval_preset": "standard"}}
 	not authz.allow with input as inp
 	some r in authz.reasons with input as inp
-	startswith(r, "SOD-1")
+	contains(r, "rule SOD-1")
 }
 
 test_sod1_single_person_needs_justification if {
