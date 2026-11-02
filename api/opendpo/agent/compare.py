@@ -42,7 +42,12 @@ def run(m: drafter.Material, model: str) -> dict:
         name, model = provider.name, provider.model
 
         def complete(self, *a, **kw):
-            reply = provider.complete(*a, **kw)
+            try:
+                reply = provider.complete(*a, **kw)
+            except providers.NoToolCall as exc:     # still billed, so still counted
+                for k in usage_total:
+                    usage_total[k] += exc.reply.usage.get(k, 0)
+                raise
             for k in usage_total:
                 usage_total[k] += reply.usage.get(k, 0)
             return reply
@@ -53,7 +58,7 @@ def run(m: drafter.Material, model: str) -> dict:
         out = {"ok": True, "sections": d.sections, "attempts": d.attempts, "open_questions": d.open_questions,
                "problems": []}
     except drafter.DraftRejected as exc:
-        out = {"ok": False, "sections": None, "attempts": 2, "open_questions": [], "problems": exc.problems,
+        out = {"ok": False, "sections": None, "attempts": exc.attempts, "open_questions": [], "problems": exc.problems,
                "raw": exc.reply.output if exc.reply else None}
     out.update(model=model, seconds=round(time.monotonic() - start), usage=usage_total,
                cost=cost(model, usage_total))

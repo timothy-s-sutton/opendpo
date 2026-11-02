@@ -289,110 +289,97 @@
         "policy_refs": []
       }
     ],
-    "obligations": [
-      {
-        "ref": "CCPA-ADMT-NOTICE",
+    "obligations": {
+      "CCPA-ADMT-NOTICE": {
         "status": "not_met",
         "note": "Needed before go-live on January 15, 2027. Only a general notice exists.",
         "addresses": [
           "s4"
         ]
       },
-      {
-        "ref": "CCPA-ADMT-OPT-OUT",
+      "CCPA-ADMT-OPT-OUT": {
         "status": "unknown",
         "note": "Depends on whether the hiring exception applies; see the next item.",
         "addresses": []
       },
-      {
-        "ref": "CCPA-ADMT-HIRING-EXCEPTION",
+      "CCPA-ADMT-HIRING-EXCEPTION": {
         "status": "unknown",
         "note": "An analyst must decide whether the screener is used only to assess ability to perform the job and works for that purpose without unlawful discrimination. The bias audit result bears on this.",
         "addresses": [
           "s1"
         ]
       },
-      {
-        "ref": "CCPA-ADMT-ACCESS",
+      "CCPA-ADMT-ACCESS": {
         "status": "not_met",
         "note": "No process yet to answer requests about the screener.",
         "addresses": [
           "s7"
         ]
       },
-      {
-        "ref": "CO-DEPLOYER-NOTICE",
+      "CO-DEPLOYER-NOTICE": {
         "status": "not_met",
         "note": "Needed before go-live.",
         "addresses": [
           "s4"
         ]
       },
-      {
-        "ref": "CO-DEPLOYER-ADVERSE-OUTCOME",
+      "CO-DEPLOYER-ADVERSE-OUTCOME": {
         "status": "not_met",
         "note": "No 30-day explanation process yet.",
         "addresses": [
           "s7"
         ]
       },
-      {
-        "ref": "CO-CONSUMER-RIGHTS",
+      "CO-CONSUMER-RIGHTS": {
         "status": "not_met",
         "note": "No correction or human review process yet.",
         "addresses": [
           "s7"
         ]
       },
-      {
-        "ref": "CO-DEPLOYER-RECORDS",
+      "CO-DEPLOYER-RECORDS": {
         "status": "not_met",
         "note": "Record keeping not yet set up for this activity.",
         "addresses": [
           "s8"
         ]
       },
-      {
-        "ref": "NYC-BIAS-AUDIT",
+      "NYC-BIAS-AUDIT": {
         "status": "not_met",
         "note": "No bias audit is on file.",
         "addresses": [
           "s1"
         ]
       },
-      {
-        "ref": "NYC-BIAS-AUDIT-SCORING",
+      "NYC-BIAS-AUDIT-SCORING": {
         "status": "not_met",
         "note": "The screener scores applicants, so the audit uses scoring rates.",
         "addresses": [
           "s1"
         ]
       },
-      {
-        "ref": "NYC-PUBLISH-RESULTS",
+      "NYC-PUBLISH-RESULTS": {
         "status": "not_met",
         "note": "Summary must be on the careers site before use.",
         "addresses": [
           "s1"
         ]
       },
-      {
-        "ref": "NYC-CANDIDATE-NOTICE",
+      "NYC-CANDIDATE-NOTICE": {
         "status": "not_met",
         "note": "Ten business days before use, for city residents.",
         "addresses": [
           "s4"
         ]
       },
-      {
-        "ref": "NYC-DATA-DISCLOSURE",
+      "NYC-DATA-DISCLOSURE": {
         "status": "not_met",
         "note": "The data types, sources and retention policy are not yet posted.",
         "addresses": [
           "s4"
         ]
       }
-    ],
+    },
     "policy_check": [
       {
         "ref": "POS-AI-001",

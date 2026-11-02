@@ -23,7 +23,7 @@ from typing import Any
 
 from .. import assessment as engine
 from .. import content, harms
-from .providers import Provider, ProviderError, Reply
+from .providers import NoToolCall, Provider, ProviderError, Reply
 
 AGENT_ID = "opendpo-drafter"
 LABEL = "AI-generated draft. Not legal advice. Requires qualified human review."   # USE-02
@@ -57,9 +57,9 @@ class Draft:
 
 
 class DraftRejected(ValueError):
-    def __init__(self, problems: list[str], reply: Reply | None):
+    def __init__(self, problems: list[str], reply: Reply | None, attempts: int = 0):
         super().__init__("; ".join(problems))
-        self.problems, self.reply = problems, reply
+        self.problems, self.reply, self.attempts = problems, reply, attempts
 
 
 # ---------------------------------------------------------------------------
@@ -114,6 +114,12 @@ def schema(m: Material) -> dict[str, Any]:
     }, "required": ["id", "title", "description", "status", "owner", "addresses", "citations", "policy_refs"]}
     status = {"type": "string", "enum": ["met", "not_met", "not_yet_due", "not_applicable", "unknown"]}
 
+    def obligation_entry() -> dict[str, Any]:
+        return {"type": "object", "additionalProperties": False, "properties": {
+            "status": status, "note": {"type": "string"},
+            "addresses": arr({"type": "string", "pattern": "^[rs][0-9]{1,3}$"})},
+            "required": ["status", "note", "addresses"]}
+
     def check_item(refs: list[str]) -> dict[str, Any]:
         return {"type": "object", "additionalProperties": False, "properties": {
             "ref": enum_or_empty(refs), "status": status, "note": {"type": "string"},
@@ -124,7 +130,12 @@ def schema(m: Material) -> dict[str, Any]:
     props.update({
         "risks": arr(risk, minItems=1, maxItems=MAX_RISKS),
         "safeguards": arr(safeguard, minItems=1),
-        "obligations": arr(check_item(obligation_rules)),
+        # One required entry per obligation the rules found, keyed by its rule id, so none can
+        # be left out (a list let a model return it empty).
+        "obligations": {"type": "object", "additionalProperties": False,
+                        "description": "Every obligation from the triage result, keyed by its rule id.",
+                        "properties": {r: obligation_entry() for r in obligation_rules},
+                        "required": obligation_rules},
         "policy_check": arr(check_item(positions)),
         "decision_rationale": {"type": "string",
                                "description": "What the people deciding should weigh. Never decide for them."},
@@ -238,11 +249,18 @@ def material_text(m: Material) -> str:
 # Checking the draft
 # ---------------------------------------------------------------------------
 
+def obligation_items(obligations: Any) -> list[dict[str, Any]]:
+    """The checklist as stored: a list of items. The draft format keys entries by rule id."""
+    if isinstance(obligations, dict):
+        return [{"ref": ref, **(entry if isinstance(entry, dict) else {})} for ref, entry in obligations.items()]
+    return obligations if isinstance(obligations, list) else []
+
+
 def to_sections(out: dict[str, Any], m: Material) -> dict[str, dict[str, Any]]:
     secs = {sid: {"text": out.get(sid, "")} for sid in TEXT_SECTIONS}
     secs["risks"] = {"risks": out.get("risks", [])}
     secs["safeguards"] = {"safeguards": out.get("safeguards", [])}
-    secs["obligations"] = {"items": out.get("obligations", [])}
+    secs["obligations"] = {"items": obligation_items(out.get("obligations"))}
     secs["policy_check"] = {"items": out.get("policy_check", [])}
     rationale = out.get("decision_rationale", "").strip()
     secs["decision"] = {"initiate": "undecided", "rationale": rationale}
@@ -288,17 +306,29 @@ def draft(m: Material, provider: Provider) -> Draft:
     for attempt in (1, 2):
         try:
             reply = provider.complete(SYSTEM, messages, sch)
+        except NoToolCall as exc:
+            # Answered in prose instead of calling the tool: a mistake the second attempt can fix.
+            reply, problems = exc.reply, ["you answered without calling submit_draft"]
+            if attempt == 2:
+                break
+            messages += [{"role": "assistant", "content": reply.content},
+                         {"role": "user", "content": "Call submit_draft with the whole draft now. Do not answer "
+                                                     "in prose."}]
+            continue
         except ProviderError as exc:
-            raise DraftRejected([str(exc)], reply) from exc
+            raise DraftRejected([str(exc)], reply, attempt) from exc
         parsed, problems = validate(reply.output, m)
         if not problems:
             return Draft(parsed, reply, attempt, prompt_sha, list(reply.output.get("open_questions", [])))
         if provider.name == "fixture":
             break
-        messages += [{"role": "assistant", "content": [{"type": "tool_use", "id": f"draft{attempt}",
-                                                        "name": "submit_draft", "input": reply.output}]},
-                     {"role": "user", "content": [{"type": "tool_result", "tool_use_id": f"draft{attempt}",
+        # Send the model's own turn back unchanged (thinking blocks included, as the API requires
+        # when a tool result follows), then the checks it failed.
+        tool_id = reply.tool_use_id or f"draft{attempt}"
+        turn = reply.content or [{"type": "tool_use", "id": tool_id, "name": "submit_draft", "input": reply.output}]
+        messages += [{"role": "assistant", "content": turn},
+                     {"role": "user", "content": [{"type": "tool_result", "tool_use_id": tool_id,
                                                    "is_error": True, "content":
                                                    "The draft failed these checks. Fix them and submit the whole "
                                                    "draft again:\n- " + "\n- ".join(problems)}]}]
-    raise DraftRejected(problems, reply)
+    raise DraftRejected(problems, reply, attempt)

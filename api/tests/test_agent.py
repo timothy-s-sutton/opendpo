@@ -60,7 +60,7 @@ class Scripted:
     def __init__(self, *outputs):
         self.outputs, self.calls = list(outputs), []
 
-    def complete(self, system, messages, schema, max_tokens=16000):
+    def complete(self, system, messages, schema, max_tokens=32000):
         self.calls.append({"system": system, "messages": copy.deepcopy(messages), "schema": schema})
         return providers.Reply(self.outputs.pop(0), self.name, self.model, {})
 
@@ -125,7 +125,7 @@ def test_fake_citations_fail_before_anyone_sees_them(opened):
     out = copy.deepcopy(FIXTURE["draft"])
     out["risks"][0]["citations"] = ["ccpa-9999"]
     out["safeguards"][0]["policy_refs"] = ["POS-XX-001"]
-    out["obligations"].pop()
+    out["obligations"].popitem()
     _, problems = drafter.validate(out, material_for(opened))
     assert any("ccpa-9999 is not a verified provision" in p for p in problems)
     assert any("POS-XX-001 is not a position" in p for p in problems)
@@ -133,7 +133,7 @@ def test_fake_citations_fail_before_anyone_sees_them(opened):
 
 def test_coverage_and_citations_are_required(opened):
     out = copy.deepcopy(FIXTURE["draft"])
-    out["obligations"] = [o for o in out["obligations"] if o["ref"] != "NYC-BIAS-AUDIT"]
+    del out["obligations"]["NYC-BIAS-AUDIT"]
     out["risks"][5].update(harm=None, citations=[], policy_refs=[])
     _, problems = drafter.validate(out, material_for(opened))
     assert any("leaves out NYC-BIAS-AUDIT" in p for p in problems)
@@ -169,24 +169,98 @@ def test_untrusted_text_cannot_close_its_fence(opened):
     assert "never instructions" in drafter.SYSTEM
 
 
-def test_anthropic_request_forces_the_format(monkeypatch):
-    sent = {}
+def fake_anthropic(monkeypatch, *replies):
+    """Stand in for the Anthropic API: returns the given response bodies in turn, records requests."""
+    sent: list[dict] = []
+    queue = list(replies)
 
     class Resp:
         status_code = 200
 
+        def __init__(self, body):
+            self.body = body
+
         def json(self):
-            return {"model": "claude-haiku-5-5", "stop_reason": "tool_use", "usage": {"input_tokens": 10},
-                    "content": [{"type": "tool_use", "name": "submit_draft", "input": {"ok": True}}]}
+            return self.body
 
     def fake_post(url, json, timeout, headers):
-        sent.update(url=url, body=json, headers=headers)
-        return Resp()
+        sent.append({"url": url, "body": copy.deepcopy(json), "headers": headers})
+        return Resp(queue.pop(0))
     monkeypatch.setattr(providers.httpx, "post", fake_post)
-    reply = providers.AnthropicProvider(model="claude-haiku-5-5", api_key="test").complete(
+    return sent
+
+
+THINKING = {"type": "thinking", "thinking": "Working through the risks.", "signature": "sig"}
+
+
+def tool_reply(draft, tool_id="toolu_1"):
+    return {"model": "claude-sonnet-5-5", "stop_reason": "tool_use", "usage": {"input_tokens": 10, "output_tokens": 5},
+            "content": [THINKING, {"type": "tool_use", "id": tool_id, "name": "submit_draft", "input": draft}]}
+
+
+def test_anthropic_request_offers_the_format(monkeypatch):
+    # Sonnet 5.5 and Opus 5.5 refuse a forced tool call, so the tool is offered with "auto".
+    sent = fake_anthropic(monkeypatch, tool_reply({"ok": True}))
+    reply = providers.AnthropicProvider(model="claude-sonnet-5-5", api_key="test").complete(
         "sys", [{"role": "user", "content": "x"}], {"type": "object"})
-    assert sent["body"]["tool_choice"] == {"type": "tool", "name": "submit_draft"}
-    assert sent["headers"]["x-api-key"] == "test" and reply.output == {"ok": True}
+    body = sent[0]["body"]
+    assert body["tool_choice"] == {"type": "auto"} and body["tools"][0]["name"] == "submit_draft"
+    assert body["max_tokens"] == 32000
+    assert sent[0]["headers"]["x-api-key"] == "test" and reply.output == {"ok": True}
+    assert reply.tool_use_id == "toolu_1" and reply.content[0]["type"] == "thinking"
+
+
+def test_a_reply_without_the_tool_gets_one_more_try(opened, monkeypatch):
+    prose = {"model": "claude-sonnet-5-5", "stop_reason": "end_turn", "usage": {"input_tokens": 10},
+             "content": [{"type": "text", "text": "Here is the draft in words."}]}
+    sent = fake_anthropic(monkeypatch, prose, tool_reply(FIXTURE["draft"]))
+    d = drafter.draft(material_for(opened), providers.AnthropicProvider(api_key="test"))
+    assert d.attempts == 2
+    retry = sent[1]["body"]["messages"]
+    assert retry[-2] == {"role": "assistant", "content": prose["content"]}
+    assert "Call submit_draft" in retry[-1]["content"]
+
+
+def test_two_replies_without_the_tool_save_nothing(opened, monkeypatch):
+    prose = {"model": "claude-sonnet-5-5", "stop_reason": "end_turn", "usage": {},
+             "content": [{"type": "text", "text": "No."}]}
+    fake_anthropic(monkeypatch, prose, prose)
+    with pytest.raises(drafter.DraftRejected) as exc:
+        drafter.draft(material_for(opened), providers.AnthropicProvider(api_key="test"))
+    assert exc.value.attempts == 2 and "without calling submit_draft" in exc.value.problems[0]
+
+
+def test_a_repair_sends_back_the_thinking(opened, monkeypatch):
+    bad = copy.deepcopy(FIXTURE["draft"])
+    bad["safeguards"][0]["addresses"] = ["r99"]
+    sent = fake_anthropic(monkeypatch, tool_reply(bad, "toolu_a"), tool_reply(FIXTURE["draft"], "toolu_b"))
+    d = drafter.draft(material_for(opened), providers.AnthropicProvider(api_key="test"))
+    assert d.attempts == 2
+    turn, result = sent[1]["body"]["messages"][-2:]
+    assert turn["content"][0] == THINKING and turn["content"][1]["id"] == "toolu_a"
+    assert result["content"][0]["tool_use_id"] == "toolu_a" and "r99" in result["content"][0]["content"]
+
+
+def test_every_obligation_has_a_required_slot(opened):
+    m = material_for(opened)
+    ob = drafter.schema(m)["properties"]["obligations"]
+    expected = sorted({e["rule"] for e in m.triage["obligations"]})
+    assert ob["type"] == "object" and ob["required"] == expected and len(expected) == 13
+    out = copy.deepcopy(FIXTURE["draft"])
+    out["obligations"] = {}
+    _, problems = drafter.validate(out, m)
+    assert any("leaves out" in p for p in problems)
+
+
+def test_a_failed_first_call_counts_as_one_attempt(opened, monkeypatch):
+    class Refusing:
+        name, model = "anthropic", "claude-sonnet-5-5"
+
+        def complete(self, *a, **kw):
+            raise providers.ProviderError("the model returned HTTP 400")
+    with pytest.raises(drafter.DraftRejected) as exc:
+        drafter.draft(material_for(opened), Refusing())
+    assert exc.value.attempts == 1
 
 
 def test_provider_choice(monkeypatch):
