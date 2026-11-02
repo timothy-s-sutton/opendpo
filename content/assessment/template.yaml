@@ -9,7 +9,7 @@
 # in_regulator_report follows the requirements (WF-21). Confirm it against the
 # CCPA Regulations, section 7157, before the regulator-ready export relies on it.
 id: ai-admt-risk-assessment
-version: 2
+version: 3
 title: AI and automated decision risk assessment
 basis: [ccpa-7152-a]
 
@@ -67,7 +67,7 @@ sections:
   kind: text
   provisions: [ccpa-7152-a-3]
   in_regulator_report: true
-  help: >-
+  help: |-
     Describe the processing from start to finish:
     - where the information comes from and how it is collected
     - how long each kind of information is kept, or how that is decided

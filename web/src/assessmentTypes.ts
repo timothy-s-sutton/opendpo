@@ -75,7 +75,7 @@ export type Assessment = {
     routing: { level: string; floor: string; from_score: string; raised_by_score: boolean };
     proceed_blockers: string[]; consistency_problems: string[]; sections_not_started: string[];
   };
-  floor_rules: string[]; risk_acceptances: Acceptance[]; review: ReviewState; ai_draft_label: string | null;
+  floor_rules: string[]; floor_reason: string | null; processing_activity_id: string | null; risk_acceptances: Acceptance[]; review: ReviewState; ai_draft_label: string | null;
   policy_versions: { policy: string; title: string; version: number }[]; notice: string;
 };
 

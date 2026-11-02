@@ -51,7 +51,7 @@ systems:
 - key: screener
   name: Brightpath resume screener
   business_owner: Olivia Grant, Head of Talent Acquisition
-  technical_owner: Terry Lin, Director of IT
+  technical_owner: HR Systems lead
   origin: vendor
   vendor: brightpath
   hosting: Vendor cloud (US), connected to the applicant tracking system

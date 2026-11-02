@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import { api, keycloak } from "./auth";
+import { InventoryPage } from "./Inventory";
 import { Projects } from "./Projects";
 import { AuditEvent, Me, ROLE_LABELS, Tenant, Verification } from "./types";
 
-type Page = "overview" | "projects" | "audit" | "members";
+type Page = "overview" | "projects" | "inventory" | "audit" | "members";
 
 const ACTION_LABELS: Record<string, string> = {
   "intake.submit": "Submit a project for review",
@@ -75,6 +76,9 @@ export function App() {
         {can("intake.read") && (
           <button className={page === "projects" ? "on" : ""} onClick={() => setPage("projects")}>Projects</button>
         )}
+        {can("inventory.read") && (
+          <button className={page === "inventory" ? "on" : ""} onClick={() => setPage("inventory")}>Inventory</button>
+        )}
         {can("audit.read") && (
           <button className={page === "audit" ? "on" : ""} onClick={() => setPage("audit")}>Audit log</button>
         )}
@@ -87,6 +91,7 @@ export function App() {
         {!tenant && <p>You have no tenant memberships yet.</p>}
         {tenant && page === "overview" && <Overview tenant={tenant} can={can} reload={() => loadTenant(tenant.id)} />}
         {tenant && page === "projects" && <Projects key={tenant.id} tenant={tenant} can={can} />}
+        {tenant && page === "inventory" && <InventoryPage key={tenant.id} tenant={tenant} />}
         {tenant && page === "audit" && <AuditLog tenant={tenant} can={can} />}
         {tenant && page === "members" && <Members tenant={tenant} />}
       </main>

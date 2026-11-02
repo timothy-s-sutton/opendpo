@@ -347,6 +347,25 @@ def parse(section: Section, body: dict[str, Any], tags: set[str],
 # The whole assessment
 # ---------------------------------------------------------------------------
 
+# Why a triage result makes an assessment high risk, in plain words for the page, the agent
+# and the reports. Keyed by the rules named in the method's routing floor.
+FLOOR_REASONS = {
+    "CCPA-RA-ADMT": "automated decision technology plays a significant part in a significant decision "
+                    "about people, such as hiring (CCPA Regulations)",
+    "CO-CLASS-COVERED-ADMT": "automated decision technology materially influences a consequential decision "
+                             "about people, such as a job (Colorado law)",
+}
+
+
+def floor_reason(rules: list[str]) -> str | None:
+    """One plain sentence on why the assessment is high risk whatever its ratings."""
+    reasons = [FLOOR_REASONS.get(r, r) for r in rules]
+    if not reasons:
+        return None
+    return ("This assessment is high risk whatever the individual ratings, because "
+            + "; and ".join(reasons) + ".")
+
+
 def floor_from_triage(result: dict[str, Any], decision: dict[str, Any] | None,
                       method: Methodology) -> tuple[str, list[str]]:
     """C5: the triage category sets the routing floor. Rules the analyst set aside do not count."""

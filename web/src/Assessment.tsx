@@ -4,6 +4,8 @@ import {
   ASSESSMENT_STATUS, Assessment, AssessmentRow, CHECK_STATUS, CheckItem, LEVELS, LEVEL_LABELS, Level, LawCite, Person,
   ROUTING_LABELS, Revision, Reviewer, Risk, Safeguard, Section,
 } from "./assessmentTypes";
+import { InventoryPanel } from "./Inventory";
+import { Help, Prose } from "./prose";
 import { ROLE_LABELS, Tenant } from "./types";
 
 type Can = (a: string) => boolean;
@@ -124,20 +126,15 @@ export function AssessmentView({ tenant, id, can, onBack }: { tenant: Tenant; id
             {busy === "draft" ? "Drafting… this can take a minute" : "Draft with AI"}
           </button>
         )}
-        {a.editable && !empty && can("assessment.submit") && (
-          <button disabled={!!busy} onClick={() => run("submit", () => api(`${base}/submit`, json({})))}>
-            Submit for review
-          </button>
-        )}
         {can("assessment.export") && (
           <>
             <button className="secondary" onClick={() => openPage(`${base}/export?kind=internal`).catch((e) => setErr(e.message))}>
-              Internal assessment
+              Open internal report
             </button>
             {a.status === "approved" && (
               <button className="secondary"
                       onClick={() => openPage(`${base}/export?kind=regulator`).catch((e) => setErr(e.message))}>
-                Regulator-ready report
+                Open regulator-ready report
               </button>
             )}
           </>
@@ -152,14 +149,9 @@ export function AssessmentView({ tenant, id, can, onBack }: { tenant: Tenant; id
             <dt>Highest risk before safeguards</dt><dd>{c.overall_inherent ? LEVEL_LABELS[c.overall_inherent] : "Not rated"}</dd>
             <dt>Highest risk after safeguards</dt><dd>{c.overall_residual ? LEVEL_LABELS[c.overall_residual] : "Not rated"}</dd>
             <dt>Approval routing</dt>
-            <dd>{ROUTING_LABELS[c.routing.level]}{c.routing.floor === "high" && a.floor_rules.length > 0 &&
-              <span className="muted small"> (high from triage: {a.floor_rules.join(", ")})</span>}</dd>
+            <dd>{ROUTING_LABELS[c.routing.level]}</dd>
           </dl>
-          {c.sections_not_started.length > 0 && (
-            <p className="muted small">Not started: {c.sections_not_started.map((s) => a.sections.find((x) => x.id === s)?.title).join(", ")}</p>
-          )}
-          {[...c.consistency_problems, ...c.proceed_blockers.filter(() => sectionBody(a, "decision")?.initiate === "yes")]
-            .map((p) => <p key={p} className="err small">{p}</p>)}
+          {a.floor_reason && <p className="reason">{a.floor_reason}</p>}
         </div>
         <div className="card">
           <h2>Risk map</h2>
@@ -167,12 +159,59 @@ export function AssessmentView({ tenant, id, can, onBack }: { tenant: Tenant; id
         </div>
       </div>
 
+      {a.processing_activity_id && can("inventory.read") && (
+        <InventoryPanel tenant={tenant} activityId={a.processing_activity_id} startOpen={empty} />
+      )}
+
       <ReviewPanel a={a} tenant={tenant} can={can} run={run} busy={busy} />
 
       {a.sections.map((s) => (
         <SectionCard key={s.id} s={s} a={a} tenant={tenant} can={can} ratings={ratings} reload={load} base={base} />
       ))}
+      {a.editable && !empty && can("assessment.submit") && (
+        <SubmitBar a={a} busy={busy} onSubmit={() => run("submit", () => api(`${base}/submit`, json({})))} />
+      )}
     </section>
+  );
+}
+
+// What still stands between the assessment and review, each linking to its section.
+function missing(a: Assessment): { text: string; section: string | null }[] {
+  const c = a.computed;
+  const out: { text: string; section: string | null }[] = [];
+  const title = (id: string) => a.sections.find((x) => x.id === id)?.title ?? id;
+  for (const id of c.sections_not_started) out.push({ text: `${title(id)} has not been started`, section: id });
+  if ((sectionBody(a, "decision")?.initiate ?? "undecided") === "undecided") {
+    out.push({ text: "Record whether the business will go ahead (section 7)", section: "decision" });
+  }
+  for (const p of c.consistency_problems) out.push({ text: p, section: null });
+  if (sectionBody(a, "decision")?.initiate === "yes") {
+    for (const p of c.proceed_blockers) out.push({ text: p, section: "risks" });
+  }
+  return out;
+}
+
+function SubmitBar({ a, busy, onSubmit }: { a: Assessment; busy: string | null; onSubmit: () => void }) {
+  const todo = missing(a);
+  const go = (id: string | null) => id && document.getElementById(`sec-${id}`)?.scrollIntoView({ behavior: "smooth" });
+  return (
+    <div className="submitbar">
+      <div className="submitbar-inner">
+        <div className="submitbar-text">
+          {todo.length === 0 ? <strong>Ready to submit for review.</strong> : (
+            <>
+              <strong>Before you can submit:</strong>
+              <ul>
+                {todo.map((t) => (
+                  <li key={t.text}>{t.section ? <button className="link" onClick={() => go(t.section)}>{t.text}</button> : t.text}</li>
+                ))}
+              </ul>
+            </>
+          )}
+        </div>
+        <button disabled={!!busy} onClick={onSubmit}>{busy === "submit" ? "Submitting…" : "Submit for review"}</button>
+      </div>
+    </div>
   );
 }
 
@@ -330,35 +369,77 @@ function SectionCard({ s, a, tenant, can, ratings, reload, base }: {
     setHistory(h.revisions);
   };
 
-  return (
-    <div className={`card section ${s.appendix ? "appendix" : ""}`} id={`sec-${s.id}`}>
-      <div className="section-head">
-        <h2>{s.appendix ? `Appendix ${s.number}` : s.number}. {s.title}</h2>
-        <div className="section-meta small muted">
-          {s.last_edited_by && <>
-            {s.last_edited_by_type === "agent" ? <span className="badge ai">AI draft</span> : <>Edited by {s.last_edited_by}</>}
-            {" · "}revision {s.revision}{" · "}
-            <button className="link small" onClick={toggleHistory}>{history ? "Hide history" : "History"}</button>
-          </>}
-          {!s.in_regulator_report && <span className="badge">Internal only</span>}
-        </div>
-      </div>
-      <p className="help">{s.help}</p>
+  const decisionNeeded = s.kind === "decision" && canEdit && (s.body?.initiate ?? "undecided") === "undecided";
+  const meta = (
+    <div className="section-meta small muted">
+      {s.last_edited_by && <>
+        {s.last_edited_by_type === "agent" ? <span className="badge ai">AI draft</span> : <>Edited by {s.last_edited_by}</>}
+        {" · "}revision {s.revision}{" · "}
+        <button className="link small" onClick={(e) => { e.preventDefault(); toggleHistory(); }}>
+          {history ? "Hide history" : "History"}
+        </button>
+      </>}
+      {!s.in_regulator_report && <span className="badge">Internal only</span>}
+    </div>
+  );
+  const body = (
+    <>
+      <Help text={s.help} />
       {s.what_the_law_says.length > 0 && <Law cites={s.what_the_law_says} />}
       {history && <History revs={history} />}
+      {decisionNeeded && !editing && (
+        <div className="decision-needed">
+          <div><strong>Decision required.</strong> Record whether the business will go ahead with this processing.
+            The assessment cannot be submitted for review until you do.</div>
+          <button className="attention" onClick={() => setEditing(true)}>Record the decision</button>
+        </div>
+      )}
       {editing ? (
         <Editor s={s} a={a} onSave={save} onCancel={() => { setEditing(false); setErr(null); }} />
       ) : (
         <>
           <View s={s} a={a} ratings={ratings} tenant={tenant} can={can} reload={reload} base={base} />
-          {canEdit && (s.kind !== "checklist" || s.body) && (
+          {canEdit && !decisionNeeded && (s.kind !== "checklist" || s.body) && (
             <div className="actions"><button className="secondary" onClick={() => setEditing(true)}>Edit</button></div>
           )}
         </>
       )}
       {err && <p className="err">{err}</p>}
+    </>
+  );
+
+  // Appendices are supporting material: collapsed by default, with a one-line summary.
+  if (s.appendix) {
+    return (
+      <details className="card section appendix" id={`sec-${s.id}`}>
+        <summary className="section-head">
+          <h2>Appendix {s.number}. {s.title}</h2>
+          <span className="muted">{appendixSummary(s)}</span>
+        </summary>
+        {meta}
+        {body}
+      </details>
+    );
+  }
+  return (
+    <div className={`card section ${decisionNeeded ? "needs-decision" : ""}`} id={`sec-${s.id}`}>
+      <div className="section-head">
+        <h2>{s.number}. {s.title}</h2>
+        {meta}
+      </div>
+      {body}
     </div>
   );
+}
+
+function appendixSummary(s: Section): string {
+  const items: CheckItem[] = s.body?.items ?? [];
+  if (!items.length) return "Not started";
+  const count = (st: string) => items.filter((i) => i.status === st).length;
+  const parts = [["met", "met"], ["not_met", "not met"], ["not_yet_due", "not yet due"], ["unknown", "unknown"],
+                 ["not_applicable", "do not apply"]]
+    .map(([k, l]) => (count(k) ? `${count(k)} ${l}` : null)).filter(Boolean);
+  return `${items.length} items: ${parts.join(", ")}`;
 }
 
 function Law({ cites }: { cites: LawCite[] }) {
@@ -404,22 +485,6 @@ function History({ revs }: { revs: Revision[] }) {
   );
 }
 
-function Paragraphs({ text }: { text: string }) {
-  return (
-    <div className="prose">
-      {text.trim().split("\n\n").map((block, i) => {
-        const lines = block.split("\n").filter((l) => l.trim());
-        const items = lines.filter((l) => l.trim().startsWith("- "));
-        if (items.length && items.length === lines.length) return <ul key={i}>{items.map((l) => <li key={l}>{l.trim().slice(2)}</li>)}</ul>;
-        if (items.length && items.length === lines.length - 1 && lines[0].endsWith(":")) {
-          return <div key={i}><p>{lines[0]}</p><ul>{items.map((l) => <li key={l}>{l.trim().slice(2)}</li>)}</ul></div>;
-        }
-        return <p key={i}>{lines.join(" ")}</p>;
-      })}
-    </div>
-  );
-}
-
 function harmName(a: Assessment, id: string | null) {
   return a.harms.entries.find((h) => h.id === id)?.name ?? id ?? "";
 }
@@ -432,7 +497,7 @@ function View({ s, a, ratings, tenant, can, reload, base }: {
   if (!b && s.kind !== "approval") return <p className="muted">Not started.</p>;
   switch (s.kind) {
     case "text":
-      return <Paragraphs text={b.text} />;
+      return <Prose text={b.text} />;
     case "risk_register":
       return (
         <table className="compact">
@@ -483,7 +548,7 @@ function View({ s, a, ratings, tenant, can, reload, base }: {
         <>
           <p><strong>{b.initiate === "yes" ? "The business will go ahead with the processing."
             : b.initiate === "no" ? "The business will not go ahead with the processing." : "Not yet decided."}</strong></p>
-          {b.rationale && <Paragraphs text={b.rationale} />}
+          {b.rationale && <Prose text={b.rationale} />}
         </>
       );
     case "people":

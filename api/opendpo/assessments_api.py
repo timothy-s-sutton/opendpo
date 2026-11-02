@@ -206,6 +206,7 @@ def assessment_detail(tenant_id: UUID, assessment_id: UUID,
         "floor_rules": a["floor_rules"], "editable": a["status"] in EDITABLE_STATUSES, "notice": NOTICE,
         "processing_activity_id": a["processing_activity_id"], "policy_versions": a["policy_versions"],
         "review": review_state,
+        "floor_reason": engine.floor_reason(a["floor_rules"]),
         "ai_draft_label": drafter.LABEL if any(x["author_type"] == "agent" for x in first_authors(assessment_id,
                                                                                                tenant_id)) else None,
     }
@@ -329,7 +330,8 @@ def build_material(conn, a: dict) -> drafter.Material:
     return drafter.Material(
         template=tpl, method=method_of(a), lib=lib, harms=harm_list().usable(), triage=run["result"],
         triage_decision=run["decision"], positions=positions, intake=sub["answers"] if sub else {},
-        activity=activity, contributors=contributors, refs=refs_for(conn, a))
+        activity=activity, contributors=contributors, refs=refs_for(conn, a),
+        floor_reason=engine.floor_reason(a["floor_rules"]))
 
 
 @router.post("/api/tenants/{tenant_id}/assessments/{assessment_id}/draft")

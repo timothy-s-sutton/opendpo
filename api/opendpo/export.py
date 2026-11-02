@@ -13,6 +13,7 @@ plain, self-contained HTML that prints cleanly to PDF from a browser.
 """
 from __future__ import annotations
 
+import re
 from html import escape
 from typing import Any, Literal
 
@@ -90,22 +91,54 @@ padding-bottom:.2rem}h3{font-size:1rem;margin:1.2rem 0 .3rem}
 .notice{border-top:1px solid #ccc;margin-top:2.5rem;padding-top:.8rem;color:#555;font-size:.85rem}
 table{border-collapse:collapse;width:100%;font-size:.88rem;margin:.5rem 0}
 th,td{border:1px solid #ccc;padding:.35rem .5rem;text-align:left;vertical-align:top}th{background:#f3f3f3}
-.pre{white-space:pre-wrap}
+.pre{white-space:pre-wrap}\n.labelled{margin:.6rem 0}.lbl{font-weight:bold;margin:.6rem 0 .1rem}.labelled p{margin:0 0 0 1.1rem}\nul.items li{margin:.4rem 0}ul.items li strong{display:block}
 @media print{.banner{break-inside:avoid}h2{break-after:avoid}}
 """
 
 
+LABEL = re.compile(r"^([A-Z][^:]{0,90}?):\s+(\S.*)$", re.S)
+
+
+def split_label(line: str) -> tuple[str | None, str]:
+    """ "Label: text" -> (label, text); the same rules as web/src/prose.tsx."""
+    t = line.strip()
+    if t.endswith(":") and len(t) <= 90 and not re.search(r"[.!?]\s", t):
+        return t[:-1], ""
+    m = LABEL.match(t)
+    if not m:
+        return None, line.strip()
+    label = m.group(1)
+    if label.count("(") != label.count(")") or re.search(r"[.!?]\s", label):
+        return None, line.strip()
+    return label, m.group(2).strip()
+
+
+def _item(line: str) -> str:
+    label, text = split_label(line)
+    if label and not text:
+        return f"<strong>{escape(label)}</strong>"
+    return f"<strong>{escape(label)}</strong><div>{escape(text)}</div>" if label else escape(text)
+
+
 def _p(text: str | None) -> str:
-    """Paragraphs separated by blank lines; runs of lines starting with "- " become a list."""
+    """Blank lines separate blocks; "- " lines are bullets; "Label: text" shows the label in
+    bold on its own line with the text beneath it."""
     out = []
-    for block in (text or "").strip().split("\n\n"):
-        lines = [ln for ln in block.split("\n") if ln.strip()]
-        if lines and all(ln.lstrip().startswith("- ") for ln in lines):
-            out.append(_list([ln.lstrip()[2:] for ln in lines]))
-        elif lines and lines[0].endswith(":") and all(ln.lstrip().startswith("- ") for ln in lines[1:]) and lines[1:]:
-            out.append(f"<p>{escape(lines[0])}</p>" + _list([ln.lstrip()[2:] for ln in lines[1:]]))
-        elif lines:
-            out.append(f"<p>{'<br>'.join(escape(ln) for ln in lines)}</p>")
+    for block in re.split(r"\n\s*\n", (text or "").strip()):
+        lines = [ln.strip() for ln in block.split("\n") if ln.strip()]
+        if not lines:
+            continue
+        bullets = [ln for ln in lines if ln.startswith("- ")]
+        if bullets and (len(bullets) == len(lines) or (len(bullets) == len(lines) - 1 and not lines[0].startswith("- "))):
+            lead = "" if len(bullets) == len(lines) else f"<p>{_item(lines[0])}</p>"
+            out.append(lead + "<ul class='items'>" + "".join(f"<li>{_item(b[2:])}</li>" for b in bullets) + "</ul>")
+        else:
+            label, body = split_label(" ".join(lines))
+            if label and not body:
+                out.append(f"<div class='lbl'>{escape(label)}</div>")
+            else:
+                out.append(f"<div class='labelled'><div class='lbl'>{escape(label)}</div><p>{escape(body)}</p></div>"
+                           if label else f"<p>{escape(body)}</p>")
     return "\n".join(out)
 
 
