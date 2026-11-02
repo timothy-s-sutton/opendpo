@@ -34,7 +34,8 @@ sections:
     high. The two ratings combine into a risk level using the organization's risk
     matrix (OpenDPO default method, version 1.0.0, based on NIST SP 800-30).
 
-    3.2 Each risk is rated twice: before safeguards and after them.
+    3.2 Each risk is rated twice: inherent risk, before safeguards, and residual risk, after
+    safeguards.
 
     3.3 An AI draft of an assessment is only a draft. A named person reviews and edits it, and
     people make every approval.
