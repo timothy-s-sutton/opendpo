@@ -244,8 +244,11 @@ def html(report: dict[str, Any]) -> str:
         parts.append(_list([f"{t['rule']}: {t['title']} ({'; '.join(t['citations'])})" for t in report["triage"]]))
         parts.append("<h3>Review decisions</h3>")
         verb = {"approve": "approved", "return": "returned it", "reject": "rejected it"}
-        parts.append(_list([f"Round {d['review_round']}: {d['name']} ({d['role'].replace('_', ' ')}) "
-                            f"{verb[d['decision']]} on {str(d['decided_at'])[:10]}" + (f": {d['note']}" if d['note'] else "")
+        roles = {"dpo": "DPO", "privacy_analyst": "privacy analyst", "privacy_counsel": "privacy counsel"}
+        did = lambda d: ("gave a provisional approval" if d["decision"] == "approve" and d["step"] == "provisional"
+                         else verb[d["decision"]])
+        parts.append(_list([f"Round {d['review_round']}: {d['name']} ({roles.get(d['role'], d['role'].replace('_', ' '))}) "
+                            f"{did(d)} on {str(d['decided_at'])[:10]}" + (f": {d['note']}" if d['note'] else "")
                             for d in report["decisions"]]) or "<p>None yet.</p>")
         parts.append("<h3>Edit history</h3>")
         drafts = [h for h in report["history"] if h["revision"] == 1 and h["author"].startswith("OpenDPO agent")]

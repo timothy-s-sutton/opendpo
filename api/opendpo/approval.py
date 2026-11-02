@@ -4,8 +4,9 @@ Routing comes from the tenant's own policy: the approval_rule position POS-RA-00
 policy versions the assessment recorded. If no such position exists, the standard preset in
 the requirements applies. The tenant's approval preset then shapes it:
 
-- standard: as the policy says (high risk: analyst provisional approval, then the DPO and
-  privacy counsel, two different people);
+- standard: as the policy says (medium risk: the preparing analyst's provisional approval, given
+  on submission, then the DPO; high risk: the same, then the DPO and privacy counsel, two
+  different people);
 - lean and single_person: one final approver at every level, no provisional step.
 
 Segregation of duties (SOD-1, SOD-2) is decided by policy/authz.rego, not here.
@@ -18,7 +19,7 @@ from typing import Any
 
 DEFAULT_ROUTING = {
     "low": {"provisional": [], "final": ["privacy_analyst"]},
-    "medium": {"provisional": ["privacy_analyst"], "final": ["privacy_counsel"]},
+    "medium": {"provisional": ["privacy_analyst"], "final": ["dpo"]},
     "high": {"provisional": ["privacy_analyst"], "final": ["dpo", "privacy_counsel"], "distinct_people": True},
 }
 DEFAULT_REVIEW_YEARS = {"very_high": 1, "high": 1, "moderate": 2, "low": 3, "very_low": 3}

@@ -172,15 +172,22 @@ def assessment_detail(tenant_id: UUID, assessment_id: UUID,
     tenant = load_tenant(p, tenant_id)
     require(p, tenant, "assessment.read")
     tpl, lib = template(), library()
-    from .review_api import approval_section, review_view
+    from .review_api import approval_section, positions_of, preparer_role, review_view
+    from . import approval as approval_rules
+    from .main import actor_for
     with tenant_tx(tenant_id) as conn:
         a = load_assessment(conn, assessment_id)
         state = current_state(conn, assessment_id)
         names = {r["id"]: r["display_name"] for r in conn.execute("SELECT id::text, display_name FROM app_user")}
         review_state = review_view(conn, a, tenant, p)
+        positions = positions_of(conn, a)
         approved = approval_section(conn, a)
     method = method_of(a)
     bodies = {sid: r["body"] for sid, r in state.items()}
+    computed = engine.derive(bodies, tpl, method, a["routing_floor"], a["risk_acceptances"])
+    # Whether submitting now would also record this person's provisional approval.
+    submit_plan = approval_rules.plan(computed["routing"]["level"], tenant["approval_preset"], positions)
+    submit_provisional = preparer_role(submit_plan, actor_for(p, tenant)["roles"]) is not None
     sections = []
     for s in tpl.sections:
         cur = state.get(s.id)
@@ -202,7 +209,7 @@ def assessment_detail(tenant_id: UUID, assessment_id: UUID,
         "framework": tpl.framework, "framework_tags": [t.model_dump() for t in tpl.framework_tags],
         "risk_acceptances": a["risk_acceptances"], "sections": sections,
         "harms": harm_view(lib),
-        "computed": engine.derive(bodies, tpl, method, a["routing_floor"], a["risk_acceptances"]),
+        "computed": computed, "submit_gives_provisional": submit_provisional,
         "floor_rules": a["floor_rules"], "editable": a["status"] in EDITABLE_STATUSES, "notice": NOTICE,
         "processing_activity_id": a["processing_activity_id"], "policy_versions": a["policy_versions"],
         "review": review_state,

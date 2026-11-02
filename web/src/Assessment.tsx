@@ -228,7 +228,7 @@ function SubmitBar({ a, busy, onSubmit }: { a: Assessment; busy: string | null; 
   };
   return (
     <div className="submitbar">
-      <button disabled={!!busy} onClick={click}>{busy === "submit" ? "Submitting…" : "Submit for review"}</button>
+      <button disabled={!!busy} onClick={click}>{busy === "submit" ? "Submitting…" : a.submit_gives_provisional ? "Submit with my provisional approval" : "Submit for review"}</button>
     </div>
   );
 }

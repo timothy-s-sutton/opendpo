@@ -7,7 +7,7 @@
 # changing its own copy.
 id: risk-assessment
 title: Privacy and AI risk assessment
-version: 0.2.0
+version: 0.3.0
 license: CC BY 4.0
 authored_by: OpenDPO
 reused_sources: []
@@ -46,15 +46,19 @@ sections:
     4.1 Approval depends on the highest inherent risk:
 
     - **Low:** a privacy analyst who did not draft or submit the assessment.
-    - **Medium:** a privacy analyst gives a provisional approval, then privacy counsel approves.
-    - **High:** a privacy analyst gives a provisional approval, then the DPO and privacy counsel
-      both approve. They must be two different people.
+    - **Medium:** the privacy analyst who prepared the assessment gives a provisional approval
+      when submitting it, then the DPO approves.
+    - **High:** the privacy analyst who prepared the assessment gives a provisional approval when
+      submitting it, then the DPO and privacy counsel both approve. They must be two different
+      people.
 
     4.2 Some activities are high risk whatever the scores: using automated decision technology to
     make a significant decision about someone under the CCPA Regulations, and using covered
     automated decision technology in a consequential decision under Colorado law.
 
-    4.3 No one approves an assessment they submitted, drafted or substantially edited.
+    4.3 No one gives the final approval of an assessment they submitted, drafted or substantially
+    edited. The provisional approval in 4.1 is the preparer's confirmation that the assessment is
+    complete and ready for review.
 
 - number: "5"
   title: Accepting remaining risk
@@ -98,13 +102,14 @@ positions:
   section: "4.1"
   type: approval_rule
   statement: >-
-    Low risk: one analyst who did not draft it. Medium: analyst provisional approval, then privacy
-    counsel. High: analyst provisional approval, then the DPO and privacy counsel, two different people.
+    Low risk: one analyst who did not draft it. Medium: provisional approval by the analyst who
+    prepared it, given on submission, then the DPO. High: provisional approval by the analyst who
+    prepared it, given on submission, then the DPO and privacy counsel, two different people.
   applies_to: {}
   parameters:
     routing:
       low: {final: [privacy_analyst], provisional: []}
-      medium: {provisional: [privacy_analyst], final: [privacy_counsel]}
+      medium: {provisional: [privacy_analyst], final: [dpo]}
       high: {provisional: [privacy_analyst], final: [dpo, privacy_counsel], distinct_people: true}
   framework_refs: [NIST Privacy Framework GV.PO-P]
 - id: POS-RA-005
@@ -119,7 +124,10 @@ positions:
 - id: POS-RA-006
   section: "4.3"
   type: prohibition
-  statement: No one approves an assessment they submitted, drafted or substantially edited.
+  statement: >-
+    No one gives the final approval of an assessment they submitted, drafted or substantially
+    edited. The preparer's provisional approval on submission confirms it is complete and ready
+    for review.
   applies_to: {}
   parameters: {self_approval: false}
   framework_refs: [NIST Privacy Framework GV.PO-P]

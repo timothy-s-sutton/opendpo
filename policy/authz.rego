@@ -103,6 +103,7 @@ deny contains "To approve your own work, record why no one else can approve it. 
 deny contains "You already approved this assessment in this round. A different person must give the next approval. (Separation of duties, rule SOD-2)" if {
 	input.action == "assessment.approve"
 	input.actor.id in input.resource.approved_this_round
+	not input.actor.id in input.resource.involved	# SOD-1 already says why, more plainly
 }
 
 reasons contains r if some r in deny

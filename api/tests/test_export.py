@@ -15,7 +15,6 @@ BASE = f"/api/tenants/{HARBOR}"
 def approved(client, drafted):  # noqa: F811
     decide_to_go_ahead(client, drafted)
     client.post(f"{BASE}/assessments/{drafted}/submit", json={}, headers=as_user("ana.patel"))
-    act(client, drafted, "ben.okafor")
     act(client, drafted, "devon.hart", has_initiation_authority=True)
     assert act(client, drafted, "carla.mendes").json()["status"] == "approved"
     return drafted
@@ -44,7 +43,7 @@ def test_regulator_report_leaves_out_what_the_rules_do_not_require(client, appro
     sg = next(s for s in r["sections"] if s["id"] == "safeguards")["body"]["safeguards"]
     assert all("addresses" not in g for g in sg)
     approval = next(s for s in r["sections"] if s["id"] == "approval")["body"]
-    assert [x["name"] for x in approval["reviewers"]] == ["Ben Okafor", "Devon Hart"]
+    assert [x["name"] for x in approval["reviewers"]] == ["Ana Patel", "Devon Hart"]
     assert approval["counsel_omitted"] is True
     assert "§ 7157" in r["pending_verification"] and "made_with" not in r
 
@@ -76,7 +75,7 @@ def test_who_can_export_and_it_is_logged(client, approved):
 def test_returned_rounds_read_properly(client, drafted):  # noqa: F811
     decide_to_go_ahead(client, drafted)
     client.post(f"{BASE}/assessments/{drafted}/submit", json={}, headers=as_user("ana.patel"))
-    act(client, drafted, "ben.okafor", "return", note="Name the auditor.")
+    act(client, drafted, "devon.hart", "return", note="Name the auditor.")
     page = export(client, drafted, "internal", fmt="html").text
-    assert "Ben Okafor (privacy analyst) returned it on" in page
+    assert "Devon Hart (DPO) returned it on" in page
     assert "Revision 1 of 10 sections: OpenDPO agent, for Ana Patel" in page

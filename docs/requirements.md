@@ -165,8 +165,8 @@ Agents read from the policy library and crosswalk; the review queue is the only 
 | Risk level | Privacy analyst | Final approval |
 | --- | --- | --- |
 | Low | First-line review and final approval, by an analyst who did not draft or submit it | Analyst |
-| Medium | First-line review, feedback to the submitter and a provisional approval | Privacy counsel |
-| High (ADMT for a significant decision, or high-risk AI) | First-line review, feedback to the submitter and a provisional approval | DPO and privacy counsel, two different people |
+| Medium | Prepares the assessment; submitting it records the analyst's provisional approval | DPO |
+| High (ADMT for a significant decision, or high-risk AI) | Prepares the assessment; submitting it records the analyst's provisional approval | DPO and privacy counsel, two different people |
 
 **Segregation of duties**
 
@@ -285,7 +285,7 @@ effective: 2026-11-01
 
 * **PLT-33** Every submission has two channels. Internal review notes are visible to everyone in the review and approval tree but not to the submitter or system owner. Clarification requests go back to the submitter and are logged with the reply. There is no consultant-only channel.
 * **PLT-34** Under the single-person office preset, self-approval needs a recorded justification, a visible flag on the report and in the audit log, and an executive sign-off where the CPPA requires an approver with authority over whether the processing goes ahead.
-* **PLT-35** On medium and high risk the analyst gives a provisional approval; counsel and the DPO then approve, reject or return the draft to the analyst.
+* **PLT-35** On medium and high risk the analyst who prepared the assessment gives a provisional approval when submitting it (if someone else submits, an analyst gives it separately). The DPO, and on high risk privacy counsel too, then approve, reject or return the draft to the analyst. Segregation of duties applies to the final approvals.
 
 ### Audit trail
 
@@ -530,6 +530,7 @@ Found while folding the briefs in on 2026-10-15. Where the briefs disagree with 
 
 | Date | Decision |
 | --- | --- |
+| 2026-11-02 | Approval routing: the preparing analyst's provisional approval is given on submission; medium risk goes to the DPO (not privacy counsel); high risk to the DPO and privacy counsel. Privacy counsel is rarely involved at medium risk in practice |
 | 2026-10-18 | Session 8: per-law content packs with supersession maps; signed bundles in v1 (accepted scope growth); per-tenant adoption after a side-by-side dry run; risk-tiered reassessment windows of 30, 60 and 90 days |
 | 2026-10-18 | Session 8: deferral past the effective date allowed but recorded, visible and backed by DPO risk acceptance, with escalating reminders from 12 months out |
 | 2026-10-18 | Session 8: Colorado demo keeps the date-only SB 25B-004 step and frames the SB 24-205 work as a readiness assessment, since that law never took effect |

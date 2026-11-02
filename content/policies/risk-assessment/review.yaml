@@ -1,8 +1,9 @@
 # Review record (PLT-15). Tied to the template's fingerprint; any change lapses it.
 template: risk-assessment
-fingerprint: 082bb55d8baab0270267906bab7c3900a1e0d7503b9e1d3e1e5b299ab568c716
+fingerprint: fec4be7634c52b2f39c17f048a91ffd8f109693502b9614fe20cf3fe043a0540
 reviewed_by: Tim Sutton
 reviewed_on: '2026-11-02'
 note: Ticked in Policy Template Review v0.1 (https://claude.ai/artifact/HXKzMkf667neArVW7tE46p).
-  The 3.1, 3.2, 4.1, 5 and POS-RA-007 wording changes Tim asked for in comments were
-  made just after the tick.
+  Version 0.3.0 approval routing (the preparing analyst's provisional approval given on
+  submission, medium risk to the DPO, high risk to the DPO and privacy counsel, and the 4.3
+  wording) approved by Tim in chat on 2026-11-02.

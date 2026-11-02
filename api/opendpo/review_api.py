@@ -3,6 +3,9 @@
 - An editor submits the assessment for review. It must be complete and consistent, and it must
   record whether the business will go ahead (§ 7152(a)(7)). What was submitted is fixed by a
   digest, and editing stops until it is returned.
+- When the plan has a provisional step and the person submitting holds that role, submitting
+  records their provisional approval: the preparer confirms the assessment is complete and ready
+  for review (POS-RA-004, POS-RA-006). Otherwise someone in that role gives it separately.
 - Reviewers then act in the order the routing plan sets: provisional approval, then the final
   approvals. Any reviewer in the plan can instead return it with a note (it becomes editable
   again, and the next submission is a new round) or reject it.
@@ -86,6 +89,13 @@ def decisions(conn, assessment_id: UUID, review_round: int | None = None) -> lis
            ORDER BY d.decided_at, d.id""", (assessment_id, review_round, review_round)).fetchall()
 
 
+def preparer_role(plan: approval.Plan | None, roles: list[str]) -> str | None:
+    """The provisional role the submitter holds, if submitting counts as the provisional approval."""
+    if plan is None:
+        return None
+    return next((r for r in plan.provisional if r in roles), None)
+
+
 def plan_for(conn, a: dict, tenant: dict) -> approval.Plan | None:
     if not a["routing_level"]:
         return None
@@ -150,6 +160,18 @@ def submit(tenant_id: UUID, assessment_id: UUID, body: SubmitIn, p: Principal = 
                      object_id=str(assessment_id),
                      payload={"round": a["review_round"] + 1, "routing_level": level, "digest": digest,
                               "routing_source": plan.source, "note": body.note})
+        role = preparer_role(plan, actor["roles"])
+        if role:
+            note = "Prepared the assessment and confirmed it is complete and ready for review."
+            conn.execute(
+                """INSERT INTO assessment_approval (tenant_id, assessment_id, review_round, step, role, user_id,
+                                                    decision, note, has_initiation_authority, submitted_digest)
+                   VALUES (%s, %s, %s, 'provisional', %s, %s, 'approve', %s, false, %s)""",
+                (tenant_id, assessment_id, a["review_round"] + 1, role, p.user_id, note, digest))
+            audit.append(conn, tenant_id, audit_actor(actor), "assessment.review_approve", object_type="assessment",
+                         object_id=str(assessment_id),
+                         payload={"round": a["review_round"] + 1, "step": "provisional", "role": role,
+                                  "on_submission": True, "digest": digest})
     return {"status": "in_review", "round": a["review_round"] + 1, "routing_level": level, "plan": plan.__dict__}
 
 
