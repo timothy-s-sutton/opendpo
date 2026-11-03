@@ -4,8 +4,12 @@ Run inside the API container once ANTHROPIC_API_KEY is set:
 
     docker compose exec api python -m opendpo.agent.compare > compare.md
 
+Pick models and effort levels with --models, as model or model:effort, for example
+--models claude-sonnet-5-5:high,claude-sonnet-5-5:medium
+
 Each model drafts the same assessment from the same material. The report shows, for each:
-whether the draft passed validation and in how many attempts, tokens and estimated cost,
+whether the draft passed validation and in how many attempts, what each failed attempt got
+wrong, tokens (cached input shown apart) and estimated cost,
 time taken, the risk register with ratings, and every section's text.
 """
 from __future__ import annotations
@@ -27,16 +31,28 @@ HARBOR = UUID("ff3e39f3-ea89-5b8d-9af6-2638c94349e3")
 PRICES = {"claude-sonnet-5-5": (2.00, 10.00), "claude-haiku-5-5": (0.10, 0.50), "claude-opus-5-5": (4.00, 20.00)}
 
 
+# Prompt caching, relative to the input price: a 5-minute cache write costs 1.25x; a cache read
+# 0.05x on Sonnet 5.5 and Opus 5.5 and 0.1x on other models. Checked 2026-11-02.
+CACHE_WRITE = 1.25
+CACHE_READ = {"claude-sonnet-5-5": 0.05, "claude-opus-5-5": 0.05}
+USAGE_KEYS = ("input_tokens", "cache_creation_input_tokens", "cache_read_input_tokens", "output_tokens")
+
+
 def cost(model: str, usage: dict) -> float | None:
     price = next((v for k, v in PRICES.items() if model.startswith(k)), None)
     if price is None:
         return None
-    return (usage.get("input_tokens", 0) * price[0] + usage.get("output_tokens", 0) * price[1]) / 1_000_000
+    read = next((v for k, v in CACHE_READ.items() if model.startswith(k)), 0.1)
+    tokens_in = (usage.get("input_tokens", 0) + usage.get("cache_creation_input_tokens", 0) * CACHE_WRITE
+                 + usage.get("cache_read_input_tokens", 0) * read)
+    return (tokens_in * price[0] + usage.get("output_tokens", 0) * price[1]) / 1_000_000
 
 
-def run(m: drafter.Material, model: str) -> dict:
-    provider = providers.AnthropicProvider(model=model)
-    usage_total = {"input_tokens": 0, "output_tokens": 0}
+def run(m: drafter.Material, spec: str) -> dict:
+    """Draft once with one model, given as model or model:effort."""
+    model, _, effort = spec.partition(":")
+    provider = providers.AnthropicProvider(model=model, effort=effort)
+    usage_total = {k: 0 for k in USAGE_KEYS}
 
     class Counting:
         name, model = provider.name, provider.model
@@ -56,11 +72,11 @@ def run(m: drafter.Material, model: str) -> dict:
     try:
         d = drafter.draft(m, Counting())
         out = {"ok": True, "sections": d.sections, "attempts": d.attempts, "open_questions": d.open_questions,
-               "problems": []}
+               "problems": [], "failed_attempts": d.failed_attempts}
     except drafter.DraftRejected as exc:
         out = {"ok": False, "sections": None, "attempts": exc.attempts, "open_questions": [], "problems": exc.problems,
-               "raw": exc.reply.output if exc.reply else None}
-    out.update(model=model, seconds=round(time.monotonic() - start), usage=usage_total,
+               "failed_attempts": exc.failed_attempts, "raw": exc.reply.output if exc.reply else None}
+    out.update(model=spec if effort else model, seconds=round(time.monotonic() - start), usage=usage_total,
                cost=cost(model, usage_total))
     return out
 
@@ -77,6 +93,8 @@ def report(results: list[dict], m: drafter.Material) -> str:
     row("Attempts", lambda r: str(r["attempts"]))
     row("Time", lambda r: f"{r['seconds']} s")
     row("Tokens in / out", lambda r: f"{r['usage']['input_tokens']:,} / {r['usage']['output_tokens']:,}")
+    row("Cached input (written / read)", lambda r: f"{r['usage'].get('cache_creation_input_tokens', 0):,} / "
+                                                   f"{r['usage'].get('cache_read_input_tokens', 0):,}")
     row("Estimated cost", lambda r: f"${r['cost']:.3f}" if r["cost"] is not None else "unknown")
     row("Risks / safeguards", lambda r: (f"{len(r['sections']['risks']['risks'])} / "
                                          f"{len(r['sections']['safeguards']['safeguards'])}") if r["ok"] else "-")
@@ -84,9 +102,11 @@ def report(results: list[dict], m: drafter.Material) -> str:
     for r in results:
         lines += ["", f"## {r['model']}", ""]
         if not r["ok"]:
-            lines += ["The draft failed validation twice and would not have been saved:", ""]
+            lines += [f"The draft failed after {r['attempts']} attempt(s) and would not have been saved:", ""]
             lines += [f"- {p}" for p in r["problems"]]
             continue
+        for n, probs in enumerate(r.get("failed_attempts", []), 1):
+            lines += [f"Attempt {n} failed these checks and was sent back:", ""] + [f"- {p}" for p in probs] + [""]
         s = r["sections"]
         state = {k: v for k, v in s.items()}
         rated = {x["risk"]: x for x in engine.derive(state, m.template, m.method, "high", [])["ratings"]}

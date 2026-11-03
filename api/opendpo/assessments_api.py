@@ -366,7 +366,8 @@ def agent_draft(tenant_id: UUID, assessment_id: UUID, body: DraftIn,
         with tenant_tx(tenant_id) as conn:
             audit.append(conn, tenant_id, agent, "assessment.draft_rejected", object_type="assessment",
                          object_id=str(assessment_id),
-                         payload={"provider": provider.name, "model": provider.model, "problems": exc.problems[:50]})
+                         payload={"provider": provider.name, "model": provider.model,
+                                  "effort": getattr(provider, "effort", None), "problems": exc.problems[:50]})
         raise HTTPException(status.HTTP_502_BAD_GATEWAY, {"message": "the draft failed validation and was not saved",
                                                           "problems": exc.problems}) from exc
     if d.open_questions:
@@ -388,6 +389,7 @@ def agent_draft(tenant_id: UUID, assessment_id: UUID, body: DraftIn,
         audit.append(conn, tenant_id, agent, "assessment.drafted", object_type="assessment",
                      object_id=str(assessment_id),
                      payload={"provider": d.reply.provider, "model": d.reply.model, "attempts": d.attempts,
+                              "effort": getattr(provider, "effort", None), "failed_attempts": d.failed_attempts,
                               "usage": d.reply.usage, "prompt_sha256": d.prompt_sha256,
                               "sections": {sid: engine.digest(b) for sid, b in d.sections.items()},
                               "open_questions": d.open_questions},

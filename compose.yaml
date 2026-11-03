@@ -78,6 +78,7 @@ services:
       ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
       OPENDPO_AGENT_PROVIDER: ${OPENDPO_AGENT_PROVIDER:-}
       OPENDPO_AGENT_MODEL: ${OPENDPO_AGENT_MODEL:-claude-sonnet-5-5}
+      OPENDPO_AGENT_EFFORT: ${OPENDPO_AGENT_EFFORT:-}   # low, medium, high, xhigh or max; empty = model default
       OPENDPO_AGENT_FIXTURE: /fixtures/harbor_draft.json
     volumes:
       - ./content:/content:ro

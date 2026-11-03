@@ -206,6 +206,8 @@ def test_anthropic_request_offers_the_format(monkeypatch):
     body = sent[0]["body"]
     assert body["tool_choice"] == {"type": "auto"} and body["tools"][0]["name"] == "submit_draft"
     assert body["max_tokens"] == 32000
+    assert body["cache_control"] == {"type": "ephemeral"}
+    assert "output_config" not in body          # no effort set: the model's own default
     assert sent[0]["headers"]["x-api-key"] == "test" and reply.output == {"ok": True}
     assert reply.tool_use_id == "toolu_1" and reply.content[0]["type"] == "thinking"
 
@@ -215,7 +217,7 @@ def test_a_reply_without_the_tool_gets_one_more_try(opened, monkeypatch):
              "content": [{"type": "text", "text": "Here is the draft in words."}]}
     sent = fake_anthropic(monkeypatch, prose, tool_reply(FIXTURE["draft"]))
     d = drafter.draft(material_for(opened), providers.AnthropicProvider(api_key="test"))
-    assert d.attempts == 2
+    assert d.attempts == 2 and d.failed_attempts == [["you answered without calling submit_draft"]]
     retry = sent[1]["body"]["messages"]
     assert retry[-2] == {"role": "assistant", "content": prose["content"]}
     assert "Call submit_draft" in retry[-1]["content"]
@@ -239,6 +241,27 @@ def test_a_repair_sends_back_the_thinking(opened, monkeypatch):
     turn, result = sent[1]["body"]["messages"][-2:]
     assert turn["content"][0] == THINKING and turn["content"][1]["id"] == "toolu_a"
     assert result["content"][0]["tool_use_id"] == "toolu_a" and "r99" in result["content"][0]["content"]
+
+
+def test_effort_setting(monkeypatch):
+    sent = fake_anthropic(monkeypatch, tool_reply({"ok": True}))
+    monkeypatch.setenv("OPENDPO_AGENT_EFFORT", "medium")
+    providers.AnthropicProvider(api_key="test").complete("sys", [{"role": "user", "content": "x"}], {})
+    assert sent[0]["body"]["output_config"] == {"effort": "medium"}
+    assert providers.AnthropicProvider(api_key="test", effort="").effort is None
+    with pytest.raises(providers.ProviderError):
+        providers.AnthropicProvider(api_key="test", effort="extreme")
+
+
+def test_failed_attempts_are_kept(opened):
+    bad = copy.deepcopy(FIXTURE["draft"])
+    bad["safeguards"][0]["addresses"] = ["r99"]
+    d = drafter.draft(material_for(opened), Scripted(bad, FIXTURE["draft"]))
+    assert len(d.failed_attempts) == 1 and any("r99" in p for p in d.failed_attempts[0])
+
+
+def test_ratings_stay_out_of_the_decision_notes():
+    assert "Do not restate risk ratings" in drafter.SYSTEM
 
 
 def test_every_obligation_has_a_required_slot(opened):
@@ -298,4 +321,14 @@ def test_comparison_report_renders(opened):
            "model": "claude-sonnet-5-5", "cost": None}
     text = compare.report([bad, good], m)
     assert "| Passed checks | no | yes |" in text and "$0.007" in text
+    retried = {**good, "attempts": 2, "failed_attempts": [["safeguard s1 addresses r99"]]}
     assert "| r1. Qualified applicants screened out unfairly | harm-discrimination | high | moderate |" in text
+    assert "Attempt 1 failed these checks" in compare.report([retried], m) and "r99" in compare.report([retried], m)
+
+
+def test_comparison_prices_the_cache():
+    from opendpo.agent import compare
+    usage = {"input_tokens": 1_000_000, "cache_creation_input_tokens": 1_000_000,
+             "cache_read_input_tokens": 1_000_000, "output_tokens": 0}
+    assert round(compare.cost("claude-sonnet-5-5", usage), 2) == round(2.00 + 2.50 + 0.10, 2)
+    assert round(compare.cost("claude-haiku-5-5", usage), 4) == round(0.10 + 0.125 + 0.01, 4)

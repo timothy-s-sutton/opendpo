@@ -15,7 +15,11 @@ platform is not tied to one AI vendor:
 
 Settings (environment): OPENDPO_AGENT_PROVIDER (anthropic or fixture; default anthropic when a
 key is set, otherwise fixture), OPENDPO_AGENT_MODEL (default claude-sonnet-5-5),
-OPENDPO_AGENT_FIXTURE (path of the saved draft).
+OPENDPO_AGENT_EFFORT (low, medium, high, xhigh or max; empty uses the model's default, high on
+Sonnet 5.5), OPENDPO_AGENT_FIXTURE (path of the saved draft).
+
+Requests use automatic prompt caching, so a repair round re-reads the material from the cache at
+a small fraction of the input price instead of paying for it again.
 """
 from __future__ import annotations
 
@@ -30,6 +34,7 @@ import httpx
 DEFAULT_MODEL = "claude-sonnet-5-5"
 DEFAULT_FIXTURE = Path(__file__).resolve().parents[2] / "tests" / "fixtures" / "harbor_draft.json"
 ANTHROPIC_URL = "https://api.anthropic.com/v1/messages"
+EFFORTS = ("low", "medium", "high", "xhigh", "max")
 
 
 class ProviderError(RuntimeError):
@@ -68,12 +73,16 @@ class Provider(Protocol):
 class AnthropicProvider:
     name = "anthropic"
 
-    def __init__(self, model: str | None = None, api_key: str | None = None, timeout: float = 600):
+    def __init__(self, model: str | None = None, api_key: str | None = None, timeout: float = 600,
+                 effort: str | None = None):
         self.model = model or os.environ.get("OPENDPO_AGENT_MODEL") or DEFAULT_MODEL
         self.api_key = api_key or os.environ.get("ANTHROPIC_API_KEY")
+        self.effort = (effort if effort is not None else os.environ.get("OPENDPO_AGENT_EFFORT", "")).strip() or None
         self.timeout = timeout
         if not self.api_key:
             raise ProviderError("ANTHROPIC_API_KEY is not set")
+        if self.effort and self.effort not in EFFORTS:
+            raise ProviderError(f"unknown effort {self.effort!r}; use one of {', '.join(EFFORTS)}")
 
     def complete(self, system: str, messages: list[dict[str, Any]], schema: dict[str, Any],
                  max_tokens: int = 32000) -> Reply:
@@ -83,7 +92,10 @@ class AnthropicProvider:
             "tools": [{"name": "submit_draft", "description": "Submit the assessment draft.",
                        "input_schema": schema}],
             "tool_choice": {"type": "auto"},
+            "cache_control": {"type": "ephemeral"},   # automatic caching of the growing prefix
         }
+        if self.effort:
+            body["output_config"] = {"effort": self.effort}
         try:
             r = httpx.post(ANTHROPIC_URL, json=body, timeout=self.timeout, headers={
                 "x-api-key": self.api_key, "anthropic-version": "2023-06-01", "content-type": "application/json"})

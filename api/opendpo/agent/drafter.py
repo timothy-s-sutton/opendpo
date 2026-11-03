@@ -54,12 +54,15 @@ class Draft:
     attempts: int
     prompt_sha256: str
     open_questions: list[str] = field(default_factory=list)
+    failed_attempts: list[list[str]] = field(default_factory=list)   # what each earlier attempt got wrong
 
 
 class DraftRejected(ValueError):
-    def __init__(self, problems: list[str], reply: Reply | None, attempts: int = 0):
+    def __init__(self, problems: list[str], reply: Reply | None, attempts: int = 0,
+                 failed_attempts: list[list[str]] | None = None):
         super().__init__("; ".join(problems))
         self.problems, self.reply, self.attempts = problems, reply, attempts
+        self.failed_attempts = failed_attempts or []
 
 
 # ---------------------------------------------------------------------------
@@ -175,6 +178,10 @@ Rules:
    written as "Item: what to know about it". Use bullets for benefits, one per who benefits.
 9. Start the decision notes with "Why this is high risk:" and the reason given in the material,
    in plain words, if the material says the assessment is high risk. Then "What to weigh:".
+10. Do not restate risk ratings (likelihood, severity, before or after safeguards) in the decision
+   notes or any text section. The page shows the ratings from the risk register; refer to a risk
+   by its id and title instead. Keep the decision notes to the decision: contributors and
+   approvers have their own sections.
 """
 
 
@@ -303,12 +310,14 @@ def draft(m: Material, provider: Provider) -> Draft:
     prompt_sha = hashlib.sha256((SYSTEM + text).encode("utf-8")).hexdigest()
     reply: Reply | None = None
     problems: list[str] = []
+    failed: list[list[str]] = []
     for attempt in (1, 2):
         try:
             reply = provider.complete(SYSTEM, messages, sch)
         except NoToolCall as exc:
             # Answered in prose instead of calling the tool: a mistake the second attempt can fix.
             reply, problems = exc.reply, ["you answered without calling submit_draft"]
+            failed.append(problems)
             if attempt == 2:
                 break
             messages += [{"role": "assistant", "content": reply.content},
@@ -316,10 +325,11 @@ def draft(m: Material, provider: Provider) -> Draft:
                                                      "in prose."}]
             continue
         except ProviderError as exc:
-            raise DraftRejected([str(exc)], reply, attempt) from exc
+            raise DraftRejected([str(exc)], reply, attempt, failed) from exc
         parsed, problems = validate(reply.output, m)
         if not problems:
-            return Draft(parsed, reply, attempt, prompt_sha, list(reply.output.get("open_questions", [])))
+            return Draft(parsed, reply, attempt, prompt_sha, list(reply.output.get("open_questions", [])), failed)
+        failed.append(problems)
         if provider.name == "fixture":
             break
         # Send the model's own turn back unchanged (thinking blocks included, as the API requires
@@ -331,4 +341,4 @@ def draft(m: Material, provider: Provider) -> Draft:
                                                    "is_error": True, "content":
                                                    "The draft failed these checks. Fix them and submit the whole "
                                                    "draft again:\n- " + "\n- ".join(problems)}]}]
-    raise DraftRejected(problems, reply, attempt)
+    raise DraftRejected(problems, reply, attempt, failed)

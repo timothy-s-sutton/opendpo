@@ -80,6 +80,7 @@ With no API key, "Draft with AI" fills the assessment from a saved, hand-written
 ```bash
 ANTHROPIC_API_KEY=your-key
 OPENDPO_AGENT_MODEL=claude-sonnet-5-5   # or claude-haiku-5-5
+OPENDPO_AGENT_EFFORT=                   # optional: low, medium, high (default), xhigh or max
 ```
 
 ```bash
@@ -91,6 +92,9 @@ To compare Sonnet and Haiku on the most recent assessment without saving anythin
 ```bash
 docker compose exec api python -m opendpo.agent.compare > compare.md
 ```
+
+To compare effort levels, name them after the model, for example
+`--models claude-sonnet-5-5:high,claude-sonnet-5-5:medium`.
 
 The agent can only cite verified law, signed-off harms and the organization's own policy positions, treats intake and inventory text as data rather than instructions, and cannot approve anything.
 
